@@ -1,0 +1,70 @@
+{
+  "version": 1,
+  "skills": {
+    "api-design": {
+      "source": "affaan-m/everything-claude-code",
+      "sourceType": "github",
+      "computedHash": "718b7be2b2c0798d4da7f79d860cc2af8ca114f55b5ff508e93c2feb468d20c2"
+    },
+    "avinyc:ux-ui": {
+      "source": "aviflombaum/claude-code-in-avinyc",
+      "sourceType": "github",
+      "computedHash": "d326d6084c07312ed899bff56a9869d7102385223d00f5ae2e9c6f0861e2bb79"
+    },
+    "avinyc:web-design": {
+      "source": "aviflombaum/claude-code-in-avinyc",
+      "sourceType": "github",
+      "computedHash": "bba6a0df4bc2c07e87f2292064d7797a461d8a3982ca17d5d3730d63d1d1329e"
+    },
+    "backend-patterns": {
+      "source": "affaan-m/everything-claude-code",
+      "sourceType": "github",
+      "computedHash": "edfa200927d3d6c02c4d48a4fe934ac4dcada590c1edab42e34134c3ef53e05a"
+    },
+    "design-system-patterns": {
+      "source": "wshobson/agents",
+      "sourceType": "github",
+      "computedHash": "5f8c9b187e77fcb31db78da2f7b55f905dcd2357454624cac93f00c766ace346"
+    },
+    "frontend-patterns": {
+      "source": "affaan-m/everything-claude-code",
+      "sourceType": "github",
+      "computedHash": "b06e633e783acfc364cf08cf44ee0fe48ece7e8c727457b188046e5ece25836f"
+    },
+    "modern-javascript-patterns": {
+      "source": "wshobson/agents",
+      "sourceType": "github",
+      "computedHash": "0029f68d5b92753960cf57c00da77913973507350dad148acaa46313691a509a"
+    },
+    "monorepo-management": {
+      "source": "wshobson/agents",
+      "sourceType": "github",
+      "computedHash": "082be44c6320ce348b19c33f08f527ad604eed2da48f92e8c7010e206d5450cd"
+    },
+    "nestjs-patterns": {
+      "source": "affaan-m/everything-claude-code",
+      "sourceType": "github",
+      "computedHash": "0ff35d7a72bb462f51629b38dcb525ab0368ff755cbd1cf121c144e7d05f12a1"
+    },
+    "nextjs-turbopack": {
+      "source": "affaan-m/everything-claude-code",
+      "sourceType": "github",
+      "computedHash": "4c83f7e5437fa185656ab5a96de3694d79cad3125cc0d371390f4cd351f9b7db"
+    },
+    "nx-generate": {
+      "source": "nrwl/nx",
+      "sourceType": "github",
+      "computedHash": "fb7c13f96e57d43d9a9b672a24e7486075a76d920301811d5f41f89d3fcce10b"
+    },
+    "nx-workspace": {
+      "source": "nrwl/nx",
+      "sourceType": "github",
+      "computedHash": "11fffccac37147da83f936804ba088728e07ffb75fc071597c576e77f7e9d799"
+    },
+    "postgres-patterns": {
+      "source": "affaan-m/everything-claude-code",
+      "sourceType": "github",
+      "computedHash": "ce3084b8f555d1c560d849332483428301f30ec78f315e1d60ca1ddd8bc69a51"
+    }
+  }
+}

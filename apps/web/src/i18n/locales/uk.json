@@ -1,0 +1,8 @@
+{
+  "app": {
+    "title": "Creo",
+    "subtitle": "Ласкаво просимо до Creo — NX монорепо з NestJS + React + Ant Design",
+    "inputPlaceholder": "Введіть щось...",
+    "submit": "Надіслати"
+  }
+}

@@ -63,15 +63,15 @@
     "@nx/react": {
       "application": {
         "babel": true,
-        "style": "css",
+        "style": "scss",
         "linter": "none",
         "bundler": "vite"
       },
       "component": {
-        "style": "css"
+        "style": "scss"
       },
       "library": {
-        "style": "css",
+        "style": "scss",
         "linter": "none",
         "unitTestRunner": "none"
       }

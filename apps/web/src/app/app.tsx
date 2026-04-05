@@ -1,15 +1,17 @@
+import { useTranslation } from 'react-i18next';
 import { Button, Input, Title, Text } from '@org/ui';
+import styles from './app.module.scss';
 
 export function App() {
+  const { t } = useTranslation();
+
   return (
-    <div style={{ maxWidth: 600, margin: '80px auto', padding: '0 24px' }}>
-      <Title level={2}>Creo</Title>
-      <Text type="secondary">
-        Welcome to Creo — NX monorepo with NestJS + React + Ant Design
-      </Text>
-      <div style={{ marginTop: 24, display: 'flex', gap: 12 }}>
-        <Input placeholder="Type something..." />
-        <Button type="primary">Submit</Button>
+    <div className={styles.container}>
+      <Title level={2}>{t('app.title')}</Title>
+      <Text type="secondary">{t('app.subtitle')}</Text>
+      <div className={styles.actions}>
+        <Input placeholder={t('app.inputPlaceholder')} />
+        <Button type="primary">{t('app.submit')}</Button>
       </div>
     </div>
   );
