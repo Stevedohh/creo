@@ -1,0 +1,16 @@
+.page {
+  width: 100%;
+}
+
+.header {
+  margin-bottom: var(--creo-space-lg);
+}
+
+.formWrapper {
+  margin-top: var(--creo-space-lg);
+  padding: var(--creo-space-lg);
+  background: var(--creo-bg-container);
+  border: 1px solid var(--creo-border-color-secondary);
+  border-radius: var(--creo-card-radius);
+  transition: background var(--creo-transition), border-color var(--creo-transition);
+}

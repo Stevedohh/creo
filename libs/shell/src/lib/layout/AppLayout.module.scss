@@ -1,0 +1,310 @@
+$sidebar-width: 260px;
+$sidebar-collapsed: 80px;
+$sidebar-margin: 16px;
+$sidebar-radius: 24px;
+$bulge-size: 10px;
+
+.layout {
+  min-height: 100vh;
+  background: var(--creo-bg-base);
+  transition: background var(--creo-transition);
+}
+
+// ============================================================
+// Sidebar wrapper — holds sidebar + collapse button
+// ============================================================
+
+.siderWrapper {
+  position: fixed;
+  left: $sidebar-margin;
+  top: $sidebar-margin;
+  bottom: $sidebar-margin;
+  z-index: 10;
+}
+
+// ============================================================
+// Sidebar
+// ============================================================
+
+.sider {
+  width: $sidebar-width;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  background: var(--creo-bg-container);
+  border-radius: $sidebar-radius;
+  padding: var(--creo-space-lg) 0 var(--creo-space-lg) var(--creo-space-base);
+  transition: width 0.3s cubic-bezier(0.4, 0, 0.2, 1),
+              padding 0.3s cubic-bezier(0.4, 0, 0.2, 1),
+              background var(--creo-transition);
+  overflow: visible;
+}
+
+.collapsed {
+  width: $sidebar-collapsed;
+  padding: var(--creo-space-lg) 0 var(--creo-space-lg) 12px;
+}
+
+// ============================================================
+// Logo
+// ============================================================
+
+.logo {
+  display: flex;
+  align-items: center;
+  gap: var(--creo-space-md);
+  padding: 0 var(--creo-space-xs);
+  padding-right: var(--creo-space-base);
+  margin-bottom: var(--creo-space-xl);
+  flex-shrink: 0;
+  overflow: hidden;
+}
+
+.logoIcon {
+  width: 40px;
+  height: 40px;
+  border-radius: var(--creo-radius);
+  background: var(--creo-color-primary);
+  color: var(--creo-teal-deep);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 20px;
+  font-weight: 800;
+  flex-shrink: 0;
+}
+
+.logoText {
+  font-size: 22px;
+  font-weight: 800;
+  color: var(--creo-text-primary);
+  letter-spacing: 0.5px;
+  white-space: nowrap;
+  opacity: 1;
+  transition: opacity 0.2s ease 0.1s;
+
+  .collapsed & {
+    opacity: 0;
+    transition: opacity 0.15s ease;
+  }
+}
+
+// ============================================================
+// Navigation
+// ============================================================
+
+.nav {
+  display: flex;
+  padding-top: var(--creo-space-sm);
+  flex-direction: column;
+  gap: var(--creo-space-sm);
+  flex: 1;
+  overflow-y: auto;
+  overflow-x: visible;
+}
+
+.navItem {
+  position: relative;
+  display: flex;
+  align-items: center;
+  gap: var(--creo-space-md);
+  padding: 6px;
+  margin-right: var(--creo-space-base);
+  border-radius: var(--creo-radius);
+  border: none;
+  background: transparent;
+  cursor: pointer;
+  text-align: left;
+  white-space: nowrap;
+
+  &:hover {
+    background: var(--creo-bg-hover);
+  }
+
+  // Pseudo-elements always present, hidden by default
+  &::before,
+  &::after {
+    content: '';
+    position: absolute;
+    right: 0;
+    width: $bulge-size;
+    height: $bulge-size;
+    opacity: 0;
+    pointer-events: none;
+  }
+
+  &::before {
+    top: -$bulge-size;
+    background: radial-gradient(circle at 0 0, transparent $bulge-size, var(--creo-bg-base) $bulge-size);
+  }
+
+  &::after {
+    bottom: -$bulge-size;
+    background: radial-gradient(circle at 0 100%, transparent $bulge-size, var(--creo-bg-base) $bulge-size);
+  }
+}
+
+.navItemActive {
+  background: var(--creo-bg-base);
+  border-radius: var(--creo-radius) 0 0 var(--creo-radius);
+  margin-right: 0;
+
+  &:hover {
+    background: var(--creo-bg-base);
+  }
+
+  &::before,
+  &::after {
+    opacity: 1;
+  }
+}
+
+.navIcon {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 18px;
+  color: var(--creo-text-tertiary);
+  flex-shrink: 0;
+  transition: all 0.2s ease;
+}
+
+.navIconActive {
+  background: var(--creo-color-primary);
+  color: var(--creo-teal-deep);
+  box-shadow: 0 2px 8px rgba(65, 216, 123, 0.3);
+}
+
+.navLabel {
+  font-size: 14px;
+  font-weight: 500;
+  color: var(--creo-text-secondary);
+  transition: opacity 0.2s ease 0.1s, color 0.15s ease;
+  overflow: hidden;
+  opacity: 1;
+
+  .navItem:hover & {
+    color: var(--creo-text-primary);
+  }
+
+  .navItemActive & {
+    font-weight: 600;
+    color: var(--creo-text-primary);
+  }
+
+  .collapsed & {
+    opacity: 0;
+    width: 0;
+    transition: opacity 0.15s ease, width 0s ease 0.15s;
+  }
+}
+
+// ============================================================
+// Footer
+// ============================================================
+
+.footer {
+  margin-top: auto;
+  padding-top: var(--creo-space-base);
+  padding-right: var(--creo-space-base);
+  border-top: 1px solid var(--creo-border-color-secondary);
+  flex-shrink: 0;
+  overflow: hidden;
+}
+
+.themeToggle {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: var(--creo-space-sm);
+  padding: var(--creo-space-sm) 0;
+}
+
+.themeToggleIcon {
+  color: var(--creo-text-tertiary);
+  font-size: 14px;
+
+  .collapsed & {
+    display: none;
+  }
+}
+
+// ============================================================
+// Collapse button — outside sidebar, always visible
+// ============================================================
+
+.collapseBtn {
+  position: absolute;
+  right: -14px;
+  bottom: 48px;
+  width: 28px;
+  height: 28px;
+  border-radius: 50%;
+  border: 1px solid var(--creo-border-color-secondary);
+  background: var(--creo-bg-container);
+  color: var(--creo-text-tertiary);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  font-size: 11px;
+  box-shadow: var(--creo-shadow-sm);
+  transition: all 0.15s ease;
+  z-index: 12;
+
+  &:hover {
+    border-color: var(--creo-color-primary);
+    color: var(--creo-color-primary);
+    transform: scale(1.1);
+  }
+}
+
+// ============================================================
+// Header
+// ============================================================
+
+.header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: var(--creo-space-lg);
+}
+
+.headerLeft {
+  display: flex;
+  flex-direction: column;
+}
+
+.headerTitle {
+  margin: 0 !important;
+}
+
+.headerRight {
+  display: flex;
+  align-items: center;
+  flex-shrink: 0;
+}
+
+// ============================================================
+// Content
+// ============================================================
+
+.content {
+  margin-left: calc(#{$sidebar-width} + #{$sidebar-margin} * 2 + 8px);
+  padding: var(--creo-space-xl) var(--creo-space-2xl) var(--creo-space-2xl);
+  min-height: 100vh;
+  transition: margin-left 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.contentCollapsed {
+  margin-left: calc(#{$sidebar-collapsed} + #{$sidebar-margin} * 2 + 8px);
+}
+
+.contentInner {
+  max-width: 1920px;
+  margin: 0 auto;
+  width: 100%;
+}

@@ -1,8 +1,120 @@
 {
-  "app": {
-    "title": "Creo",
-    "subtitle": "Welcome to Creo — NX monorepo with NestJS + React + Ant Design",
-    "inputPlaceholder": "Type something...",
-    "submit": "Submit"
+  "nav": {
+    "home": "Dashboard",
+    "voices": "Voices",
+    "analytics": "Analytics",
+    "scripts": "Scripts"
+  },
+  "dashboard": {
+    "title": "Dashboard",
+    "subtitle": "Overview of your creative workspace",
+    "newProject": "New Project",
+    "stats": {
+      "voicesCloned": "Voices Cloned",
+      "videosCreated": "Videos Created",
+      "scripts": "Scripts",
+      "assets": "Media Assets",
+      "thisMonth": "this month",
+      "total": "total"
+    },
+    "recentProjects": "Recent Projects",
+    "quickActions": "Quick Actions",
+    "open": "Open",
+    "actions": {
+      "cloneVoice": "Clone Voice",
+      "lipSync": "Lip Sync",
+      "writeScript": "Write Script",
+      "browseAssets": "Browse Assets"
+    },
+    "community": "Community",
+    "communityTitle": "Let's join our community",
+    "communityDesc": "Connect with other creators and share your work",
+    "joinNow": "Join Now"
+  },
+  "analytics": {
+    "title": "Analytics",
+    "subtitle": "Track performance of your creatives",
+    "export": "Export",
+    "stats": {
+      "totalViews": "Total Views",
+      "engagement": "Engagement Rate",
+      "conversion": "Conversion",
+      "bounceRate": "Bounce Rate",
+      "vs": "vs last month"
+    },
+    "viewsOverTime": "Views Over Time",
+    "topContent": "Top Content"
+  },
+  "scripts": {
+    "title": "Scripts",
+    "subtitle": "Manage your video scripts and scenarios",
+    "newScript": "New Script",
+    "status": {
+      "draft": "Draft",
+      "in_progress": "In Progress",
+      "completed": "Completed"
+    }
+  },
+  "userMenu": {
+    "language": "Language",
+    "lightTheme": "Light Theme",
+    "darkTheme": "Dark Theme",
+    "logout": "Log Out"
+  },
+  "auth": {
+    "loginTitle": "Sign In",
+    "registerTitle": "Create Account",
+    "email": "Email",
+    "emailPlaceholder": "you@example.com",
+    "emailRequired": "Please enter your email",
+    "emailInvalid": "Please enter a valid email",
+    "password": "Password",
+    "passwordPlaceholder": "At least 8 characters",
+    "passwordRequired": "Please enter your password",
+    "passwordMin": "Password must be at least 8 characters",
+    "name": "Full Name",
+    "namePlaceholder": "John Doe",
+    "language": "Preferred Language",
+    "login": "Sign In",
+    "register": "Create Account",
+    "noAccount": "Don't have an account?",
+    "hasAccount": "Already have an account?",
+    "loginLink": "Sign in",
+    "registerLink": "Create one",
+    "errors": {
+      "invalidCredentials": "Invalid email or password",
+      "emailTaken": "This email is already registered",
+      "generic": "Something went wrong. Please try again."
+    }
+  },
+  "voices": {
+    "title": "Voices",
+    "subtitle": "Manage your cloned voices",
+    "cloneNew": "Clone New Voice",
+    "cloneTitle": "Clone a Voice",
+    "empty": "No voices yet. Clone your first voice from a YouTube video.",
+    "copied": "Voice ID copied to clipboard",
+    "deleteConfirm": "Are you sure you want to delete this voice?",
+    "deleteSuccess": "Voice deleted successfully",
+    "deleteError": "Failed to delete voice",
+    "yes": "Yes",
+    "no": "No",
+    "status": {
+      "active": "Active",
+      "deleting": "Deleting...",
+      "failed": "Failed"
+    },
+    "form": {
+      "youtubeUrl": "YouTube Video URL",
+      "youtubeUrlPlaceholder": "https://www.youtube.com/watch?v=...",
+      "voiceName": "Voice Name",
+      "voiceNamePlaceholder": "e.g., John Narrator",
+      "startTime": "Start Time",
+      "endTime": "End Time",
+      "submit": "Clone Voice",
+      "submitting": "Cloning..."
+    },
+    "success": "Voice cloned successfully!",
+    "error": "Failed to clone voice. Please try again."
   }
 }

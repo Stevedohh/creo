@@ -17,6 +17,30 @@
     },
     {
       "path": "./libs/ui"
+    },
+    {
+      "path": "./libs/shared"
+    },
+    {
+      "path": "./libs/voice-clone/feature"
+    },
+    {
+      "path": "./libs/voice-clone/data-access"
+    },
+    {
+      "path": "./libs/voice-clone/api"
+    },
+    {
+      "path": "./libs/shell"
+    },
+    {
+      "path": "./libs/auth/api"
+    },
+    {
+      "path": "./libs/auth/data-access"
+    },
+    {
+      "path": "./libs/auth/feature"
     }
   ]
 }

@@ -3,12 +3,34 @@
   "compilerOptions": {
     "outDir": "dist",
     "types": ["node"],
-    "rootDir": "src",
+    "rootDir": "../../",
     "tsBuildInfoFile": "dist/tsconfig.app.tsbuildinfo",
     "experimentalDecorators": true,
     "emitDecoratorMetadata": true,
-    "target": "es2021"
+    "target": "es2021",
+    "paths": {
+      "@creo/voice-clone-api": ["../../libs/voice-clone/api/src/index.ts"],
+      "@creo/prisma": ["../../libs/prisma/src/index.ts"],
+      "@creo/auth-api": ["../../libs/auth/api/src/index.ts"]
+    }
   },
-  "include": ["src/**/*.ts"],
-  "exclude": []
+  "include": [
+    "src/**/*.ts",
+    "../../libs/voice-clone/api/src/**/*.ts",
+    "../../libs/prisma/src/**/*.ts",
+    "../../libs/auth/api/src/**/*.ts"
+  ],
+  "exclude": [
+    "../../libs/voice-clone/api/dist/**/*",
+    "../../libs/prisma/dist/**/*",
+    "../../libs/auth/api/dist/**/*"
+  ],
+  "references": [
+    {
+      "path": "../../libs/prisma/tsconfig.lib.json"
+    },
+    {
+      "path": "../../libs/voice-clone/api/tsconfig.lib.json"
+    }
+  ]
 }

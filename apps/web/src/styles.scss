@@ -1,1 +1,229 @@
-/* You can add global styles to this file, and also import other style files */
+// ============================================================
+// CSS Reset
+// ============================================================
+
+*,
+*::before,
+*::after {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+html {
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  text-size-adjust: 100%;
+  font-size: 16px;
+}
+
+body {
+  min-height: 100vh;
+  line-height: 1.5;
+}
+
+img, picture, video, canvas, svg {
+  display: block;
+  max-width: 100%;
+}
+
+input, button, textarea, select {
+  font: inherit;
+}
+
+a {
+  text-decoration: none;
+  color: inherit;
+}
+
+ul, ol {
+  list-style: none;
+}
+
+table {
+  border-collapse: collapse;
+  border-spacing: 0;
+}
+
+// ============================================================
+// Creo Color System — Primitive Tokens
+// ============================================================
+
+:root {
+  // Grayscale
+  --creo-white: #FFFFFF;
+  --creo-ghost: #F2F2F0;
+  --creo-london-grey: #BABAB4;
+  --creo-wolf-grey: #6B6B6B;
+  --creo-metropolis: #3A3A3A;
+  --creo-void: #1A1A1A;
+
+  // Spintel Green — Primary
+  --creo-mist: #E6F9F0;
+  --creo-foam: #AEEBD2;
+  --creo-spintel: #8BC34A;
+  --creo-forest: #1E9660;
+  --creo-deep: #0F6640;
+  --creo-abyss: #07382A;
+
+  // Fever Red — Danger
+  --creo-blush: #FDEAEA;
+  --creo-rose: #F9B8B8;
+  --creo-fever: #F25252;
+  --creo-ember: #C93333;
+  --creo-crimson: #8E1E1E;
+  --creo-soot: #4A0E0E;
+
+  // Orbit Blue — Info / Accent
+  --creo-ice: #E8F2FF;
+  --creo-sky: #B3D4FA;
+  --creo-orbit: #3D8FF5;
+  --creo-cobalt: #1E65C8;
+  --creo-navy: #0D3D82;
+  --creo-ink: #06204A;
+
+  // Solar Amber — Warning
+  --creo-cream: #FEF8E6;
+  --creo-glow: #FAD98A;
+  --creo-solar: #F5A623;
+  --creo-ochre: #C2760A;
+  --creo-rust: #7F4C05;
+  --creo-bark: #3D2202;
+
+  // ============================================================
+  // Semantic Tokens
+  // ============================================================
+
+  --creo-color-primary: var(--creo-spintel);
+  --creo-color-primary-hover: var(--creo-foam);
+  --creo-color-primary-active: var(--creo-forest);
+  --creo-color-accent: var(--creo-orbit);
+  --creo-color-accent-hover: var(--creo-sky);
+
+  --creo-color-success: #8BC34A;
+  --creo-color-danger: var(--creo-fever);
+  --creo-color-warning: var(--creo-solar);
+  --creo-color-info: var(--creo-orbit);
+  --creo-color-error: var(--creo-fever);
+
+  // ============================================================
+  // Dark Theme (default)
+  // ============================================================
+
+  // Backgrounds
+  --creo-bg-base: #0a0a0a;
+  --creo-bg-container: #151515;
+  --creo-bg-elevated: #1c1c1c;
+  --creo-bg-hover: #1e1e1e;
+  --creo-bg-active: #2a2a2a;
+
+  // Sidebar
+  --creo-sidebar-bg: #111111;
+  --creo-sidebar-border: #1e1e1e;
+  --creo-sidebar-text: var(--creo-wolf-grey);
+  --creo-sidebar-text-hover: var(--creo-white);
+
+  // Text
+  --creo-text-primary: var(--creo-white);
+  --creo-text-secondary: var(--creo-london-grey);
+  --creo-text-tertiary: var(--creo-wolf-grey);
+  --creo-text-disabled: var(--creo-metropolis);
+
+  // Borders
+  --creo-border-color: #2a2a2a;
+  --creo-border-color-secondary: #1e1e1e;
+
+  // Radius
+  --creo-radius-sm: 8px;
+  --creo-radius: 12px;
+  --creo-radius-lg: 16px;
+  --creo-radius-xl: 20px;
+  --creo-radius-full: 9999px;
+
+  // Spacing
+  --creo-space-xs: 4px;
+  --creo-space-sm: 8px;
+  --creo-space-md: 12px;
+  --creo-space-base: 16px;
+  --creo-space-lg: 24px;
+  --creo-space-xl: 32px;
+  --creo-space-2xl: 48px;
+
+  // Sizes
+  --creo-sidebar-width: 260px;
+  --creo-header-height: 64px;
+  --creo-content-max-width: 1200px;
+  --creo-card-radius: 16px;
+
+  // Shadows
+  --creo-shadow-sm: 0 1px 3px rgba(0, 0, 0, 0.3);
+  --creo-shadow: 0 4px 12px rgba(0, 0, 0, 0.25);
+  --creo-shadow-lg: 0 8px 24px rgba(0, 0, 0, 0.3);
+
+  // Transitions
+  --creo-transition-fast: 0.15s ease;
+  --creo-transition: 0.25s ease;
+}
+
+// ============================================================
+// Light Theme
+// ============================================================
+
+[data-theme='light'] {
+  --creo-bg-base: var(--creo-ghost);
+  --creo-bg-container: var(--creo-white);
+  --creo-bg-elevated: var(--creo-white);
+  --creo-bg-hover: #e8e8e4;
+  --creo-bg-active: #ddddd8;
+
+  --creo-sidebar-bg: var(--creo-white);
+  --creo-sidebar-border: #e8e8e4;
+  --creo-sidebar-text: var(--creo-wolf-grey);
+  --creo-sidebar-text-hover: var(--creo-void);
+
+  --creo-text-primary: var(--creo-void);
+  --creo-text-secondary: var(--creo-metropolis);
+  --creo-text-tertiary: var(--creo-wolf-grey);
+  --creo-text-disabled: var(--creo-london-grey);
+
+  --creo-border-color: #ddddd8;
+  --creo-border-color-secondary: #e8e8e4;
+
+  --creo-shadow-sm: 0 1px 3px rgba(26, 26, 26, 0.05);
+  --creo-shadow: 0 4px 12px rgba(26, 26, 26, 0.07);
+  --creo-shadow-lg: 0 8px 24px rgba(26, 26, 26, 0.1);
+}
+
+// ============================================================
+// Global styles
+// ============================================================
+
+body {
+  background: var(--creo-bg-base);
+  color: var(--creo-text-primary);
+  font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+  transition: background var(--creo-transition), color var(--creo-transition);
+}
+
+::selection {
+  background: var(--creo-color-primary);
+  color: var(--creo-white);
+}
+
+::-webkit-scrollbar {
+  width: 6px;
+  height: 6px;
+}
+
+::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+::-webkit-scrollbar-thumb {
+  background: var(--creo-border-color);
+  border-radius: 3px;
+
+  &:hover {
+    background: var(--creo-text-tertiary);
+  }
+}

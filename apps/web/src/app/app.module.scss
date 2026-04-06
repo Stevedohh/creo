@@ -1,11 +1,119 @@
-.container {
-  max-width: 600px;
-  margin: 80px auto;
-  padding: 0 24px;
+.page {
+  width: 100%;
 }
 
-.actions {
-  margin-top: 24px;
+.header {
   display: flex;
-  gap: 12px;
+  align-items: flex-start;
+  justify-content: space-between;
+  margin-bottom: var(--creo-space-lg);
+}
+
+// Stats row
+.statsGrid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: var(--creo-space-base);
+  margin-bottom: var(--creo-space-lg);
+}
+
+// Two-column content
+.contentGrid {
+  display: grid;
+  grid-template-columns: 1.2fr 1fr;
+  gap: var(--creo-space-base);
+  margin-bottom: var(--creo-space-lg);
+}
+
+// Recent projects list
+.projectList {
+  display: flex;
+  flex-direction: column;
+  gap: var(--creo-space-md);
+}
+
+.projectItem {
+  display: flex;
+  align-items: center;
+  gap: var(--creo-space-md);
+  padding: var(--creo-space-md);
+  border-radius: var(--creo-radius);
+  transition: background var(--creo-transition-fast);
+
+  &:hover {
+    background: var(--creo-bg-hover);
+  }
+}
+
+.projectIcon {
+  width: 40px;
+  height: 40px;
+  border-radius: var(--creo-radius);
+  background: var(--creo-bg-elevated);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--creo-color-primary);
+  font-size: 18px;
+  flex-shrink: 0;
+}
+
+.projectInfo {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+}
+
+.projectName {
+  font-weight: 500;
+  color: var(--creo-text-primary);
+  font-size: 14px;
+}
+
+.projectMeta {
+  font-size: 12px;
+  color: var(--creo-text-tertiary);
+}
+
+// Quick actions grid
+.actionGrid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: var(--creo-space-md);
+}
+
+.actionBtn {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: var(--creo-space-sm);
+  padding: var(--creo-space-lg) var(--creo-space-base);
+  border-radius: var(--creo-radius-lg);
+  border: 1px solid var(--creo-border-color-secondary);
+  background: var(--creo-bg-elevated);
+  color: var(--creo-text-primary);
+  cursor: pointer;
+  transition: all var(--creo-transition-fast);
+  font-size: 13px;
+  font-weight: 500;
+
+  &:hover {
+    border-color: var(--creo-color-primary);
+    background: var(--creo-bg-hover);
+    color: var(--creo-color-primary);
+  }
+}
+
+.actionIcon {
+  font-size: 24px;
+  color: var(--creo-color-primary);
+}
+
+// Community banner
+.communityBanner {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--creo-space-lg);
 }

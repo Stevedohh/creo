@@ -1,0 +1,58 @@
+services:
+  postgres:
+    image: postgres:16-alpine
+    container_name: creo-postgres
+    restart: unless-stopped
+    environment:
+      POSTGRES_DB: creo
+      POSTGRES_USER: creo
+      POSTGRES_PASSWORD: creo
+    ports:
+      - '${POSTGRES_PORT:-5433}:5432'
+    volumes:
+      - pgdata:/var/lib/postgresql/data
+    healthcheck:
+      test: ['CMD-SHELL', 'pg_isready -U creo -d creo']
+      interval: 5s
+      timeout: 5s
+      retries: 5
+
+  api:
+    image: node:20-alpine
+    container_name: creo-api
+    working_dir: /app
+    restart: unless-stopped
+    ports:
+      - '3000:3000'
+    environment:
+      NODE_ENV: development
+      PORT: 3000
+      DATABASE_URL: postgresql://creo:creo@postgres:5432/creo?schema=public
+      JWT_ACCESS_SECRET: ${JWT_ACCESS_SECRET}
+      JWT_REFRESH_SECRET: ${JWT_REFRESH_SECRET}
+    volumes:
+      - .:/app
+    command: sh -c "apk add --no-cache ffmpeg python3 py3-pip && pip3 install --no-cache-dir --break-system-packages yt-dlp && npx nx serve api"
+    depends_on:
+      postgres:
+        condition: service_healthy
+
+  web:
+    image: node:20-alpine
+    container_name: creo-web
+    working_dir: /app
+    restart: unless-stopped
+    ports:
+      - '4300:4300'
+    environment:
+      NODE_ENV: development
+      VITE_HOST: '0.0.0.0'
+      API_URL: 'http://api:3000'
+    volumes:
+      - .:/app
+    command: npx nx serve web
+    depends_on:
+      - api
+
+volumes:
+  pgdata:

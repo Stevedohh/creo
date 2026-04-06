@@ -1,0 +1,59 @@
+.card {
+  background: var(--creo-bg-container);
+  border: 1px solid var(--creo-border-color-secondary);
+  border-radius: var(--creo-card-radius);
+  padding: var(--creo-space-lg);
+  transition: background var(--creo-transition), border-color var(--creo-transition), box-shadow var(--creo-transition);
+
+  &:hover {
+    box-shadow: var(--creo-shadow);
+  }
+}
+
+.header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: var(--creo-space-sm);
+}
+
+.label {
+  font-size: 13px;
+  font-weight: 500;
+  color: var(--creo-text-secondary);
+}
+
+.icon {
+  font-size: 18px;
+  color: var(--creo-text-tertiary);
+}
+
+.value {
+  font-size: 32px;
+  font-weight: 700;
+  color: var(--creo-text-primary);
+  line-height: 1.2;
+  margin-bottom: var(--creo-space-xs);
+}
+
+.footer {
+  display: flex;
+  align-items: center;
+  gap: var(--creo-space-sm);
+  font-size: 12px;
+  color: var(--creo-text-tertiary);
+}
+
+.trendUp {
+  color: var(--creo-color-success);
+  font-weight: 600;
+}
+
+.trendDown {
+  color: var(--creo-color-accent);
+  font-weight: 600;
+}
+
+.subtitle {
+  color: var(--creo-text-tertiary);
+}

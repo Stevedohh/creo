@@ -1,8 +1,120 @@
 {
-  "app": {
-    "title": "Creo",
-    "subtitle": "Ласкаво просимо до Creo — NX монорепо з NestJS + React + Ant Design",
-    "inputPlaceholder": "Введіть щось...",
-    "submit": "Надіслати"
+  "nav": {
+    "home": "Дашборд",
+    "voices": "Голоси",
+    "analytics": "Аналітика",
+    "scripts": "Сценарії"
+  },
+  "dashboard": {
+    "title": "Дашборд",
+    "subtitle": "Огляд вашого креативного простору",
+    "newProject": "Новий проект",
+    "stats": {
+      "voicesCloned": "Голосів клоновано",
+      "videosCreated": "Відео створено",
+      "scripts": "Сценарії",
+      "assets": "Медіа ресурси",
+      "thisMonth": "цього місяця",
+      "total": "всього"
+    },
+    "recentProjects": "Останні проекти",
+    "quickActions": "Швидкі дії",
+    "open": "Відкрити",
+    "actions": {
+      "cloneVoice": "Клонувати голос",
+      "lipSync": "Синхронізація губ",
+      "writeScript": "Написати сценарій",
+      "browseAssets": "Огляд ресурсів"
+    },
+    "community": "Спільнота",
+    "communityTitle": "Приєднуйтесь до спільноти",
+    "communityDesc": "Спілкуйтесь з іншими креаторами та діліться роботами",
+    "joinNow": "Приєднатися"
+  },
+  "analytics": {
+    "title": "Аналітика",
+    "subtitle": "Відстежуйте ефективність ваших креативів",
+    "export": "Експорт",
+    "stats": {
+      "totalViews": "Загальні перегляди",
+      "engagement": "Залученість",
+      "conversion": "Конверсія",
+      "bounceRate": "Показник відмов",
+      "vs": "проти минулого місяця"
+    },
+    "viewsOverTime": "Перегляди за час",
+    "topContent": "Топ контент"
+  },
+  "scripts": {
+    "title": "Сценарії",
+    "subtitle": "Керуйте сценаріями для відео",
+    "newScript": "Новий сценарій",
+    "status": {
+      "draft": "Чернетка",
+      "in_progress": "В роботі",
+      "completed": "Завершено"
+    }
+  },
+  "userMenu": {
+    "language": "Мова",
+    "lightTheme": "Світла тема",
+    "darkTheme": "Темна тема",
+    "logout": "Вийти"
+  },
+  "auth": {
+    "loginTitle": "Увійти",
+    "registerTitle": "Створити акаунт",
+    "email": "Email",
+    "emailPlaceholder": "you@example.com",
+    "emailRequired": "Введіть email",
+    "emailInvalid": "Введіть коректний email",
+    "password": "Пароль",
+    "passwordPlaceholder": "Мінімум 8 символів",
+    "passwordRequired": "Введіть пароль",
+    "passwordMin": "Пароль має бути мінімум 8 символів",
+    "name": "Повне ім'я",
+    "namePlaceholder": "Іван Петренко",
+    "language": "Мова",
+    "login": "Увійти",
+    "register": "Створити акаунт",
+    "noAccount": "Немає акаунту?",
+    "hasAccount": "Вже є акаунт?",
+    "loginLink": "Увійти",
+    "registerLink": "Створити",
+    "errors": {
+      "invalidCredentials": "Невірний email або пароль",
+      "emailTaken": "Цей email вже зареєстрований",
+      "generic": "Щось пішло не так. Спробуйте ще раз."
+    }
+  },
+  "voices": {
+    "title": "Голоси",
+    "subtitle": "Керуйте вашими клонованими голосами",
+    "cloneNew": "Клонувати новий голос",
+    "cloneTitle": "Клонувати голос",
+    "empty": "Голосів ще немає. Клонуйте перший голос з YouTube відео.",
+    "copied": "ID голосу скопійовано",
+    "deleteConfirm": "Ви впевнені, що хочете видалити цей голос?",
+    "deleteSuccess": "Голос успішно видалено",
+    "deleteError": "Не вдалося видалити голос",
+    "yes": "Так",
+    "no": "Ні",
+    "status": {
+      "active": "Активний",
+      "deleting": "Видалення...",
+      "failed": "Помилка"
+    },
+    "form": {
+      "youtubeUrl": "URL відео YouTube",
+      "youtubeUrlPlaceholder": "https://www.youtube.com/watch?v=...",
+      "voiceName": "Назва голосу",
+      "voiceNamePlaceholder": "напр., Іван Диктор",
+      "startTime": "Початок",
+      "endTime": "Кінець",
+      "submit": "Клонувати голос",
+      "submitting": "Клонування..."
+    },
+    "success": "Голос успішно клоновано!",
+    "error": "Не вдалося клонувати голос. Спробуйте ще раз."
   }
 }

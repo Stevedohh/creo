@@ -24,6 +24,11 @@ node_modules
 !.vscode/launch.json
 !.vscode/extensions.json
 
+# environment
+.env
+.env.*
+!.env.example
+
 # misc
 /.sass-cache
 /connect.lock
@@ -48,3 +53,9 @@ Thumbs.db
 .nx/polygraph
 vite.config.*.timestamp*
 test-output
+
+# Prisma
+libs/prisma/generated
+
+# Docker
+pgdata

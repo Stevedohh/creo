@@ -1,0 +1,12 @@
+.form {
+  max-width: 520px;
+}
+
+.timeRow {
+  display: flex;
+  gap: var(--creo-space-base);
+}
+
+.timeField {
+  flex: 1;
+}

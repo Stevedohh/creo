@@ -30,6 +30,21 @@
   "include": ["src/**/*.js", "src/**/*.jsx", "src/**/*.ts", "src/**/*.tsx"],
   "references": [
     {
+      "path": "../../libs/auth/feature/tsconfig.lib.json"
+    },
+    {
+      "path": "../../libs/auth/data-access/tsconfig.lib.json"
+    },
+    {
+      "path": "../../libs/shared/tsconfig.lib.json"
+    },
+    {
+      "path": "../../libs/voice-clone/feature/tsconfig.lib.json"
+    },
+    {
+      "path": "../../libs/shell/tsconfig.lib.json"
+    },
+    {
       "path": "../../libs/ui/tsconfig.lib.json"
     }
   ]

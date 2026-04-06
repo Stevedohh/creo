@@ -1,0 +1,34 @@
+.card {
+  background: var(--creo-bg-container);
+  border: 1px solid var(--creo-border-color-secondary);
+  border-radius: var(--creo-card-radius);
+  padding: var(--creo-space-lg);
+  transition: background var(--creo-transition), border-color var(--creo-transition);
+}
+
+.accent {
+  background: var(--creo-teal);
+  border-color: var(--creo-sidebar-border);
+}
+
+.header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: var(--creo-space-base);
+}
+
+.title {
+  font-size: 16px;
+  font-weight: 600;
+  color: var(--creo-text-primary);
+  margin: 0;
+}
+
+.extra {
+  flex-shrink: 0;
+}
+
+.body {
+  color: var(--creo-text-primary);
+}

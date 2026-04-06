@@ -57,6 +57,10 @@
       }
     }
   ],
+  "sync": {
+    "applyChanges": true,
+    "disabledTaskSyncGenerators": ["@nx/js:typescript-sync"]
+  },
   "nxCloudId": "69d294882e47502a48903c12",
   "analytics": false,
   "generators": {

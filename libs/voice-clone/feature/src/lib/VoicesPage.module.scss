@@ -1,0 +1,21 @@
+.page {
+  width: 100%;
+}
+
+.toolbar {
+  display: flex;
+  justify-content: flex-end;
+  margin-bottom: var(--creo-space-lg);
+}
+
+.voiceGrid {
+  display: flex;
+  flex-direction: column;
+  gap: var(--creo-space-md);
+}
+
+.loading {
+  display: flex;
+  justify-content: center;
+  padding: var(--creo-space-2xl);
+}

@@ -1,0 +1,96 @@
+.page {
+  width: 100%;
+}
+
+.header {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  margin-bottom: var(--creo-space-lg);
+}
+
+.statsGrid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: var(--creo-space-base);
+  margin-bottom: var(--creo-space-lg);
+}
+
+.chartsGrid {
+  display: grid;
+  grid-template-columns: 1.4fr 1fr;
+  gap: var(--creo-space-base);
+}
+
+// Mock bar chart
+.chartPlaceholder {
+  height: 240px;
+  display: flex;
+  align-items: flex-end;
+}
+
+.barChart {
+  display: flex;
+  align-items: flex-end;
+  gap: 8px;
+  width: 100%;
+  height: 100%;
+  padding-top: var(--creo-space-base);
+}
+
+.bar {
+  flex: 1;
+  background: var(--creo-color-primary);
+  border-radius: 4px 4px 0 0;
+  min-height: 8px;
+  opacity: 0.8;
+  transition: opacity var(--creo-transition-fast);
+
+  &:hover {
+    opacity: 1;
+  }
+}
+
+// Rank list
+.rankList {
+  display: flex;
+  flex-direction: column;
+  gap: var(--creo-space-base);
+}
+
+.rankItem {
+  display: flex;
+  flex-direction: column;
+  gap: var(--creo-space-xs);
+}
+
+.rankInfo {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.rankName {
+  font-size: 13px;
+  font-weight: 500;
+  color: var(--creo-text-primary);
+}
+
+.rankViews {
+  font-size: 12px;
+  color: var(--creo-text-tertiary);
+}
+
+.rankBar {
+  height: 6px;
+  background: var(--creo-bg-elevated);
+  border-radius: 3px;
+  overflow: hidden;
+}
+
+.rankFill {
+  height: 100%;
+  background: var(--creo-color-primary);
+  border-radius: 3px;
+  transition: width var(--creo-transition);
+}

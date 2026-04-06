@@ -1,3 +1,4 @@
-export { ThemeProvider } from './ThemeProvider';
+export { ThemeProvider, useTheme } from './ThemeProvider';
 export type { ThemeProviderProps } from './ThemeProvider';
-export { creoTheme } from './theme';
+export { creoDarkTheme, creoLightTheme, creoTheme } from './theme';
+export type { CreoThemeMode } from './theme';

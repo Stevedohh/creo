@@ -1,0 +1,111 @@
+.wrapper {
+  position: relative;
+}
+
+.trigger {
+  display: flex;
+  align-items: center;
+  gap: var(--creo-space-sm);
+  padding: 6px 12px;
+  border-radius: var(--creo-radius);
+  border: none;
+  background: transparent;
+  cursor: pointer;
+  transition: background 0.15s ease;
+
+  &:hover {
+    background: var(--creo-bg-hover);
+  }
+}
+
+.avatar {
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  background: var(--creo-color-primary);
+  color: var(--creo-teal-deep);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 14px;
+  font-weight: 700;
+  flex-shrink: 0;
+}
+
+.name {
+  font-size: 14px;
+  font-weight: 500;
+  color: var(--creo-text-primary);
+  white-space: nowrap;
+}
+
+.dropdown {
+  position: absolute;
+  top: calc(100% + 8px);
+  right: 0;
+  min-width: 200px;
+  background: var(--creo-bg-container);
+  border: 1px solid var(--creo-border-color-secondary);
+  border-radius: var(--creo-radius);
+  box-shadow: var(--creo-shadow-md);
+  padding: var(--creo-space-sm);
+  z-index: 100;
+}
+
+.section {
+  display: flex;
+  flex-direction: column;
+}
+
+.sectionLabel {
+  display: flex;
+  align-items: center;
+  gap: var(--creo-space-xs);
+  padding: var(--creo-space-xs) var(--creo-space-sm);
+  font-size: 12px;
+  font-weight: 600;
+  color: var(--creo-text-tertiary);
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.item {
+  display: flex;
+  align-items: center;
+  gap: var(--creo-space-sm);
+  padding: 8px var(--creo-space-sm);
+  border-radius: calc(var(--creo-radius) - 2px);
+  border: none;
+  background: transparent;
+  cursor: pointer;
+  font-size: 14px;
+  color: var(--creo-text-secondary);
+  width: 100%;
+  text-align: left;
+  transition: all 0.15s ease;
+
+  &:hover {
+    background: var(--creo-bg-hover);
+    color: var(--creo-text-primary);
+  }
+}
+
+.itemActive {
+  color: var(--creo-color-primary);
+  font-weight: 600;
+}
+
+.itemDanger {
+  color: #ff4d4f;
+
+  &:hover {
+    background: rgba(255, 77, 79, 0.08);
+    color: #ff4d4f;
+  }
+}
+
+.divider {
+  height: 1px;
+  background: var(--creo-border-color-secondary);
+  margin: var(--creo-space-xs) 0;
+}
