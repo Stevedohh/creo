@@ -1,0 +1,107 @@
+.page {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+}
+
+.header {
+  display: flex;
+  align-items: center;
+  gap: var(--creo-space-base);
+  margin-bottom: var(--creo-space-sm);
+  flex-shrink: 0;
+}
+
+.titleArea {
+  flex: 1;
+}
+
+.title {
+  font-size: 20px;
+  font-weight: 600;
+  color: var(--creo-text-primary);
+  margin: 0;
+  cursor: pointer;
+  padding: 4px 8px;
+  border-radius: 6px;
+  transition: background 0.15s;
+
+  &:hover {
+    background: var(--creo-bg-elevated);
+  }
+}
+
+.titleInput {
+  font-size: 20px;
+  font-weight: 600;
+}
+
+.headerRight {
+  display: flex;
+  align-items: center;
+  gap: var(--creo-space-sm);
+}
+
+.saveStatus {
+  font-size: 12px;
+  color: var(--creo-text-tertiary);
+}
+
+.saveStatusDone {
+  font-size: 12px;
+  color: var(--creo-color-primary);
+  display: flex;
+  align-items: center;
+  gap: 4px;
+}
+
+// ── Metadata bar ─────────────────────────────
+
+.metaBar {
+  display: flex;
+  align-items: center;
+  gap: var(--creo-space-base);
+  padding: 8px 16px;
+  background: var(--creo-bg-elevated);
+  border: 1px solid var(--creo-border-color-secondary);
+  border-radius: var(--creo-radius);
+  margin-bottom: var(--creo-space-sm);
+  flex-shrink: 0;
+}
+
+.metaItem {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.metaLabel {
+  font-size: 13px;
+  color: var(--creo-text-tertiary);
+  white-space: nowrap;
+}
+
+.metaValue {
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--creo-text-primary);
+}
+
+.countrySelect {
+  min-width: 160px;
+}
+
+.metaSep {
+  width: 1px;
+  height: 20px;
+  background: var(--creo-border-color-secondary);
+  flex-shrink: 0;
+}
+
+.loading {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 400px;
+}

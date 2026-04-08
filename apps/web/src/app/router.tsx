@@ -2,10 +2,17 @@ import { Routes, Route } from 'react-router-dom';
 import { lazy, Suspense } from 'react';
 import App from './app';
 import { AnalyticsPage } from './pages/analytics/AnalyticsPage';
-import { ScriptsPage } from './pages/scripts/ScriptsPage';
 
 const VoicesPage = lazy(() =>
   import('@creo/voice-clone-feature').then((m) => ({ default: m.VoicesPage }))
+);
+
+const ScriptsListPage = lazy(() =>
+  import('@creo/scripts-feature').then((m) => ({ default: m.ScriptsListPage }))
+);
+
+const ScriptEditorPage = lazy(() =>
+  import('@creo/scripts-feature').then((m) => ({ default: m.ScriptEditorPage }))
 );
 
 export interface RouteConfig {
@@ -19,7 +26,8 @@ export const routes: RouteConfig[] = [
   { path: '/', titleKey: 'dashboard.title', subtitleKey: 'dashboard.subtitle', element: <App /> },
   { path: '/voices', titleKey: 'voices.title', subtitleKey: 'voices.subtitle', element: <VoicesPage /> },
   { path: '/analytics', titleKey: 'analytics.title', subtitleKey: 'analytics.subtitle', element: <AnalyticsPage /> },
-  { path: '/scripts', titleKey: 'scripts.title', subtitleKey: 'scripts.subtitle', element: <ScriptsPage /> },
+  { path: '/scripts', titleKey: 'scripts.title', subtitleKey: 'scripts.subtitle', element: <ScriptsListPage /> },
+  { path: '/scripts/:id', titleKey: 'scripts.editorTitle', element: <ScriptEditorPage /> },
 ];
 
 export function AppRouter() {

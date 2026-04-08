@@ -1,0 +1,174 @@
+.editorWrapper {
+  display: flex;
+  flex-direction: column;
+  border: 1px solid var(--creo-border-color-secondary);
+  border-radius: var(--creo-radius);
+  background: var(--creo-bg-component);
+  overflow: hidden;
+  height: calc(100vh - 240px);
+  min-height: 400px;
+}
+
+// ── Toolbar ──────────────────────────────────
+
+.toolbar {
+  display: flex;
+  align-items: center;
+  gap: 2px;
+  padding: 6px 12px;
+  border-bottom: 1px solid var(--creo-border-color-secondary);
+  background: var(--creo-bg-elevated);
+  flex-shrink: 0;
+}
+
+.toolGroup {
+  display: flex;
+  gap: 1px;
+}
+
+.toolBtn {
+  width: 32px;
+  height: 32px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border: none;
+  background: transparent;
+  color: var(--creo-text-secondary);
+  border-radius: 6px;
+  cursor: pointer;
+  font-size: 14px;
+  font-weight: 600;
+  transition: all 0.15s;
+
+  &:hover {
+    background: var(--creo-bg-component);
+    color: var(--creo-text-primary);
+  }
+
+  &:disabled {
+    opacity: 0.3;
+    cursor: not-allowed;
+  }
+}
+
+.toolSpacer {
+  flex: 1;
+}
+
+.aiBtn {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  padding: 6px 14px;
+  border: 1px solid var(--creo-border-color-secondary);
+  border-radius: 6px;
+  background: transparent;
+  color: var(--creo-text-secondary);
+  font-size: 13px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.15s;
+  white-space: nowrap;
+
+  &:hover {
+    border-color: var(--creo-color-accent);
+    color: var(--creo-color-accent);
+  }
+
+  &:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+  }
+}
+
+.streamingIndicator {
+  font-size: 12px;
+  color: var(--creo-color-accent);
+  white-space: nowrap;
+  animation: pulse 1.5s infinite;
+}
+
+@keyframes pulse {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0.4; }
+}
+
+// ── Editor content ───────────────────────────
+
+.editorScroll {
+  flex: 1;
+  overflow-y: auto;
+  overflow-x: hidden;
+}
+
+.editor {
+  padding: 24px 32px;
+
+  :global(.tiptap) {
+    outline: none;
+    min-height: 300px;
+    font-size: 15px;
+    line-height: 1.75;
+    color: var(--creo-text-primary);
+
+    > * + * {
+      margin-top: 0.6em;
+    }
+
+    h1, h2, h3 {
+      font-weight: 700;
+      color: var(--creo-text-primary);
+      margin-top: 1.2em;
+    }
+
+    h1 { font-size: 1.75em; }
+    h2 { font-size: 1.4em; }
+    h3 { font-size: 1.15em; }
+
+    p { margin: 0; }
+
+    ul, ol {
+      padding-left: 1.5em;
+    }
+
+    blockquote {
+      border-left: 3px solid var(--creo-color-primary);
+      padding-left: 16px;
+      color: var(--creo-text-secondary);
+      font-style: italic;
+      margin-left: 0;
+    }
+
+    code {
+      background: var(--creo-bg-elevated);
+      border-radius: 4px;
+      padding: 2px 6px;
+      font-size: 0.9em;
+    }
+
+    pre {
+      background: var(--creo-bg-elevated);
+      border-radius: 8px;
+      padding: 16px;
+      overflow-x: auto;
+
+      code {
+        background: none;
+        padding: 0;
+      }
+    }
+
+    u {
+      text-decoration: underline;
+    }
+
+    &:global(.is-empty)::before {
+      color: var(--creo-text-tertiary);
+      content: attr(data-placeholder);
+      float: left;
+      height: 0;
+      pointer-events: none;
+    }
+  }
+}

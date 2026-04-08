@@ -21,3 +21,10 @@
 - The `nx-generate` skill handles generator discovery internally - don't call nx_docs just to look up generator syntax
 
 <!-- nx configuration end-->
+
+# Ant Design
+
+- This project uses **Ant Design** as the UI component library
+- Full component API documentation is at `docs/antd-llms-full.txt` (59K lines, 73 components)
+- **Before writing Ant Design code**, read the relevant component section from that file to ensure correct props and patterns
+- Use `grep -n "^## component-name" docs/antd-llms-full.txt` to find the section offset, then read from there

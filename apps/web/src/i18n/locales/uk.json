@@ -48,7 +48,46 @@
   "scripts": {
     "title": "Сценарії",
     "subtitle": "Керуйте сценаріями для відео",
+    "editorTitle": "Редактор сценарію",
     "newScript": "Новий сценарій",
+    "backToList": "Назад",
+    "empty": "Сценаріїв ще немає. Створіть перший!",
+    "createError": "Не вдалося створити сценарій",
+    "deleteConfirm": "Ви впевнені, що хочете видалити цей сценарій?",
+    "deleteSuccess": "Сценарій видалено",
+    "columns": {
+      "name": "Назва",
+      "country": "Країна",
+      "wordCount": "Слова",
+      "rating": "Рейтинг",
+      "actions": "Дії"
+    },
+    "fields": {
+      "title": "Назва",
+      "titleRequired": "Будь ласка, введіть назву",
+      "titlePlaceholder": "Мій новий сценарій",
+      "country": "Країна",
+      "countryPlaceholder": "напр. США, Україна"
+    },
+    "editor": {
+      "placeholder": "Почніть писати сценарій...",
+      "save": "Зберегти",
+      "saved": "Збережено",
+      "saving": "Зберігається...",
+      "words": "слів"
+    },
+    "ai": {
+      "rewrite": "AI Переписати",
+      "generate": "Згенерувати з AI",
+      "selectModel": "Обрати модель",
+      "instruction": "Інструкції (необов'язково)",
+      "instructionPlaceholder": "напр. Зробити формальнішим, Додати гумор...",
+      "accept": "Прийняти",
+      "reject": "Відхилити",
+      "streaming": "AI пише...",
+      "generatePrompt": "Опишіть що згенерувати",
+      "generatePromptPlaceholder": "напр. Напиши 30-секундний рекламний сценарій для фітнес-додатку"
+    },
     "status": {
       "draft": "Чернетка",
       "in_progress": "В роботі",

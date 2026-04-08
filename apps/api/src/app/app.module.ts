@@ -4,6 +4,7 @@ import { ConfigModule } from '@nestjs/config';
 import { AppController } from './app.controller';
 import { AppService } from './app.service';
 import { VoiceCloneModule } from '@creo/voice-clone-api';
+import { ScriptsModule } from '@creo/scripts-api';
 import { PrismaModule } from '@creo/prisma';
 import { AuthModule, JwtAuthGuard } from '@creo/auth-api';
 
@@ -13,6 +14,7 @@ import { AuthModule, JwtAuthGuard } from '@creo/auth-api';
     PrismaModule,
     AuthModule,
     VoiceCloneModule,
+    ScriptsModule,
   ],
   controllers: [AppController],
   providers: [

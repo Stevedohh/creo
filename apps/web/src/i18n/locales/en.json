@@ -48,7 +48,46 @@
   "scripts": {
     "title": "Scripts",
     "subtitle": "Manage your video scripts and scenarios",
+    "editorTitle": "Script Editor",
     "newScript": "New Script",
+    "backToList": "Back",
+    "empty": "No scripts yet. Create your first one!",
+    "createError": "Failed to create script",
+    "deleteConfirm": "Are you sure you want to delete this script?",
+    "deleteSuccess": "Script deleted",
+    "columns": {
+      "name": "Name",
+      "country": "Country",
+      "wordCount": "Words",
+      "rating": "Rating",
+      "actions": "Actions"
+    },
+    "fields": {
+      "title": "Title",
+      "titleRequired": "Please enter a title",
+      "titlePlaceholder": "My new script",
+      "country": "Country",
+      "countryPlaceholder": "e.g. USA, UK, Ukraine"
+    },
+    "editor": {
+      "placeholder": "Start writing your script...",
+      "save": "Save",
+      "saved": "Saved",
+      "saving": "Saving...",
+      "words": "words"
+    },
+    "ai": {
+      "rewrite": "AI Rewrite",
+      "generate": "Generate with AI",
+      "selectModel": "Select Model",
+      "instruction": "Instructions (optional)",
+      "instructionPlaceholder": "e.g. Make it more formal, Add humor...",
+      "accept": "Accept",
+      "reject": "Reject",
+      "streaming": "AI is writing...",
+      "generatePrompt": "Describe what to generate",
+      "generatePromptPlaceholder": "e.g. Write a 30-second ad script for a fitness app"
+    },
     "status": {
       "draft": "Draft",
       "in_progress": "In Progress",

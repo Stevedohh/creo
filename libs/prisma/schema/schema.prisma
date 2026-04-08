@@ -19,6 +19,7 @@ model User {
 
   refreshTokens RefreshToken[]
   voices        Voice[]
+  scripts       Script[]
 
   @@map("users")
 }
@@ -52,4 +53,21 @@ model Voice {
   @@unique([userId, minimaxVoiceId])
   @@index([userId])
   @@map("voices")
+}
+
+model Script {
+  id        String   @id @default(uuid())
+  title     String
+  content   String   @default("") @db.Text
+  country   String?
+  wordCount Int      @default(0) @map("word_count")
+  rating    Int      @default(0)
+  userId    String   @map("user_id")
+  createdAt DateTime @default(now()) @map("created_at")
+  updatedAt DateTime @updatedAt @map("updated_at")
+
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@index([userId])
+  @@map("scripts")
 }
