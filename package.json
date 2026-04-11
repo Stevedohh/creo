@@ -75,6 +75,7 @@
     "libs/scripts/*",
     "libs/auth/*",
     "libs/storage/*",
+    "libs/projects/*",
     "libs/prisma"
   ],
   "dependencies": {
@@ -92,6 +93,10 @@
     "@prisma/adapter-pg": "^7.6.0",
     "@prisma/client": "^7.6.0",
     "@tanstack/react-query": "^5.96.2",
+    "@twick/live-player": "^0.15.28",
+    "@twick/studio": "^0.15.28",
+    "@twick/timeline": "^0.15.28",
+    "zod": "^3.23.8",
     "@tiptap/extension-bubble-menu": "^3.22.3",
     "@tiptap/extension-placeholder": "^3.22.3",
     "@tiptap/extension-underline": "^3.22.3",

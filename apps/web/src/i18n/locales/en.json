@@ -9,7 +9,8 @@
     "home": "Dashboard",
     "voices": "Voices",
     "analytics": "Analytics",
-    "scripts": "Scripts"
+    "scripts": "Scripts",
+    "projects": "Projects"
   },
   "dashboard": {
     "title": "Dashboard",
@@ -50,6 +51,34 @@
     },
     "viewsOverTime": "Views Over Time",
     "topContent": "Top Content"
+  },
+  "projects": {
+    "title": "Projects",
+    "subtitle": "Your video projects",
+    "editorTitle": "Project Editor",
+    "newProject": "New Project",
+    "untitled": "Untitled Project",
+    "search": "Search projects...",
+    "backToList": "Back",
+    "empty": "No projects yet. Create your first one!",
+    "createError": "Failed to create project",
+    "deleteConfirm": "Are you sure you want to delete this project?",
+    "deleteSuccess": "Project deleted",
+    "columns": {
+      "name": "Name",
+      "status": "Status",
+      "updatedAt": "Updated"
+    },
+    "status": {
+      "draft": "Draft",
+      "rendering": "Rendering",
+      "archived": "Archived"
+    }
+  },
+  "editor": {
+    "saving": "Saving...",
+    "saved": "Saved",
+    "saveError": "Save failed"
   },
   "scripts": {
     "title": "Scripts",

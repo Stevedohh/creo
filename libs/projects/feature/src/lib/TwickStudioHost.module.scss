@@ -1,0 +1,37 @@
+.host {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  background: var(--creo-color-bg, #0b1419);
+
+  // Repaint Twick from its default purple brand to Creo's green.
+  // Twick's entire accent is driven by --color-purple-100..900 + --color-purple-muted,
+  // so overriding them at the host scope recolors buttons, active tabs, sliders,
+  // the playhead glow, gradient fills — everything — without touching Twick source.
+  --color-purple-100: #e7f9ee;
+  --color-purple-200: #c5f0d3;
+  --color-purple-300: #9fe6b4;
+  --color-purple-400: #66d187;
+  --color-purple-500: #2fbc5b;
+  --color-purple-600: #28a04c;
+  --color-purple-700: #1f8a3e;
+  --color-purple-800: #176a2f;
+  --color-purple-900: #104a22;
+  --color-purple-muted: rgba(47, 188, 91, 0.15);
+  --elevation-scrubber: 0 0 8px rgba(47, 188, 91, 0.8);
+
+  > :global(*) {
+    flex: 1;
+    min-height: 0;
+  }
+
+  // Hide Twick's brand header ("Twick Studio" logo + Orientation toggle +
+  // New Project / Load Project / Save Draft / Export buttons). We autosave
+  // continuously and open projects from our own list page, so the whole row
+  // is redundant. Targets `.studio-container > .header` to avoid hitting any
+  // nested headers inside panels.
+  :global(.studio-container > .header) {
+    display: none;
+  }
+}

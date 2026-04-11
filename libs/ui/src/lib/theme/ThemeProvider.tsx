@@ -91,21 +91,21 @@ function CSSVarInjector({ children }: { children: React.ReactNode }) {
     const root = document.documentElement;
 
     for (const [tokenName, cssVar] of Object.entries(TOKEN_MAP)) {
-      const value = (token as Record<string, unknown>)[tokenName];
+      const value = (token as unknown as Record<string, unknown>)[tokenName];
       if (value !== undefined) {
         root.style.setProperty(cssVar, String(value));
       }
     }
 
     for (const [tokenName, cssVar] of Object.entries(RADIUS_MAP)) {
-      const value = (token as Record<string, unknown>)[tokenName];
+      const value = (token as unknown as Record<string, unknown>)[tokenName];
       if (value !== undefined) {
         root.style.setProperty(cssVar, `${value}px`);
       }
     }
 
     for (const [tokenName, cssVars] of Object.entries(SHADOW_MAP)) {
-      const value = (token as Record<string, unknown>)[tokenName];
+      const value = (token as unknown as Record<string, unknown>)[tokenName];
       if (value !== undefined) {
         for (const cssVar of cssVars) {
           root.style.setProperty(cssVar, String(value));

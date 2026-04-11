@@ -9,7 +9,36 @@
     "home": "Дашборд",
     "voices": "Голоси",
     "analytics": "Аналітика",
-    "scripts": "Сценарії"
+    "scripts": "Сценарії",
+    "projects": "Проекти"
+  },
+  "projects": {
+    "title": "Проекти",
+    "subtitle": "Ваші відео проекти",
+    "editorTitle": "Редактор проекту",
+    "newProject": "Новий проект",
+    "untitled": "Без назви",
+    "search": "Пошук проектів...",
+    "backToList": "Назад",
+    "empty": "Поки що немає проектів. Створіть перший!",
+    "createError": "Не вдалося створити проект",
+    "deleteConfirm": "Ви впевнені, що хочете видалити цей проект?",
+    "deleteSuccess": "Проект видалено",
+    "columns": {
+      "name": "Назва",
+      "status": "Статус",
+      "updatedAt": "Оновлено"
+    },
+    "status": {
+      "draft": "Чернетка",
+      "rendering": "Рендериться",
+      "archived": "Архівовано"
+    }
+  },
+  "editor": {
+    "saving": "Збереження...",
+    "saved": "Збережено",
+    "saveError": "Помилка збереження"
   },
   "dashboard": {
     "title": "Дашборд",

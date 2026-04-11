@@ -62,3 +62,6 @@ pgdata
 
 
 storybook-static
+.gstack/
+.playwright-mcp/
+*.tsbuildinfo

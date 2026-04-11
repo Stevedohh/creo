@@ -20,8 +20,26 @@ model User {
   refreshTokens RefreshToken[]
   voices        Voice[]
   scripts       Script[]
+  projects      Project[]
 
   @@map("users")
+}
+
+model Project {
+  id           String   @id @default(uuid())
+  userId       String   @map("user_id")
+  title        String
+  description  String?
+  timeline     Json     @default("{\"version\":1,\"tracks\":[]}")
+  thumbnailKey String?  @map("thumbnail_key")
+  status       String   @default("draft")
+  createdAt    DateTime @default(now()) @map("created_at")
+  updatedAt    DateTime @updatedAt @map("updated_at")
+
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@index([userId])
+  @@map("projects")
 }
 
 model RefreshToken {

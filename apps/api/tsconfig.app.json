@@ -13,7 +13,9 @@
       "@creo/prisma": ["../../libs/prisma/src/index.ts"],
       "@creo/auth-api": ["../../libs/auth/api/src/index.ts"],
       "@creo/storage-api": ["../../libs/storage/api/src/index.ts"],
-      "@creo/scripts-api": ["../../libs/scripts/api/src/index.ts"]
+      "@creo/scripts-api": ["../../libs/scripts/api/src/index.ts"],
+      "@creo/projects-api": ["../../libs/projects/api/src/index.ts"],
+      "@creo/projects-schema": ["../../libs/projects/schema/src/index.ts"]
     }
   },
   "include": [
@@ -22,14 +24,18 @@
     "../../libs/prisma/src/**/*.ts",
     "../../libs/auth/api/src/**/*.ts",
     "../../libs/storage/api/src/**/*.ts",
-    "../../libs/scripts/api/src/**/*.ts"
+    "../../libs/scripts/api/src/**/*.ts",
+    "../../libs/projects/api/src/**/*.ts",
+    "../../libs/projects/schema/src/**/*.ts"
   ],
   "exclude": [
     "../../libs/voice-clone/api/dist/**/*",
     "../../libs/prisma/dist/**/*",
     "../../libs/auth/api/dist/**/*",
     "../../libs/storage/api/dist/**/*",
-    "../../libs/scripts/api/dist/**/*"
+    "../../libs/scripts/api/dist/**/*",
+    "../../libs/projects/api/dist/**/*",
+    "../../libs/projects/schema/dist/**/*"
   ],
   "references": [
     {
@@ -43,6 +49,12 @@
     },
     {
       "path": "../../libs/scripts/api/tsconfig.lib.json"
+    },
+    {
+      "path": "../../libs/projects/api/tsconfig.lib.json"
+    },
+    {
+      "path": "../../libs/projects/schema/tsconfig.lib.json"
     }
   ]
 }

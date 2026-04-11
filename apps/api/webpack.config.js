@@ -16,6 +16,8 @@ module.exports = {
       '@creo/storage-api': join(__dirname, '../../libs/storage/api/src/index.ts'),
       '@creo/prisma': join(__dirname, '../../libs/prisma/src/index.ts'),
       '@creo/auth-api': join(__dirname, '../../libs/auth/api/src/index.ts'),
+      '@creo/projects-api': join(__dirname, '../../libs/projects/api/src/index.ts'),
+      '@creo/projects-schema': join(__dirname, '../../libs/projects/schema/src/index.ts'),
     },
   },
   externals: [

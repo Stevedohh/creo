@@ -15,6 +15,14 @@ const ScriptEditorPage = lazy(() =>
   import('@creo/scripts-feature').then((m) => ({ default: m.ScriptEditorPage }))
 );
 
+const ProjectsListPage = lazy(() =>
+  import('@creo/projects-feature').then((m) => ({ default: m.ProjectsListPage }))
+);
+
+const ProjectEditorPage = lazy(() =>
+  import('@creo/projects-feature').then((m) => ({ default: m.ProjectEditorPage }))
+);
+
 export interface RouteConfig {
   path: string;
   titleKey: string;
@@ -28,6 +36,8 @@ export const routes: RouteConfig[] = [
   { path: '/analytics', titleKey: 'analytics.title', subtitleKey: 'analytics.subtitle', element: <AnalyticsPage /> },
   { path: '/scripts', titleKey: 'scripts.title', subtitleKey: 'scripts.subtitle', element: <ScriptsListPage /> },
   { path: '/scripts/:id', titleKey: 'scripts.editorTitle', element: <ScriptEditorPage /> },
+  { path: '/projects', titleKey: 'projects.title', subtitleKey: 'projects.subtitle', element: <ProjectsListPage /> },
+  { path: '/projects/:id', titleKey: 'projects.editorTitle', element: <ProjectEditorPage /> },
 ];
 
 export function AppRouter() {

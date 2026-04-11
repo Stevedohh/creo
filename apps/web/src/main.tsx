@@ -12,6 +12,7 @@ import {
   AudioOutlined,
   BarChartOutlined,
   FileTextOutlined,
+  VideoCameraOutlined,
 } from '@ant-design/icons';
 import { AppRouter, routes } from './app/router';
 import './i18n/i18n';
@@ -32,9 +33,10 @@ function Shell() {
 
   const menuItems = [
     { key: '/', icon: <DashboardOutlined />, label: t('nav.home') },
+    { key: '/projects', icon: <VideoCameraOutlined />, label: t('nav.projects') },
     { key: '/voices', icon: <AudioOutlined />, label: t('nav.voices') },
-    { key: '/analytics', icon: <BarChartOutlined />, label: t('nav.analytics') },
     { key: '/scripts', icon: <FileTextOutlined />, label: t('nav.scripts') },
+    { key: '/analytics', icon: <BarChartOutlined />, label: t('nav.analytics') },
   ];
 
   const displayUser = user
