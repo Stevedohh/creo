@@ -10,7 +10,8 @@
     "voices": "Voices",
     "analytics": "Analytics",
     "scripts": "Scripts",
-    "projects": "Projects"
+    "projects": "Projects",
+    "media": "Media"
   },
   "dashboard": {
     "title": "Dashboard",
@@ -51,6 +52,24 @@
     },
     "viewsOverTime": "Views Over Time",
     "topContent": "Top Content"
+  },
+  "media": {
+    "title": "Media",
+    "subtitle": "Your uploaded videos, audio and images",
+    "upload": "Upload",
+    "empty": "No media yet. Upload your first file!",
+    "deleteConfirm": "Delete this asset permanently?",
+    "deleteSuccess": "Asset deleted",
+    "uploadSuccess": "Uploaded",
+    "uploadError": "Upload failed",
+    "statusUploading": "Uploading...",
+    "statusFailed": "Failed",
+    "addToTimeline": "Add to timeline",
+    "stillProcessing": "Still processing, try again in a moment",
+    "noUrl": "Asset has no playback URL",
+    "onlyVideoForNow": "Only video assets can be added to the timeline (yet)",
+    "addedToTimeline": "Added to timeline",
+    "addFailed": "Could not add to timeline"
   },
   "projects": {
     "title": "Projects",

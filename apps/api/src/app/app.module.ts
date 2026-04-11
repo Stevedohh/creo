@@ -7,6 +7,7 @@ import { AppService } from './app.service';
 import { VoiceCloneModule } from '@creo/voice-clone-api';
 import { ScriptsModule } from '@creo/scripts-api';
 import { ProjectsModule } from '@creo/projects-api';
+import { MediaLibraryModule } from '@creo/media-library-api';
 import { PrismaModule } from '@creo/prisma';
 import { StorageModule } from '@creo/storage-api';
 import { AuthModule, JwtAuthGuard } from '@creo/auth-api';
@@ -27,6 +28,7 @@ import { AuthModule, JwtAuthGuard } from '@creo/auth-api';
     VoiceCloneModule,
     ScriptsModule,
     ProjectsModule,
+    MediaLibraryModule,
   ],
   controllers: [AppController],
   providers: [

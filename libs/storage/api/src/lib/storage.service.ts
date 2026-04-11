@@ -5,6 +5,7 @@ import {
   DeleteObjectCommand,
   GetObjectCommand,
   HeadObjectCommand,
+  PutObjectCommand,
 } from '@aws-sdk/client-s3';
 import { Upload } from '@aws-sdk/lib-storage';
 import { getSignedUrl } from '@aws-sdk/s3-request-presigner';
@@ -103,6 +104,56 @@ export class StorageService implements OnModuleInit {
     return getSignedUrl(this.presignClient, command, {
       expiresIn: ttlSeconds ?? this.presignedTtl,
     });
+  }
+
+  /**
+   * Presigned GET URL for server-side consumers running inside the Docker
+   * network (e.g. ffprobe, ffmpeg workers). Always signed against the
+   * internal endpoint so `minio:9000` resolves via Docker DNS — presigned
+   * URLs from {@link getPresignedUrl} point at `localhost:9000` which a
+   * container would resolve to itself.
+   */
+  async getInternalPresignedUrl(key: string, ttlSeconds?: number): Promise<string> {
+    const command = new GetObjectCommand({ Bucket: this.bucket, Key: key });
+    return getSignedUrl(this.client, command, {
+      expiresIn: ttlSeconds ?? this.presignedTtl,
+    });
+  }
+
+  /**
+   * Presigned PUT URL for direct browser → S3/MinIO uploads. The browser
+   * calls `fetch(url, { method: 'PUT', body: file })` against this URL,
+   * bypassing the API server entirely. Faster and saves API bandwidth
+   * compared to multipart/form-data round-tripping through Nest.
+   *
+   * TTL defaults to 15 minutes — long enough for a big upload but short
+   * enough that a leaked URL is not a standing credential.
+   */
+  async getPresignedPutUrl(
+    key: string,
+    contentType: string,
+    ttlSeconds = 900,
+  ): Promise<string> {
+    const command = new PutObjectCommand({
+      Bucket: this.bucket,
+      Key: key,
+      ContentType: contentType,
+    });
+    return getSignedUrl(this.presignClient, command, { expiresIn: ttlSeconds });
+  }
+
+  async headObject(key: string): Promise<{ bytes: number; contentType?: string } | null> {
+    try {
+      const response = await this.client.send(
+        new HeadObjectCommand({ Bucket: this.bucket, Key: key }),
+      );
+      return {
+        bytes: response.ContentLength ?? 0,
+        contentType: response.ContentType,
+      };
+    } catch {
+      return null;
+    }
   }
 
   getPresignedTtlSeconds(): number {

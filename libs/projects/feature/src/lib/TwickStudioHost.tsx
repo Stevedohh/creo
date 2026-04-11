@@ -1,4 +1,11 @@
-import { Component, useEffect, useRef, type ErrorInfo, type ReactNode } from 'react';
+import {
+  Component,
+  useEffect,
+  useMemo,
+  useRef,
+  type ErrorInfo,
+  type ReactNode,
+} from 'react';
 import { TimelineProvider, useTimelineContext } from '@twick/timeline';
 import { LivePlayerProvider } from '@twick/live-player';
 import { TwickStudio, DEFAULT_STUDIO_CONFIG } from '@twick/studio';
@@ -8,6 +15,7 @@ import {
   type ProjectTimeline,
 } from '@creo/projects-schema';
 import { useUpdateProjectTimeline } from '@creo/projects-data-access';
+import { CreoMediaPanel } from './CreoMediaPanel';
 import '@twick/studio/dist/studio.css';
 import '@twick/video-editor/dist/video-editor.css';
 import styles from './TwickStudioHost.module.scss';
@@ -22,6 +30,8 @@ export interface TwickStudioHostProps {
 
 const AUTOSAVE_DEBOUNCE_MS = 800;
 
+const CREO_MEDIA_TOOL_ID = 'creo-media';
+
 export function TwickStudioHost({
   projectId,
   initialTimeline,
@@ -29,6 +39,36 @@ export function TwickStudioHost({
 }: TwickStudioHostProps) {
   const initialTwick = toTwickProjectJson<Parameters<typeof TimelineProvider>[0]['initialData']>(
     initialTimeline,
+  );
+
+  // Merge our custom "Media" tool into Twick's default config. Hides the
+  // built-in "Video" tool (which pulls from a public Pexels demo library)
+  // and replaces it with our own MediaLibraryPanel wired to user uploads.
+  // Lives in useMemo so the object identity is stable across renders
+  // (TwickStudio compares by reference when deciding to re-mount panels).
+  const studioConfig = useMemo(
+    () => ({
+      ...DEFAULT_STUDIO_CONFIG,
+      hiddenTools: ['video'],
+      customTools: [
+        {
+          id: CREO_MEDIA_TOOL_ID,
+          name: 'Media',
+          icon: 'Library',
+          description: 'Your uploads',
+        },
+      ],
+      // Register our panel under BOTH our custom id AND Twick's built-in
+      // "video" id. The video tool is hidden from the rail via `hiddenTools`,
+      // but Twick still defaults `selectedTool` to "video" on first mount,
+      // which would show Twick's demo Pexels library for a flash. Routing
+      // that selection to our panel gives a seamless first-paint.
+      customPanels: {
+        [CREO_MEDIA_TOOL_ID]: CreoMediaPanel,
+        video: CreoMediaPanel,
+      },
+    }),
+    [],
   );
 
   return (
@@ -41,7 +81,7 @@ export function TwickStudioHost({
         >
           <LivePlayerProvider>
             <AutoSaveBridge projectId={projectId} onStatusChange={onStatusChange} />
-            <TwickStudio studioConfig={DEFAULT_STUDIO_CONFIG} />
+            <TwickStudio studioConfig={studioConfig} />
           </LivePlayerProvider>
         </TimelineProvider>
       </StudioErrorBoundary>
@@ -58,7 +98,7 @@ class StudioErrorBoundary extends Component<
   { children: ReactNode },
   StudioErrorBoundaryState
 > {
-  state: StudioErrorBoundaryState = { error: null, info: null };
+  override state: StudioErrorBoundaryState = { error: null, info: null };
 
   static getDerivedStateFromError(error: Error): StudioErrorBoundaryState {
     return { error, info: null };

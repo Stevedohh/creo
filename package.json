@@ -76,6 +76,7 @@
     "libs/auth/*",
     "libs/storage/*",
     "libs/projects/*",
+    "libs/media-library/*",
     "libs/prisma"
   ],
   "dependencies": {

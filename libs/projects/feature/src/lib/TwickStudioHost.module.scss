@@ -34,4 +34,19 @@
   :global(.studio-container > .header) {
     display: none;
   }
+
+  // Reorder the Twick left tool rail so our custom "Media" lands right
+  // under Audio. Twick appends customTools to the end of the default
+  // array with no positional API, so we override flex order via the
+  // accessible `title` attribute Twick sets on each tool tile.
+  :global([title='Image']) { order: 1; }
+  :global([title='Audio']) { order: 2; }
+  :global([title='Media']) { order: 3; }
+  :global([title='Text']) { order: 4; }
+  :global([title='Emoji']) { order: 5; }
+  :global([title='Text Style']) { order: 6; }
+  :global([title='Effect']) { order: 7; }
+  :global([title='Shape']) { order: 8; }
+  :global([title='Caption']) { order: 9; }
+  :global([title='Generate']) { order: 10; }
 }

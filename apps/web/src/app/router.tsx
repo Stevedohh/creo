@@ -23,6 +23,10 @@ const ProjectEditorPage = lazy(() =>
   import('@creo/projects-feature').then((m) => ({ default: m.ProjectEditorPage }))
 );
 
+const MediaLibraryPage = lazy(() =>
+  import('@creo/media-library-feature').then((m) => ({ default: m.MediaLibraryPage }))
+);
+
 export interface RouteConfig {
   path: string;
   titleKey: string;
@@ -38,6 +42,7 @@ export const routes: RouteConfig[] = [
   { path: '/scripts/:id', titleKey: 'scripts.editorTitle', element: <ScriptEditorPage /> },
   { path: '/projects', titleKey: 'projects.title', subtitleKey: 'projects.subtitle', element: <ProjectsListPage /> },
   { path: '/projects/:id', titleKey: 'projects.editorTitle', element: <ProjectEditorPage /> },
+  { path: '/media', titleKey: 'media.title', subtitleKey: 'media.subtitle', element: <MediaLibraryPage /> },
 ];
 
 export function AppRouter() {

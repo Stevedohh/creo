@@ -21,6 +21,7 @@ model User {
   voices        Voice[]
   scripts       Script[]
   projects      Project[]
+  mediaAssets   MediaAsset[]
 
   @@map("users")
 }
@@ -36,10 +37,50 @@ model Project {
   createdAt    DateTime @default(now()) @map("created_at")
   updatedAt    DateTime @updatedAt @map("updated_at")
 
-  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+  user   User           @relation(fields: [userId], references: [id], onDelete: Cascade)
+  assets ProjectAsset[]
 
   @@index([userId])
   @@map("projects")
+}
+
+model MediaAsset {
+  id           String   @id @default(uuid())
+  userId       String   @map("user_id")
+  kind         String   // video | audio | image
+  source       String   // upload | youtube
+  sourceUrl    String?  @map("source_url")
+  originalName String?  @map("original_name")
+  storageKey   String   @map("storage_key")
+  storageBytes Int?     @map("storage_bytes")
+  durationMs   Int?     @map("duration_ms")
+  width        Int?
+  height       Int?
+  mimeType     String?  @map("mime_type")
+  thumbnailKey String?  @map("thumbnail_key")
+  status       String   @default("uploading") // uploading | ready | failed
+  errorMessage String?  @map("error_message")
+  createdAt    DateTime @default(now()) @map("created_at")
+  updatedAt    DateTime @updatedAt @map("updated_at")
+
+  user     User           @relation(fields: [userId], references: [id], onDelete: Cascade)
+  projects ProjectAsset[]
+
+  @@index([userId])
+  @@map("media_assets")
+}
+
+model ProjectAsset {
+  projectId String   @map("project_id")
+  assetId   String   @map("asset_id")
+  addedAt   DateTime @default(now()) @map("added_at")
+
+  project Project    @relation(fields: [projectId], references: [id], onDelete: Cascade)
+  asset   MediaAsset @relation(fields: [assetId], references: [id], onDelete: Cascade)
+
+  @@id([projectId, assetId])
+  @@index([assetId])
+  @@map("project_assets")
 }
 
 model RefreshToken {
