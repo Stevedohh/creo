@@ -295,7 +295,10 @@ $bulge-size: 10px;
 .content {
   margin-left: calc(#{$sidebar-width} + #{$sidebar-margin} * 2 + 8px);
   padding: var(--creo-space-xl) var(--creo-space-2xl) var(--creo-space-2xl);
-  min-height: 100vh;
+  height: 100vh;
+  display: flex;
+  flex-direction: column;
+  min-height: 0;
   transition: margin-left 0.3s cubic-bezier(0.4, 0, 0.2, 1);
 }
 
@@ -307,4 +310,9 @@ $bulge-size: 10px;
   max-width: 1920px;
   margin: 0 auto;
   width: 100%;
+  flex: 1;
+  min-height: 0;
+  display: flex;
+  flex-direction: column;
+  overflow-y: auto;
 }

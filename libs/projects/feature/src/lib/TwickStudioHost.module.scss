@@ -1,9 +1,68 @@
 .host {
   width: 100%;
   height: 100%;
+  flex: 1;
+  min-height: 0;
+  min-width: 0;
   display: flex;
   flex-direction: column;
   background: var(--creo-color-bg, #0b1419);
+
+  // Twick's studio CSS hard-codes `100dvw / 100dvh / calc(100vh - 56px) / 80dvh`
+  // in half a dozen places, assuming it owns the whole viewport. We mount it
+  // inside a sized parent (AppLayout content area), so every one of those
+  // viewport-relative sizes has to be re-routed to "100% of my parent" or
+  // the timeline rail at the bottom and the right-hand properties panel
+  // end up pushed off-screen. Cascading override block:
+  :global(.studio-container) {
+    width: 100% !important;
+    height: 100% !important;
+    flex: 1;
+    min-height: 0;
+    min-width: 0;
+  }
+  :global(.studio-content) {
+    height: 100% !important;
+    min-height: 0;
+    flex: 1;
+  }
+  :global(.twick-editor-container) {
+    height: 100% !important;
+    min-height: 0;
+  }
+  :global(.canvas-wrapper),
+  :global(.main-container) {
+    height: 100% !important;
+    min-height: 0;
+  }
+  :global(.canvas-container) {
+    height: 100% !important;
+    min-height: 0;
+    flex: 1;
+  }
+  :global(.twick-editor-main-container) {
+    height: 100% !important;
+    min-height: 0;
+    flex: 1;
+  }
+  // Inside .twick-editor-main-container (flex column), split vertical space
+  // between canvas (view) and timeline. Without this both flex children
+  // collapse in a constrained parent: the scroll container inside the
+  // timeline section expands to fill whatever we give it, so we cap the
+  // timeline at ~280px and let the canvas flex into the rest.
+  :global(.twick-editor-view-section) {
+    flex: 1 1 0;
+    min-height: 0;
+    min-width: 0;
+  }
+  :global(.twick-editor-timeline-section) {
+    flex: 0 0 280px;
+    min-height: 0;
+  }
+  :global(.twick-timeline-scroll-container) {
+    flex: 1;
+    min-height: 0;
+  }
 
   // Repaint Twick from its default purple brand to Creo's green.
   // Twick's entire accent is driven by --color-purple-100..900 + --color-purple-muted,
