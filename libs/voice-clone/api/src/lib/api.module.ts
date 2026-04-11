@@ -7,6 +7,6 @@ import { MinimaxService } from './minimax.service';
 @Module({
   controllers: [VoiceCloneController],
   providers: [VoiceCloneService, YoutubeService, MinimaxService],
-  exports: [VoiceCloneService],
+  exports: [VoiceCloneService, MinimaxService],
 })
 export class VoiceCloneModule {}

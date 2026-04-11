@@ -13,6 +13,7 @@ module.exports = {
     alias: {
       '@creo/voice-clone-api': join(__dirname, '../../libs/voice-clone/api/src/index.ts'),
       '@creo/scripts-api': join(__dirname, '../../libs/scripts/api/src/index.ts'),
+      '@creo/storage-api': join(__dirname, '../../libs/storage/api/src/index.ts'),
       '@creo/prisma': join(__dirname, '../../libs/prisma/src/index.ts'),
       '@creo/auth-api': join(__dirname, '../../libs/auth/api/src/index.ts'),
     },

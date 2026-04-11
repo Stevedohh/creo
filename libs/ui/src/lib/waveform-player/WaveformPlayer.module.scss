@@ -1,0 +1,91 @@
+.container {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 4px 8px;
+  background: var(--creo-bg-elevated, #1c1c24);
+  border: 1px solid var(--creo-border-color-secondary, rgba(255, 255, 255, 0.08));
+  border-radius: 8px;
+  width: 100%;
+  min-height: 38px;
+}
+
+.playButton {
+  flex-shrink: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 26px;
+  height: 26px;
+  border: none;
+  border-radius: 50%;
+  background: #2fbc5b; // creo brand green
+  color: #fff;
+  cursor: pointer;
+  font-size: 11px;
+  transition: transform 0.15s, background 0.15s;
+
+  &:hover:not(:disabled) {
+    background: #32c364; // creo brand green hover
+    transform: scale(1.05);
+  }
+
+  &:active:not(:disabled) {
+    transform: scale(0.95);
+  }
+
+  &:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+  }
+}
+
+.waveformWrapper {
+  flex: 1;
+  position: relative;
+  min-width: 0;
+  height: 28px;
+
+  &::before {
+    content: '';
+    position: absolute;
+    left: 0;
+    right: 0;
+    top: 50%;
+    height: 0;
+    border-top: 1px dashed #cbd5e1; // slate-300 for light theme
+    opacity: 0.6;
+    pointer-events: none;
+    z-index: 0;
+
+    :global([data-theme='dark']) & {
+      border-top-color: #2a4d3a; // desaturated brand-green for dark
+      opacity: 0.8;
+    }
+  }
+}
+
+.waveform {
+  position: relative;
+  z-index: 1;
+  height: 100%;
+}
+
+.time {
+  flex-shrink: 0;
+  font-size: 10px;
+  font-variant-numeric: tabular-nums;
+  color: var(--creo-text-tertiary);
+  min-width: 56px;
+  text-align: right;
+}
+
+.loading {
+  flex: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 28px;
+  color: var(--creo-text-tertiary);
+  font-size: 11px;
+}

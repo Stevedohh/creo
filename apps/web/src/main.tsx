@@ -22,7 +22,13 @@ function Shell() {
   const location = useLocation();
   const { user, logout, updateLanguage } = useAuth();
 
-  const currentRoute = routes.find((r) => r.path === location.pathname);
+  const currentRoute = routes.find((r) => {
+    if (r.path.includes(':')) {
+      const base = r.path.split('/:')[0];
+      return location.pathname.startsWith(base + '/');
+    }
+    return r.path === location.pathname;
+  });
 
   const menuItems = [
     { key: '/', icon: <DashboardOutlined />, label: t('nav.home') },
@@ -42,7 +48,7 @@ function Shell() {
     <ProtectedRoute>
       <AppLayout
         menuItems={menuItems}
-        selectedKeys={[location.pathname]}
+        selectedKeys={['/' + location.pathname.split('/')[1]]}
         onMenuSelect={({ key }) => navigate(key)}
         user={displayUser}
         onLogout={logout}

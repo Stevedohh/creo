@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { Switch } from 'antd';
+import { Switch } from '@creo/ui';
 import type { MenuProps } from 'antd';
 import { SunOutlined, MoonOutlined, LeftOutlined, RightOutlined } from '@ant-design/icons';
 import { useTheme, Title, Text } from '@creo/ui';

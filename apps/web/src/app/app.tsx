@@ -6,7 +6,6 @@ import {
   VideoCameraOutlined,
   FileTextOutlined,
   PictureOutlined,
-  ArrowRightOutlined,
 } from '@ant-design/icons';
 import styles from './app.module.scss';
 
@@ -93,10 +92,10 @@ export function App() {
       >
         <div className={styles.communityBanner}>
           <div>
-            <Title level={3} style={{ color: '#F3F9F7', margin: 0 }}>
+            <Title level={3}>
               {t('dashboard.communityTitle')}
             </Title>
-            <Text style={{ color: '#a3c4c0' }}>
+            <Text>
               {t('dashboard.communityDesc')}
             </Text>
           </div>

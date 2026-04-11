@@ -48,7 +48,8 @@ model Voice {
   createdAt      DateTime @default(now()) @map("created_at")
   updatedAt      DateTime @updatedAt @map("updated_at")
 
-  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+  user       User        @relation(fields: [userId], references: [id], onDelete: Cascade)
+  voiceovers Voiceover[]
 
   @@unique([userId, minimaxVoiceId])
   @@index([userId])
@@ -66,8 +67,33 @@ model Script {
   createdAt DateTime @default(now()) @map("created_at")
   updatedAt DateTime @updatedAt @map("updated_at")
 
-  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+  user       User        @relation(fields: [userId], references: [id], onDelete: Cascade)
+  voiceovers Voiceover[]
 
   @@index([userId])
   @@map("scripts")
+}
+
+model Voiceover {
+  id                String    @id @default(uuid())
+  scriptId          String    @map("script_id")
+  voiceId           String    @map("voice_id")
+  minimaxTaskId     String?   @map("minimax_task_id")
+  minimaxFileId     String?   @map("minimax_file_id")
+  audioUrl          String?   @map("audio_url")
+  audioExpiresAt    DateTime? @map("audio_expires_at")
+  storageKey        String?   @map("storage_key")
+  storageBytes      Int?      @map("storage_bytes")
+  storageUploadedAt DateTime? @map("storage_uploaded_at")
+  subtitlesKey      String?   @map("subtitles_key")
+  status            String    @default("pending")
+  characterCount    Int       @map("character_count")
+  createdAt         DateTime  @default(now()) @map("created_at")
+  updatedAt         DateTime  @updatedAt @map("updated_at")
+
+  script Script @relation(fields: [scriptId], references: [id], onDelete: Cascade)
+  voice  Voice  @relation(fields: [voiceId], references: [id], onDelete: Cascade)
+
+  @@index([scriptId])
+  @@map("voiceovers")
 }

@@ -65,7 +65,7 @@ $bulge-size: 10px;
   height: 40px;
   border-radius: var(--creo-radius);
   background: var(--creo-color-primary);
-  color: var(--creo-teal-deep);
+  color: var(--creo-bg-base);
   display: flex;
   align-items: center;
   justify-content: center;
@@ -174,8 +174,8 @@ $bulge-size: 10px;
 
 .navIconActive {
   background: var(--creo-color-primary);
-  color: var(--creo-teal-deep);
-  box-shadow: 0 2px 8px rgba(65, 216, 123, 0.3);
+  color: var(--creo-bg-base);
+  box-shadow: 0 2px 8px rgba(47, 188, 91, 0.3);
 }
 
 .navLabel {

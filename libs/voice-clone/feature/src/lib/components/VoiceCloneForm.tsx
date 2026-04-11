@@ -1,5 +1,5 @@
 import { useTranslation } from 'react-i18next';
-import { message } from 'antd';
+import { message } from '@creo/ui';
 import { Button, Input, Form, TimeInput } from '@creo/ui';
 import { useCloneVoice } from '@creo/voice-clone-data-access';
 import type { CloneVoiceRequest } from '@creo/voice-clone-data-access';

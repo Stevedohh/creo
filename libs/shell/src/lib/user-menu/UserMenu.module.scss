@@ -23,7 +23,7 @@
   height: 36px;
   border-radius: 50%;
   background: var(--creo-color-primary);
-  color: var(--creo-teal-deep);
+  color: var(--creo-bg-base);
   display: flex;
   align-items: center;
   justify-content: center;
@@ -47,7 +47,7 @@
   background: var(--creo-bg-container);
   border: 1px solid var(--creo-border-color-secondary);
   border-radius: var(--creo-radius);
-  box-shadow: var(--creo-shadow-md);
+  box-shadow: var(--creo-shadow-lg);
   padding: var(--creo-space-sm);
   z-index: 100;
 }
@@ -96,11 +96,11 @@
 }
 
 .itemDanger {
-  color: #ff4d4f;
+  color: var(--creo-color-error);
 
   &:hover {
-    background: rgba(255, 77, 79, 0.08);
-    color: #ff4d4f;
+    background: var(--creo-color-error-bg);
+    color: var(--creo-color-error);
   }
 }
 

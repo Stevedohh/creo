@@ -2,7 +2,7 @@ import { useState, useCallback } from 'react';
 import { BubbleMenu } from '@tiptap/react/menus';
 import { useEditorState } from '@tiptap/react';
 import type { Editor } from '@tiptap/react';
-import { Select, Input, Popover } from 'antd';
+import { Select, Input, Popover } from '@creo/ui';
 import {
   BoldOutlined,
   ItalicOutlined,
@@ -17,10 +17,8 @@ import type { AiModel } from '@creo/scripts-data-access';
 import styles from './AiBubbleMenu.module.scss';
 
 const MODEL_OPTIONS: { value: AiModel; label: string }[] = [
-  { value: 'sonnet', label: 'Claude Sonnet' },
-  { value: 'chatgpt', label: 'ChatGPT' },
-  { value: 'gemini', label: 'Gemini' },
   { value: 'grok', label: 'Grok' },
+  { value: 'chatgpt', label: 'ChatGPT' },
 ];
 
 interface AiBubbleMenuProps {
@@ -31,7 +29,7 @@ interface AiBubbleMenuProps {
 
 export function AiBubbleMenu({ editor, onRewrite, isStreaming }: AiBubbleMenuProps) {
   const { t } = useTranslation();
-  const [model, setModel] = useState<AiModel>('sonnet');
+  const [model, setModel] = useState<AiModel>('grok');
   const [instruction, setInstruction] = useState('');
   const [popoverOpen, setPopoverOpen] = useState(false);
 

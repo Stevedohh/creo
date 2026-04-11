@@ -1,14 +1,14 @@
 .card {
   background: var(--creo-bg-container);
   border: 1px solid var(--creo-border-color-secondary);
-  border-radius: var(--creo-card-radius);
+  border-radius: var(--creo-radius-lg);
   padding: var(--creo-space-lg);
   transition: background var(--creo-transition), border-color var(--creo-transition);
 }
 
 .accent {
-  background: var(--creo-teal);
-  border-color: var(--creo-sidebar-border);
+  background: var(--creo-color-primary-bg);
+  border-color: var(--creo-color-primary-border);
 }
 
 .header {

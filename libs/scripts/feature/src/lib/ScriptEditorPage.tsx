@@ -1,8 +1,7 @@
 import { useState, useCallback, useRef, useEffect } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
-import { Spin, Select, Rate } from 'antd';
-import { Input as AntInput } from 'antd';
+import { Spin, Select, Rate, Input } from '@creo/ui';
 import { ArrowLeftOutlined, CheckOutlined } from '@ant-design/icons';
 import { Button } from '@creo/ui';
 import { useScript, useUpdateScript } from '@creo/scripts-data-access';
@@ -101,7 +100,7 @@ export function ScriptEditorPage() {
 
         <div className={styles.titleArea}>
           {isEditingTitle ? (
-            <AntInput
+            <Input
               value={titleValue}
               onChange={(e) => setTitleValue(e.target.value)}
               onBlur={handleTitleBlur}

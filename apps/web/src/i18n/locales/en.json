@@ -1,4 +1,10 @@
 {
+  "common": {
+    "edit": "Edit",
+    "delete": "Delete",
+    "save": "Save",
+    "cancel": "Cancel"
+  },
   "nav": {
     "home": "Dashboard",
     "voices": "Voices",
@@ -50,6 +56,7 @@
     "subtitle": "Manage your video scripts and scenarios",
     "editorTitle": "Script Editor",
     "newScript": "New Script",
+    "search": "Search scripts...",
     "backToList": "Back",
     "empty": "No scripts yet. Create your first one!",
     "createError": "Failed to create script",
@@ -93,6 +100,19 @@
       "in_progress": "In Progress",
       "completed": "Completed"
     }
+  },
+  "voiceover": {
+    "title": "Voiceover",
+    "selectVoice": "Select voice...",
+    "generate": "Generate",
+    "empty": "No voiceovers yet",
+    "processing": "Generating",
+    "uploading": "Uploading",
+    "completed": "Ready",
+    "failed": "Failed",
+    "chars": "chars",
+    "hintProcessing": "MiniMax is generating audio. Usually 2–6 minutes for short scripts, longer for big ones.",
+    "hintUploading": "Audio is being downloaded from MiniMax and saved to storage."
   },
   "userMenu": {
     "language": "Language",

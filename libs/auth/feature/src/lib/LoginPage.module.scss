@@ -3,24 +3,24 @@
   align-items: center;
   justify-content: center;
   min-height: 100vh;
-  background: var(--creo-bg-container, #0a0a0a);
+  background: var(--creo-bg-container);
 }
 
 .card {
   width: 100%;
   max-width: 400px;
   padding: 40px;
-  border-radius: 12px;
-  background: var(--creo-bg-elevated, #141414);
-  border: 1px solid var(--creo-border-color, #2a2a2a);
+  border-radius: var(--creo-radius);
+  background: var(--creo-bg-elevated);
+  border: 1px solid var(--creo-border-color);
 }
 
 .logo {
   width: 48px;
   height: 48px;
-  border-radius: 12px;
-  background: var(--creo-color-primary, #8bc34a);
-  color: #000;
+  border-radius: var(--creo-radius);
+  background: var(--creo-color-primary);
+  color: var(--creo-bg-base);
   font-size: 24px;
   font-weight: 700;
   display: flex;
@@ -34,16 +34,16 @@
   font-size: 24px;
   font-weight: 600;
   margin-bottom: 32px;
-  color: var(--creo-text-color, #fff);
+  color: var(--creo-text-primary);
 }
 
 .footer {
   text-align: center;
   margin-top: 16px;
-  color: var(--creo-text-secondary, #888);
+  color: var(--creo-text-secondary);
 
   a {
-    color: var(--creo-color-primary, #8bc34a);
+    color: var(--creo-color-primary);
     text-decoration: none;
 
     &:hover {

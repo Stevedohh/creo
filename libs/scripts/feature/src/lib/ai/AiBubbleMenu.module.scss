@@ -2,17 +2,11 @@
   display: flex;
   align-items: center;
   gap: 2px;
-  background: #1f1f1f;
-  border: 1px solid #333;
+  background: var(--creo-bg-elevated);
+  border: 1px solid var(--creo-border-color);
   border-radius: 8px;
-  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.4);
+  box-shadow: var(--creo-shadow-lg);
   padding: 4px;
-
-  :global([data-theme='light']) & {
-    background: #fff;
-    border-color: #e0e0e0;
-    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.12);
-  }
 }
 
 .group {
@@ -28,7 +22,7 @@
   justify-content: center;
   border: none;
   background: transparent;
-  color: #aaa;
+  color: var(--creo-text-tertiary);
   border-radius: 6px;
   cursor: pointer;
   font-size: 13px;
@@ -36,49 +30,28 @@
   transition: all 0.15s;
 
   &:hover {
-    background: #333;
-    color: #fff;
-  }
-
-  :global([data-theme='light']) & {
-    color: #666;
-
-    &:hover {
-      background: #f0f0f0;
-      color: #222;
-    }
+    background: var(--creo-bg-hover);
+    color: var(--creo-text-primary);
   }
 }
 
 .btnActive {
-  background: var(--creo-color-primary, #1677ff);
+  background: var(--creo-color-primary);
   color: #fff;
 
   &:hover {
-    background: var(--creo-color-primary, #1677ff);
+    background: var(--creo-color-primary);
     color: #fff;
     opacity: 0.9;
-  }
-
-  :global([data-theme='light']) & {
-    color: #fff;
-
-    &:hover {
-      color: #fff;
-    }
   }
 }
 
 .sep {
   width: 1px;
   height: 18px;
-  background: #444;
+  background: var(--creo-border-color);
   margin: 0 4px;
   flex-shrink: 0;
-
-  :global([data-theme='light']) & {
-    background: #e0e0e0;
-  }
 }
 
 .aiBtn {
@@ -103,10 +76,6 @@
   &:disabled {
     opacity: 0.5;
     cursor: not-allowed;
-  }
-
-  :global([data-theme='light']) & {
-    color: #7c3aed;
   }
 }
 

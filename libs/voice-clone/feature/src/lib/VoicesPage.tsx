@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import { useTranslation } from 'react-i18next';
-import { message, Spin, Empty, Modal } from 'antd';
+import { message, Spin, Empty, Modal } from '@creo/ui';
 import { PlusOutlined } from '@ant-design/icons';
 import { Button } from '@creo/ui';
 import { ContentCard } from '@creo/shell';

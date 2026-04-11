@@ -1,6 +1,6 @@
 import { useTranslation } from 'react-i18next';
 import { AudioOutlined, DeleteOutlined, CopyOutlined } from '@ant-design/icons';
-import { Popconfirm, message } from 'antd';
+import { Popconfirm, message } from '@creo/ui';
 import type { Voice } from '@creo/voice-clone-data-access';
 import styles from './VoiceCard.module.scss';
 
@@ -11,9 +11,9 @@ interface VoiceCardProps {
 }
 
 const statusColors: Record<string, string> = {
-  active: 'var(--creo-color-primary)',
-  deleting: 'var(--creo-color-accent)',
-  failed: 'var(--creo-color-danger)',
+  active: 'var(--creo-color-success)',
+  deleting: 'var(--creo-color-warning)',
+  failed: 'var(--creo-color-error)',
 };
 
 export function VoiceCard({ voice, onDelete, isDeleting }: VoiceCardProps) {

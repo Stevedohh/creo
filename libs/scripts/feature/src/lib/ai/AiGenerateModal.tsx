@@ -1,14 +1,12 @@
 import { useState } from 'react';
-import { Modal, Select, Input } from 'antd';
+import { Modal, Select, Input } from '@creo/ui';
 import { useTranslation } from 'react-i18next';
 import type { AiModel } from '@creo/scripts-data-access';
 import styles from './AiGenerateModal.module.scss';
 
 const MODEL_OPTIONS: { value: AiModel; label: string }[] = [
-  { value: 'sonnet', label: 'Claude Sonnet' },
-  { value: 'chatgpt', label: 'ChatGPT' },
-  { value: 'gemini', label: 'Gemini' },
   { value: 'grok', label: 'Grok' },
+  { value: 'chatgpt', label: 'ChatGPT' },
 ];
 
 interface AiGenerateModalProps {
@@ -20,7 +18,7 @@ interface AiGenerateModalProps {
 
 export function AiGenerateModal({ open, onClose, onGenerate, isStreaming }: AiGenerateModalProps) {
   const { t } = useTranslation();
-  const [model, setModel] = useState<AiModel>('sonnet');
+  const [model, setModel] = useState<AiModel>('grok');
   const [instruction, setInstruction] = useState('');
 
   const handleOk = () => {

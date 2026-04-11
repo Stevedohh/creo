@@ -1,0 +1,50 @@
+/* Resize handle for column headers */
+:global(.creo-resize-handle) {
+  position: absolute;
+  right: -5px;
+  bottom: 0;
+  top: 0;
+  width: 10px;
+  cursor: col-resize;
+  z-index: 1;
+
+  &::after {
+    content: '';
+    position: absolute;
+    right: 5px;
+    top: 25%;
+    bottom: 25%;
+    width: 1px;
+    background: rgba(233, 240, 245, 0.15);
+    transition: background 0.15s ease;
+  }
+
+  &:hover::after {
+    background: var(--creo-color-primary);
+  }
+}
+
+/* Override react-resizable default styles */
+:global(.react-resizable) {
+  position: relative;
+}
+
+:global(.react-resizable-handle) {
+  display: none;
+}
+
+/* Fix indeterminate checkbox — replace the broken square with a proper dash */
+:global(.ant-checkbox-indeterminate .ant-checkbox-inner::after) {
+  background-color: var(--creo-color-primary);
+  border-radius: 1px;
+  width: 8px;
+  height: 2px;
+  top: 50%;
+  inset-inline-start: 50%;
+  transform: translate(-50%, -50%) scale(1);
+}
+
+/* Pagination centered */
+:global(.ant-table-pagination) {
+  justify-content: center !important;
+}

@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { Form, Input, Button, Select, message } from 'antd';
+import { Form, Input, Button, Select, message } from '@creo/ui';
 import { MailOutlined, LockOutlined, UserOutlined } from '@ant-design/icons';
 import { Link } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';

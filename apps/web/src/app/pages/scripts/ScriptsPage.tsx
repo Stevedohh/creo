@@ -14,8 +14,8 @@ const mockScripts = [
 
 const statusColors: Record<string, string> = {
   draft: 'var(--creo-text-tertiary)',
-  in_progress: 'var(--creo-color-accent)',
-  completed: 'var(--creo-color-primary)',
+  in_progress: 'var(--creo-color-info)',
+  completed: 'var(--creo-color-success)',
 };
 
 export function ScriptsPage() {
