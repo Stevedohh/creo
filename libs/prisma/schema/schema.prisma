@@ -22,6 +22,7 @@ model User {
   scripts       Script[]
   projects      Project[]
   mediaAssets   MediaAsset[]
+  ingestJobs    IngestJob[]
 
   @@map("users")
 }
@@ -81,6 +82,28 @@ model ProjectAsset {
   @@id([projectId, assetId])
   @@index([assetId])
   @@map("project_assets")
+}
+
+model IngestJob {
+  id           String    @id @default(uuid())
+  userId       String    @map("user_id")
+  kind         String    // youtube
+  sourceUrl    String    @map("source_url")
+  title        String?
+  status       String    @default("queued") // queued | running | done | failed
+  progress     Int       @default(0)
+  assetId      String?   @map("asset_id")
+  errorMessage String?   @map("error_message")
+  startedAt    DateTime? @map("started_at")
+  finishedAt   DateTime? @map("finished_at")
+  createdAt    DateTime  @default(now()) @map("created_at")
+  updatedAt    DateTime  @updatedAt @map("updated_at")
+
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@index([userId])
+  @@index([status])
+  @@map("ingest_jobs")
 }
 
 model RefreshToken {

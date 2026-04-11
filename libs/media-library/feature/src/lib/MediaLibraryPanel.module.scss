@@ -170,3 +170,67 @@
   align-items: center;
   padding: var(--creo-space-xl) 0;
 }
+
+.youtubeRow {
+  display: flex;
+  gap: var(--creo-space-xs);
+  align-items: center;
+}
+
+.jobList {
+  display: flex;
+  flex-direction: column;
+  gap: var(--creo-space-xs);
+}
+
+.jobRow {
+  background: rgba(255, 255, 255, 0.04);
+  border: 1px solid rgba(255, 255, 255, 0.06);
+  border-radius: 6px;
+  padding: var(--creo-space-xs) var(--creo-space-sm);
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+
+  &[data-status='failed'] {
+    border-color: var(--creo-color-error, #f22a36);
+  }
+}
+
+.jobInfo {
+  display: flex;
+  justify-content: space-between;
+  gap: var(--creo-space-xs);
+  align-items: center;
+}
+
+.jobLabel {
+  font-size: 11px;
+  font-weight: 600;
+  color: var(--creo-color-text, #e8ecef);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  flex: 1;
+  min-width: 0;
+}
+
+.jobStatus {
+  font-size: 10px;
+  color: var(--creo-color-text-secondary, #9aa3ad);
+  white-space: nowrap;
+  flex-shrink: 0;
+}
+
+.jobProgress {
+  height: 3px;
+  background: rgba(255, 255, 255, 0.08);
+  border-radius: 2px;
+  overflow: hidden;
+}
+
+.jobProgressFill {
+  height: 100%;
+  background: var(--creo-color-primary);
+  transition: width 300ms ease-out;
+}

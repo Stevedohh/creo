@@ -1,13 +1,15 @@
-import { useRef, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import { useTranslation } from 'react-i18next';
-import { DeleteOutlined, UploadOutlined } from '@ant-design/icons';
-import { Button, Empty, Spin, useApp } from '@creo/ui';
+import { useQueryClient } from '@tanstack/react-query';
+import { DeleteOutlined, UploadOutlined, YoutubeOutlined } from '@ant-design/icons';
+import { Button, Empty, Input, Spin, useApp } from '@creo/ui';
 import {
   useDeleteMediaAsset,
   useMediaAssets,
   useUploadMediaAsset,
   type MediaAsset,
 } from '@creo/media-library-data-access';
+import { useIngestJobs, useIngestYoutube, type IngestJob } from '@creo/video-ingest-data-access';
 import { formatBytes, formatDuration } from './formatters';
 import styles from './MediaLibraryPanel.module.scss';
 
@@ -21,9 +23,32 @@ export function MediaLibraryPanel({ onAssetClick, compact }: MediaLibraryPanelPr
   const { data: assets, isLoading } = useMediaAssets();
   const { mutate: upload, isPending: isUploading } = useUploadMediaAsset();
   const { mutate: remove } = useDeleteMediaAsset();
+  const { mutate: ingestYoutube, isPending: isIngesting } = useIngestYoutube();
+  const { data: ingestJobs } = useIngestJobs();
   const { message, modal } = useApp();
   const fileInputRef = useRef<HTMLInputElement>(null);
   const [progressPct, setProgressPct] = useState<number | null>(null);
+  const [ytUrl, setYtUrl] = useState('');
+  const queryClient = useQueryClient();
+  const seenDoneJobIds = useRef<Set<string>>(new Set());
+
+  const activeIngestJobs = (ingestJobs ?? []).filter(
+    (j) => j.status === 'queued' || j.status === 'running',
+  );
+
+  // When an ingest job transitions to "done" the worker has already written
+  // a new MediaAsset row on the backend, but the media list query was cached
+  // before that. Watch for newly-done job ids and invalidate the media
+  // query once so the new card pops in without a full page reload.
+  useEffect(() => {
+    if (!ingestJobs) return;
+    const newlyDone = ingestJobs.filter(
+      (j) => j.status === 'done' && !seenDoneJobIds.current.has(j.id),
+    );
+    if (newlyDone.length === 0) return;
+    for (const job of newlyDone) seenDoneJobIds.current.add(job.id);
+    queryClient.invalidateQueries({ queryKey: ['media'] });
+  }, [ingestJobs, queryClient]);
 
   const handleUploadClick = () => fileInputRef.current?.click();
 
@@ -51,6 +76,25 @@ export function MediaLibraryPanel({ onAssetClick, compact }: MediaLibraryPanelPr
         },
       },
     );
+  };
+
+  const handleYoutubeSubmit = () => {
+    const trimmed = ytUrl.trim();
+    if (!trimmed) return;
+    ingestYoutube(trimmed, {
+      onSuccess: () => {
+        setYtUrl('');
+        message.success(t('media.ingestQueued'));
+      },
+      onError: (err: unknown) => {
+        const msg =
+          err && typeof err === 'object' && 'response' in err
+            ? ((err as { response?: { data?: { message?: string } } }).response?.data?.message ??
+              t('media.ingestError'))
+            : t('media.ingestError');
+        message.error(msg);
+      },
+    });
   };
 
   const handleDelete = (asset: MediaAsset) => {
@@ -101,6 +145,35 @@ export function MediaLibraryPanel({ onAssetClick, compact }: MediaLibraryPanelPr
         </div>
       )}
 
+      <div className={styles.youtubeRow}>
+        <Input
+          placeholder={t('media.youtubePlaceholder')}
+          value={ytUrl}
+          onChange={(e) => setYtUrl(e.target.value)}
+          onPressEnter={handleYoutubeSubmit}
+          prefix={<YoutubeOutlined />}
+          size="small"
+          allowClear
+          disabled={isIngesting}
+        />
+        <Button
+          onClick={handleYoutubeSubmit}
+          loading={isIngesting}
+          disabled={!ytUrl.trim()}
+          size="small"
+        >
+          {t('media.ingest')}
+        </Button>
+      </div>
+
+      {activeIngestJobs.length > 0 && (
+        <div className={styles.jobList}>
+          {activeIngestJobs.map((job) => (
+            <IngestJobRow key={job.id} job={job} />
+          ))}
+        </div>
+      )}
+
       {isLoading ? (
         <div className={styles.loading}>
           <Spin />
@@ -120,6 +193,41 @@ export function MediaLibraryPanel({ onAssetClick, compact }: MediaLibraryPanelPr
       ) : (
         <Empty description={t('media.empty')} />
       )}
+    </div>
+  );
+}
+
+interface IngestJobRowProps {
+  job: IngestJob;
+}
+
+function IngestJobRow({ job }: IngestJobRowProps) {
+  const { t } = useTranslation();
+  const label =
+    job.title ??
+    job.sourceUrl.replace(/^https?:\/\/(www\.)?/, '').slice(0, 40);
+  const statusLabel =
+    job.status === 'queued'
+      ? t('media.ingestStatusQueued')
+      : job.status === 'running'
+        ? `${t('media.ingestStatusRunning')} ${job.progress}%`
+        : job.status === 'done'
+          ? t('media.ingestStatusDone')
+          : t('media.ingestStatusFailed');
+  return (
+    <div className={styles.jobRow} data-status={job.status}>
+      <div className={styles.jobInfo}>
+        <div className={styles.jobLabel} title={job.sourceUrl}>
+          {label}
+        </div>
+        <div className={styles.jobStatus}>{statusLabel}</div>
+      </div>
+      <div className={styles.jobProgress}>
+        <div
+          className={styles.jobProgressFill}
+          style={{ width: `${Math.max(5, job.progress)}%` }}
+        />
+      </div>
     </div>
   );
 }

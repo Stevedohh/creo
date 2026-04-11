@@ -29,7 +29,15 @@
     "noUrl": "У ресурсу немає URL для відтворення",
     "onlyVideoForNow": "Поки що на таймлайн можна додавати лише відео",
     "addedToTimeline": "Додано на таймлайн",
-    "addFailed": "Не вдалося додати на таймлайн"
+    "addFailed": "Не вдалося додати на таймлайн",
+    "youtubePlaceholder": "Вставте посилання YouTube...",
+    "ingest": "Імпорт",
+    "ingestQueued": "Додано в чергу",
+    "ingestError": "Не вдалося почати імпорт",
+    "ingestStatusQueued": "У черзі",
+    "ingestStatusRunning": "Завантаження",
+    "ingestStatusDone": "Готово",
+    "ingestStatusFailed": "Помилка"
   },
   "projects": {
     "title": "Проекти",

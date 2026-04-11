@@ -69,7 +69,15 @@
     "noUrl": "Asset has no playback URL",
     "onlyVideoForNow": "Only video assets can be added to the timeline (yet)",
     "addedToTimeline": "Added to timeline",
-    "addFailed": "Could not add to timeline"
+    "addFailed": "Could not add to timeline",
+    "youtubePlaceholder": "Paste YouTube link...",
+    "ingest": "Import",
+    "ingestQueued": "Queued for download",
+    "ingestError": "Could not start import",
+    "ingestStatusQueued": "Queued",
+    "ingestStatusRunning": "Downloading",
+    "ingestStatusDone": "Done",
+    "ingestStatusFailed": "Failed"
   },
   "projects": {
     "title": "Projects",
