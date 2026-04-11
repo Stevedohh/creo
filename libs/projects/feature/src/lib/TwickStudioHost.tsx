@@ -17,16 +17,29 @@ import {
 import { useUpdateProjectTimeline } from '@creo/projects-data-access';
 import { AnalysisPanel } from '@creo/video-analysis-feature';
 import { CreoMediaPanel } from './CreoMediaPanel';
+import { exportTimeline, type ExportTimelineResult } from './exportTimeline';
 import '@twick/studio/dist/studio.css';
 import '@twick/video-editor/dist/video-editor.css';
 import styles from './TwickStudioHost.module.scss';
 
 export type SaveStatus = 'idle' | 'saving' | 'saved' | 'error';
 
+export interface ExportHandle {
+  export: (
+    onProgress?: (pct: number) => void,
+  ) => Promise<ExportTimelineResult>;
+}
+
 export interface TwickStudioHostProps {
   projectId: string;
   initialTimeline: ProjectTimeline;
   onStatusChange?: (status: SaveStatus) => void;
+  /**
+   * Ref populated by TwickStudioHost with an imperative export handle once
+   * Twick has mounted. The editor page's Export button calls this so the
+   * renderer has access to the live player and canvas inside TimelineProvider.
+   */
+  exportHandleRef?: { current: ExportHandle | null };
 }
 
 const AUTOSAVE_DEBOUNCE_MS = 800;
@@ -38,6 +51,7 @@ export function TwickStudioHost({
   projectId,
   initialTimeline,
   onStatusChange,
+  exportHandleRef,
 }: TwickStudioHostProps) {
   const initialTwick = toTwickProjectJson<Parameters<typeof TimelineProvider>[0]['initialData']>(
     initialTimeline,
@@ -88,6 +102,7 @@ export function TwickStudioHost({
         >
           <LivePlayerProvider>
             <AutoSaveBridge projectId={projectId} onStatusChange={onStatusChange} />
+            <ExportBridge handleRef={exportHandleRef} />
             <TwickStudio studioConfig={studioConfig} />
           </LivePlayerProvider>
         </TimelineProvider>
@@ -210,6 +225,71 @@ function AutoSaveBridge({ projectId, onStatusChange }: AutoSaveBridgeProps) {
       flushNow();
     };
   }, [projectId]);
+
+  return null;
+}
+
+/**
+ * Populates the parent's `exportHandleRef` with an imperative handle that
+ * can drive the Twick player via useTimelineContext + useLivePlayerContext.
+ * The editor page's Export button calls this handle to render.
+ *
+ * Must live inside both TimelineProvider (for timeline duration) and
+ * LivePlayerProvider (for the actual canvas playback we capture).
+ */
+function ExportBridge({
+  handleRef,
+}: {
+  handleRef?: { current: ExportHandle | null };
+}) {
+  const { present, totalDuration } = useTimelineContext();
+  const presentRef = useRef(present);
+  const durationRef = useRef(totalDuration);
+  presentRef.current = present;
+  durationRef.current = totalDuration;
+
+  useEffect(() => {
+    if (!handleRef) return;
+    handleRef.current = {
+      export: async (onProgress) => {
+        const durationSeconds = durationRef.current || 0;
+        if (durationSeconds <= 0) {
+          return {
+            ok: false,
+            message: 'Timeline is empty — nothing to export.',
+          };
+        }
+        const durationMs = Math.round(durationSeconds * 1000);
+
+        // Reset the player to 0 and start playback. The library's playback
+        // surface is an HTML5 `<video>` (via twick-player webcomponent),
+        // but the easiest way to trigger "play from start" without
+        // reaching into private internals is to click the DOM Play button.
+        const playButton = document.querySelector<HTMLButtonElement>(
+          '.studio-container button[title="Play"]',
+        );
+        const jumpStart = document.querySelector<HTMLButtonElement>(
+          '.studio-container button[title="Jump to start"]',
+        );
+
+        return exportTimeline({
+          durationMs,
+          filename: `creo-export-${Date.now()}.webm`,
+          fps: 30,
+          onProgress: (elapsedMs) =>
+            onProgress?.(Math.min(100, (elapsedMs / durationMs) * 100)),
+          drive: async () => {
+            jumpStart?.click();
+            await new Promise((r) => setTimeout(r, 150));
+            playButton?.click();
+          },
+        });
+      },
+    };
+    return () => {
+      if (handleRef) handleRef.current = null;
+    };
+  }, [handleRef]);
 
   return null;
 }

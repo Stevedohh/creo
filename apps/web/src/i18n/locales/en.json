@@ -134,7 +134,12 @@
   "editor": {
     "saving": "Saving...",
     "saved": "Saved",
-    "saveError": "Save failed"
+    "saveError": "Save failed",
+    "export": "Export",
+    "exporting": "Recording...",
+    "exportDone": "Export ready",
+    "exportFailed": "Export failed",
+    "exportNotReady": "Editor not ready yet, try again in a moment"
   },
   "scripts": {
     "title": "Scripts",

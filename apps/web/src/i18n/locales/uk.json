@@ -89,7 +89,12 @@
   "editor": {
     "saving": "Збереження...",
     "saved": "Збережено",
-    "saveError": "Помилка збереження"
+    "saveError": "Помилка збереження",
+    "export": "Експорт",
+    "exporting": "Запис...",
+    "exportDone": "Експорт готовий",
+    "exportFailed": "Помилка експорту",
+    "exportNotReady": "Редактор ще не готовий, спробуйте за мить"
   },
   "dashboard": {
     "title": "Дашборд",

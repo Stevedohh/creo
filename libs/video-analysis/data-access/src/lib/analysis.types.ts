@@ -6,6 +6,7 @@ export interface AnalysisShot {
   startMs: number;
   endMs: number;
   thumbnailKey: string | null;
+  thumbnailUrl: string | null;
 }
 
 export interface AnalysisTranscriptSegment {
