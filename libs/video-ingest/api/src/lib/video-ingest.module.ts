@@ -1,6 +1,7 @@
 import { Module } from '@nestjs/common';
 import { BullModule } from '@nestjs/bullmq';
 import { StorageModule } from '@creo/storage-api';
+import { VideoAnalysisModule } from '@creo/video-analysis-api';
 import { VideoIngestController } from './video-ingest.controller';
 import { VideoIngestService } from './video-ingest.service';
 import { YoutubeIngestProcessor } from './youtube-ingest.processor';
@@ -9,6 +10,7 @@ import { YOUTUBE_INGEST_QUEUE } from './youtube-ingest.constants';
 @Module({
   imports: [
     StorageModule,
+    VideoAnalysisModule,
     BullModule.registerQueue({
       name: YOUTUBE_INGEST_QUEUE,
       defaultJobOptions: {

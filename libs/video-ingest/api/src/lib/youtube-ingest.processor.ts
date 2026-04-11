@@ -3,6 +3,7 @@ import { Logger } from '@nestjs/common';
 import type { Job } from 'bullmq';
 import { PrismaService } from '@creo/prisma';
 import { StorageService } from '@creo/storage-api';
+import { VideoAnalysisService } from '@creo/video-analysis-api';
 import { spawn } from 'node:child_process';
 import { mkdtemp, rm, stat } from 'node:fs/promises';
 import { createReadStream } from 'node:fs';
@@ -39,6 +40,7 @@ export class YoutubeIngestProcessor extends WorkerHost {
   constructor(
     private readonly prisma: PrismaService,
     private readonly storage: StorageService,
+    private readonly analysis: VideoAnalysisService,
   ) {
     super();
   }
@@ -131,6 +133,9 @@ export class YoutubeIngestProcessor extends WorkerHost {
         where: { id: assetId },
         data: { status: 'ready' },
       });
+
+      // Fire-and-forget scene/transcript/face analysis for this new asset.
+      void this.analysis.enqueueSilently(assetId);
 
       await this.prisma.ingestJob.update({
         where: { id: ingestJobId },

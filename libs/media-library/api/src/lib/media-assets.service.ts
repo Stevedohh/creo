@@ -6,6 +6,7 @@ import {
 } from '@nestjs/common';
 import { PrismaService } from '@creo/prisma';
 import { StorageService } from '@creo/storage-api';
+import { VideoAnalysisService } from '@creo/video-analysis-api';
 import { randomUUID } from 'node:crypto';
 import { extname } from 'node:path';
 import { FfprobeService } from './ffprobe.service';
@@ -22,6 +23,7 @@ export class MediaAssetsService {
     private readonly prisma: PrismaService,
     private readonly storage: StorageService,
     private readonly ffprobe: FfprobeService,
+    private readonly analysis: VideoAnalysisService,
   ) {}
 
   async initUpload(userId: string, dto: UploadInitDto) {
@@ -103,6 +105,11 @@ export class MediaAssetsService {
       `Asset ${id} ready: ${head.bytes} bytes, duration=${durationMs ?? '?'}ms`,
     );
 
+    // Fire-and-forget: kick off scene/transcript/face analysis in the
+    // background. Failures don't block the upload flow — the asset is
+    // already usable, analysis is an enrichment.
+    void this.analysis.enqueueSilently(id);
+
     return this.toDto(updated);
   }
 
@@ -152,6 +159,8 @@ export class MediaAssetsService {
     thumbnailKey: string | null;
     status: string;
     errorMessage: string | null;
+    analysisStatus: string;
+    analysisError: string | null;
     createdAt: Date;
     updatedAt: Date;
   }) {
@@ -173,6 +182,8 @@ export class MediaAssetsService {
       mimeType: asset.mimeType,
       status: asset.status,
       errorMessage: asset.errorMessage,
+      analysisStatus: asset.analysisStatus,
+      analysisError: asset.analysisError,
       url,
       createdAt: asset.createdAt.toISOString(),
       updatedAt: asset.updatedAt.toISOString(),

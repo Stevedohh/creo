@@ -15,6 +15,7 @@ import {
   type ProjectTimeline,
 } from '@creo/projects-schema';
 import { useUpdateProjectTimeline } from '@creo/projects-data-access';
+import { AnalysisPanel } from '@creo/video-analysis-feature';
 import { CreoMediaPanel } from './CreoMediaPanel';
 import '@twick/studio/dist/studio.css';
 import '@twick/video-editor/dist/video-editor.css';
@@ -31,6 +32,7 @@ export interface TwickStudioHostProps {
 const AUTOSAVE_DEBOUNCE_MS = 800;
 
 const CREO_MEDIA_TOOL_ID = 'creo-media';
+const CREO_ANALYSIS_TOOL_ID = 'creo-analysis';
 
 export function TwickStudioHost({
   projectId,
@@ -57,14 +59,19 @@ export function TwickStudioHost({
           icon: 'Library',
           description: 'Your uploads',
         },
+        {
+          id: CREO_ANALYSIS_TOOL_ID,
+          name: 'Analysis',
+          icon: 'Sparkles',
+          description: 'Scenes, faces, transcript',
+        },
       ],
-      // Register our panel under BOTH our custom id AND Twick's built-in
-      // "video" id. The video tool is hidden from the rail via `hiddenTools`,
-      // but Twick still defaults `selectedTool` to "video" on first mount,
-      // which would show Twick's demo Pexels library for a flash. Routing
-      // that selection to our panel gives a seamless first-paint.
+      // Register our panels under our custom ids. Also map "video" →
+      // CreoMediaPanel so Twick's initial selectedTool=video shows our
+      // media panel instead of a flash of the (hidden) default.
       customPanels: {
         [CREO_MEDIA_TOOL_ID]: CreoMediaPanel,
+        [CREO_ANALYSIS_TOOL_ID]: AnalysisPanel as never,
         video: CreoMediaPanel,
       },
     }),

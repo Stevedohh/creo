@@ -20,6 +20,7 @@ module.exports = {
       '@creo/projects-schema': join(__dirname, '../../libs/projects/schema/src/index.ts'),
       '@creo/media-library-api': join(__dirname, '../../libs/media-library/api/src/index.ts'),
       '@creo/video-ingest-api': join(__dirname, '../../libs/video-ingest/api/src/index.ts'),
+      '@creo/video-analysis-api': join(__dirname, '../../libs/video-analysis/api/src/index.ts'),
     },
   },
   externals: [

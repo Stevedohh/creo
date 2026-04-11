@@ -101,11 +101,12 @@
   :global([title='Image']) { order: 1; }
   :global([title='Audio']) { order: 2; }
   :global([title='Media']) { order: 3; }
-  :global([title='Text']) { order: 4; }
-  :global([title='Emoji']) { order: 5; }
-  :global([title='Text Style']) { order: 6; }
-  :global([title='Effect']) { order: 7; }
-  :global([title='Shape']) { order: 8; }
-  :global([title='Caption']) { order: 9; }
-  :global([title='Generate']) { order: 10; }
+  :global([title='Analysis']) { order: 4; }
+  :global([title='Text']) { order: 5; }
+  :global([title='Emoji']) { order: 6; }
+  :global([title='Text Style']) { order: 7; }
+  :global([title='Effect']) { order: 8; }
+  :global([title='Shape']) { order: 9; }
+  :global([title='Caption']) { order: 10; }
+  :global([title='Generate']) { order: 11; }
 }

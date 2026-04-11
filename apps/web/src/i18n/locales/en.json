@@ -79,6 +79,35 @@
     "ingestStatusDone": "Done",
     "ingestStatusFailed": "Failed"
   },
+  "analysis": {
+    "title": "Analysis",
+    "empty": "No videos to analyze yet. Upload one first.",
+    "run": "Analyze",
+    "view": "View",
+    "queued": "Analysis queued",
+    "queueError": "Could not queue analysis",
+    "statusNone": "Not analyzed",
+    "statusQueued": "Queued",
+    "statusRunning": "Analyzing...",
+    "statusDone": "Analyzed",
+    "statusFailed": "Failed",
+    "shotsTitle": "Shots ({{count}})",
+    "shotsEmpty": "No shots detected yet",
+    "facesTitle": "Faces ({{count}})",
+    "facesEmpty": "No faces detected yet",
+    "transcriptTitle": "Transcript ({{count}})",
+    "transcriptEmpty": "Transcript is disabled. Set WHISPER_MODEL=base to enable.",
+    "samplesWithFaces": "Samples",
+    "maxFaces": "Max faces",
+    "totalFaceTime": "Face time",
+    "stripShots": "Shots",
+    "stripFaces": "Faces"
+  },
+  "common": {
+    "edit": "Edit",
+    "delete": "Delete",
+    "back": "Back"
+  },
   "projects": {
     "title": "Projects",
     "subtitle": "Your video projects",

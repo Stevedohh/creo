@@ -1,0 +1,134 @@
+.panel {
+  display: flex;
+  flex-direction: column;
+  gap: var(--creo-space-md);
+  width: 100%;
+  min-height: 0;
+  height: 100%;
+  overflow: hidden;
+}
+
+.header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.title {
+  margin: 0;
+  font-size: 14px;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.4px;
+  color: var(--creo-color-text-secondary, #9aa3ad);
+}
+
+.grid {
+  display: flex;
+  flex-direction: column;
+  gap: var(--creo-space-sm);
+  overflow-y: auto;
+  min-height: 0;
+}
+
+.card {
+  background: rgba(255, 255, 255, 0.04);
+  border: 1px solid rgba(255, 255, 255, 0.06);
+  border-radius: 8px;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+
+  &[data-status='done'] {
+    border-color: rgba(47, 188, 91, 0.35);
+  }
+  &[data-status='failed'] {
+    border-color: rgba(242, 42, 54, 0.4);
+  }
+  &[data-status='running'],
+  &[data-status='queued'] {
+    border-color: rgba(47, 188, 91, 0.6);
+  }
+}
+
+.thumb {
+  aspect-ratio: 16 / 9;
+  background: #000;
+  cursor: pointer;
+  overflow: hidden;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  video {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+}
+
+.placeholder {
+  color: rgba(255, 255, 255, 0.35);
+  font-size: 12px;
+  font-weight: 600;
+}
+
+.meta {
+  padding: var(--creo-space-xs) var(--creo-space-sm);
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.name {
+  font-size: 12px;
+  font-weight: 600;
+  color: var(--creo-color-text, #e8ecef);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.statusRow {
+  display: flex;
+  align-items: center;
+}
+
+.statusBadge {
+  font-size: 10px;
+  font-weight: 600;
+  padding: 2px 6px;
+  border-radius: 3px;
+  text-transform: uppercase;
+  letter-spacing: 0.3px;
+
+  &[data-status='none'] {
+    background: rgba(255, 255, 255, 0.06);
+    color: rgba(255, 255, 255, 0.5);
+  }
+  &[data-status='queued'],
+  &[data-status='running'] {
+    background: rgba(47, 188, 91, 0.18);
+    color: var(--creo-color-primary, #2fbc5b);
+  }
+  &[data-status='done'] {
+    background: rgba(47, 188, 91, 0.24);
+    color: var(--creo-color-primary, #2fbc5b);
+  }
+  &[data-status='failed'] {
+    background: rgba(242, 42, 54, 0.22);
+    color: var(--creo-color-error, #f22a36);
+  }
+}
+
+.actions {
+  display: flex;
+  gap: var(--creo-space-xs);
+  padding: 0 var(--creo-space-sm) var(--creo-space-xs);
+}
+
+.loading {
+  display: flex;
+  justify-content: center;
+  padding: var(--creo-space-xl) 0;
+}

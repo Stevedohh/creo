@@ -64,11 +64,62 @@ model MediaAsset {
   createdAt    DateTime @default(now()) @map("created_at")
   updatedAt    DateTime @updatedAt @map("updated_at")
 
-  user     User           @relation(fields: [userId], references: [id], onDelete: Cascade)
-  projects ProjectAsset[]
+  analysisStatus String  @default("none") @map("analysis_status") // none | queued | running | done | failed
+  analysisError  String? @map("analysis_error")
+
+  user       User                @relation(fields: [userId], references: [id], onDelete: Cascade)
+  projects   ProjectAsset[]
+  shots      Shot[]
+  transcript TranscriptSegment[]
+  faces      FaceDetection[]
 
   @@index([userId])
   @@map("media_assets")
+}
+
+model Shot {
+  id           String  @id @default(uuid())
+  assetId      String  @map("asset_id")
+  startMs      Int     @map("start_ms")
+  endMs        Int     @map("end_ms")
+  index        Int
+  thumbnailKey String? @map("thumbnail_key")
+
+  asset MediaAsset @relation(fields: [assetId], references: [id], onDelete: Cascade)
+
+  @@index([assetId])
+  @@map("shots")
+}
+
+model TranscriptSegment {
+  id      String  @id @default(uuid())
+  assetId String  @map("asset_id")
+  startMs Int     @map("start_ms")
+  endMs   Int     @map("end_ms")
+  text    String  @db.Text
+  index   Int
+
+  asset MediaAsset @relation(fields: [assetId], references: [id], onDelete: Cascade)
+
+  @@index([assetId])
+  @@map("transcript_segments")
+}
+
+model FaceDetection {
+  id        String @id @default(uuid())
+  assetId   String @map("asset_id")
+  startMs   Int    @map("start_ms")
+  endMs     Int    @map("end_ms")
+  faceCount Int    @default(1) @map("face_count")
+  bboxX     Float  @map("bbox_x")
+  bboxY     Float  @map("bbox_y")
+  bboxW     Float  @map("bbox_w")
+  bboxH     Float  @map("bbox_h")
+
+  asset MediaAsset @relation(fields: [assetId], references: [id], onDelete: Cascade)
+
+  @@index([assetId])
+  @@map("face_detections")
 }
 
 model ProjectAsset {

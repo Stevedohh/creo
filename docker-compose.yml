@@ -89,6 +89,7 @@ services:
       S3_SECRET_ACCESS_KEY: ${S3_SECRET_ACCESS_KEY:-minioadmin}
       S3_FORCE_PATH_STYLE: 'true'
       S3_PRESIGNED_TTL: '604800'
+      AI_WORKER_URL: http://ai-worker:8000
     volumes:
       - .:/app
     command: sh -c "apk add --no-cache ffmpeg python3 py3-pip && pip3 install --no-cache-dir --break-system-packages yt-dlp && npx nx serve api"
@@ -99,6 +100,25 @@ services:
         condition: service_healthy
       minio:
         condition: service_healthy
+
+  ai-worker:
+    build:
+      context: ./apps/ai-worker
+    container_name: creo-ai-worker
+    restart: unless-stopped
+    ports:
+      - '${AI_WORKER_PORT:-8000}:8000'
+    environment:
+      WHISPER_MODEL: ${WHISPER_MODEL:-none}
+      WHISPER_COMPUTE_TYPE: ${WHISPER_COMPUTE_TYPE:-int8}
+    volumes:
+      - ai-worker-cache:/root/.cache
+    healthcheck:
+      test: ['CMD', 'python', '-c', "import urllib.request; urllib.request.urlopen('http://localhost:8000/healthz').read()"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+      start_period: 60s
 
   web:
     image: node:20-alpine
@@ -121,3 +141,4 @@ volumes:
   pgdata:
   redisdata:
   miniodata:
+  ai-worker-cache:

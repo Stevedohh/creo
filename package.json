@@ -78,6 +78,7 @@
     "libs/projects/*",
     "libs/media-library/*",
     "libs/video-ingest/*",
+    "libs/video-analysis/*",
     "libs/prisma"
   ],
   "dependencies": {

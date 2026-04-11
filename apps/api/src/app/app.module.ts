@@ -9,6 +9,7 @@ import { ScriptsModule } from '@creo/scripts-api';
 import { ProjectsModule } from '@creo/projects-api';
 import { MediaLibraryModule } from '@creo/media-library-api';
 import { VideoIngestModule } from '@creo/video-ingest-api';
+import { VideoAnalysisModule } from '@creo/video-analysis-api';
 import { PrismaModule } from '@creo/prisma';
 import { StorageModule } from '@creo/storage-api';
 import { AuthModule, JwtAuthGuard } from '@creo/auth-api';
@@ -31,6 +32,7 @@ import { AuthModule, JwtAuthGuard } from '@creo/auth-api';
     ProjectsModule,
     MediaLibraryModule,
     VideoIngestModule,
+    VideoAnalysisModule,
   ],
   controllers: [AppController],
   providers: [

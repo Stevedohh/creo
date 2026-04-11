@@ -16,6 +16,8 @@ export interface MediaAsset {
   status: MediaAssetStatus;
   errorMessage: string | null;
   url: string | null;
+  analysisStatus?: 'none' | 'queued' | 'running' | 'done' | 'failed';
+  analysisError?: string | null;
   createdAt: string;
   updatedAt: string;
 }
