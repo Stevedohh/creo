@@ -1,0 +1,32 @@
+.wrapper {
+  display: inline-flex;
+  align-items: center;
+}
+
+.presetLabel {
+  font-weight: 500;
+}
+
+.menuItem {
+  display: flex;
+  flex-direction: column;
+  padding: 4px 0;
+  min-width: 220px;
+}
+
+.menuLabel {
+  font-weight: 600;
+}
+
+.menuDescription {
+  font-size: 12px;
+  color: rgba(0, 0, 0, 0.55);
+}
+
+.progressBar {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin-top: 8px;
+  width: 360px;
+}

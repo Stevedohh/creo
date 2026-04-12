@@ -8,7 +8,7 @@ import { AnalysisDetail } from './AnalysisDetail';
 import styles from './AnalysisPanel.module.scss';
 
 /**
- * Custom Twick tool panel "creo-analysis". Mirrors the MediaLibraryPanel
+ * Analysis panel for video assets. Mirrors the MediaLibraryPanel
  * layout: grid of user-owned video assets, but each card surfaces the
  * current analysis status and a click opens a detail view with shots,
  * faces, and transcript segments. Designed to live in the left rail next

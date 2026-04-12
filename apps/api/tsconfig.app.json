@@ -18,7 +18,8 @@
       "@creo/projects-schema": ["../../libs/projects/schema/src/index.ts"],
       "@creo/media-library-api": ["../../libs/media-library/api/src/index.ts"],
       "@creo/video-ingest-api": ["../../libs/video-ingest/api/src/index.ts"],
-      "@creo/video-analysis-api": ["../../libs/video-analysis/api/src/index.ts"]
+      "@creo/video-analysis-api": ["../../libs/video-analysis/api/src/index.ts"],
+      "@creo/video-render-api": ["../../libs/video-render/api/src/index.ts"]
     }
   },
   "include": [
@@ -32,7 +33,8 @@
     "../../libs/projects/schema/src/**/*.ts",
     "../../libs/media-library/api/src/**/*.ts",
     "../../libs/video-ingest/api/src/**/*.ts",
-    "../../libs/video-analysis/api/src/**/*.ts"
+    "../../libs/video-analysis/api/src/**/*.ts",
+    "../../libs/video-render/api/src/**/*.ts"
   ],
   "exclude": [
     "../../libs/voice-clone/api/dist/**/*",
@@ -44,7 +46,8 @@
     "../../libs/projects/schema/dist/**/*",
     "../../libs/media-library/api/dist/**/*",
     "../../libs/video-ingest/api/dist/**/*",
-    "../../libs/video-analysis/api/dist/**/*"
+    "../../libs/video-analysis/api/dist/**/*",
+    "../../libs/video-render/api/dist/**/*"
   ],
   "references": [
     {
@@ -73,6 +76,9 @@
     },
     {
       "path": "../../libs/video-analysis/api/tsconfig.lib.json"
+    },
+    {
+      "path": "../../libs/video-render/api/tsconfig.lib.json"
     }
   ]
 }

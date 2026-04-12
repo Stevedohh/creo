@@ -1,0 +1,51 @@
+.ruler {
+  position: relative;
+  height: 32px;
+  flex-shrink: 0;
+  background: var(--creo-bg-elevated);
+  border-bottom: 1px solid var(--creo-border-color-secondary);
+  cursor: pointer;
+  user-select: none;
+  touch-action: none;
+  font-family: ui-monospace, SFMono-Regular, Menlo, monospace;
+  font-size: 10px;
+  color: var(--creo-text-tertiary);
+}
+
+.tick {
+  position: absolute;
+  left: 0;
+  top: 0;
+  bottom: 0;
+  width: 1px;
+  pointer-events: none;
+  will-change: transform;
+}
+
+.major {
+  background: var(--creo-border-color);
+
+  .label {
+    position: absolute;
+    top: 4px;
+    left: 4px;
+    white-space: nowrap;
+  }
+}
+
+.minor {
+  background: var(--creo-border-color-secondary);
+  bottom: 22px;
+}
+
+.playheadLine {
+  position: absolute;
+  left: 0;
+  top: 0;
+  bottom: 0;
+  width: 2px;
+  background: #ff4d4f;
+  pointer-events: none;
+  z-index: 10;
+  will-change: transform;
+}

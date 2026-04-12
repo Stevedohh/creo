@@ -121,6 +121,11 @@ export const creoDarkTheme: ThemeConfig = {
     },
     Form: { labelColor: 'rgba(233, 240, 245, 0.65)' },
     Card: { colorBgContainer: '#09131a', borderRadiusLG: 16 },
+    Tooltip: { colorBgSpotlight: '#1a2530', colorTextLightSolid: '#e9f0f5' },
+    Popover: { colorBgElevated: '#0f1920' },
+    Dropdown: { colorBgElevated: '#0f1920' },
+    Select: { optionSelectedBg: '#0f2418' },
+    Modal: { contentBg: '#0f1920', headerBg: '#0f1920' },
   },
 };
 

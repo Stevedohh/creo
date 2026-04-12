@@ -79,6 +79,8 @@
     "libs/media-library/*",
     "libs/video-ingest/*",
     "libs/video-analysis/*",
+    "libs/video-render/*",
+    "libs/video-player/*",
     "libs/prisma"
   ],
   "dependencies": {
@@ -86,6 +88,8 @@
     "@aws-sdk/client-s3": "^3.1029.0",
     "@aws-sdk/lib-storage": "^3.1029.0",
     "@aws-sdk/s3-request-presigner": "^3.1029.0",
+    "@dnd-kit/core": "^6.3.1",
+    "@dnd-kit/sortable": "^10.0.0",
     "@nestjs/bullmq": "^11.0.4",
     "@nestjs/common": "^11.0.0",
     "@nestjs/config": "^4.0.3",
@@ -95,11 +99,10 @@
     "@nestjs/platform-express": "^11.0.0",
     "@prisma/adapter-pg": "^7.6.0",
     "@prisma/client": "^7.6.0",
+    "@remotion/bundler": "^4.0.448",
+    "@remotion/player": "^4.0.448",
+    "@remotion/renderer": "^4.0.448",
     "@tanstack/react-query": "^5.96.2",
-    "@twick/live-player": "^0.15.28",
-    "@twick/studio": "^0.15.28",
-    "@twick/timeline": "^0.15.28",
-    "zod": "^3.23.8",
     "@tiptap/extension-bubble-menu": "^3.22.3",
     "@tiptap/extension-placeholder": "^3.22.3",
     "@tiptap/extension-underline": "^3.22.3",
@@ -117,6 +120,7 @@
     "diff": "^8.0.4",
     "form-data": "^4.0.5",
     "i18next": "^26.0.3",
+    "immer": "^11.1.4",
     "ioredis": "^5.10.1",
     "marked": "^18.0.0",
     "passport": "^0.7.0",
@@ -128,8 +132,11 @@
     "react-resizable": "^3.1.3",
     "react-router-dom": "^7.14.0",
     "reflect-metadata": "^0.1.13",
+    "remotion": "^4.0.448",
     "rxjs": "^7.8.0",
     "tar": "^7.5.13",
-    "wavesurfer.js": "^7.12.6"
+    "wavesurfer.js": "^7.12.6",
+    "zod": "^3.23.8",
+    "zustand": "^5.0.12"
   }
 }

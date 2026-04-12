@@ -1,0 +1,26 @@
+{
+  "name": "@creo/video-player-remotion-bundle",
+  "version": "0.0.1",
+  "type": "module",
+  "main": "./dist/index.js",
+  "module": "./dist/index.js",
+  "types": "./dist/index.d.ts",
+  "exports": {
+    "./package.json": "./package.json",
+    ".": {
+      "@creo/source": "./src/index.ts",
+      "types": "./dist/index.d.ts",
+      "import": "./dist/index.js",
+      "default": "./dist/index.js"
+    },
+    "./register": {
+      "@creo/source": "./src/lib/register.ts",
+      "default": "./src/lib/register.ts"
+    }
+  },
+  "dependencies": {
+    "remotion": "*",
+    "@creo/video-player-data-access": "*",
+    "@creo/video-player-feature": "*"
+  }
+}

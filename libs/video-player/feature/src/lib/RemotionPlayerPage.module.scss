@@ -1,0 +1,172 @@
+.page {
+  display: grid;
+  grid-template-columns: 280px minmax(0, 1fr) 300px;
+  height: 100%;
+  min-height: 600px;
+  gap: 0;
+  background: var(--creo-bg-base);
+  color: var(--creo-text-primary);
+  border-radius: 10px;
+  overflow: hidden;
+  box-shadow: var(--creo-shadow-lg);
+}
+
+.main {
+  display: grid;
+  grid-template-rows: minmax(260px, 1fr) auto minmax(220px, 0.6fr);
+  min-width: 0;
+  min-height: 0;
+  background: var(--creo-bg-base);
+}
+
+.playerWrapper {
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 16px 20px;
+  background: var(--creo-bg-container);
+  min-height: 0;
+  min-width: 0;
+  overflow: hidden;
+}
+
+.playerInner {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  min-width: 0;
+  min-height: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 8px;
+  overflow: hidden;
+  box-shadow: var(--creo-shadow-md);
+  background: #000;
+}
+
+.player {
+  width: 100% !important;
+  height: 100% !important;
+  display: block !important;
+  background: #050505;
+}
+
+.playerStatusOverlay {
+  position: absolute;
+  top: 8px;
+  right: 8px;
+  display: flex;
+  gap: 10px;
+  padding: 4px 10px;
+  background: rgba(0, 0, 0, 0.5);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  border-radius: 6px;
+  font-family: ui-monospace, SFMono-Regular, Menlo, monospace;
+  font-size: 10px;
+  color: rgba(255, 255, 255, 0.6);
+  pointer-events: none;
+  z-index: 4;
+  backdrop-filter: blur(4px);
+}
+
+.controlsBar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 10px 16px;
+  gap: 12px;
+  flex-shrink: 0;
+  background: var(--creo-bg-elevated);
+  border-top: 1px solid var(--creo-border-color-secondary);
+  border-bottom: 1px solid var(--creo-border-color-secondary);
+  min-height: 52px;
+}
+
+.controlsLeft {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  min-width: 0;
+  flex-wrap: nowrap;
+}
+
+.toolSeparator {
+  width: 1px;
+  height: 20px;
+  background: var(--creo-border-color);
+  margin: 0 4px;
+}
+
+.controlsRight {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  flex-shrink: 0;
+}
+
+// Drag overlay preview
+.dragPreview {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 6px 10px;
+  background: var(--creo-bg-elevated);
+  border: 1px solid var(--creo-color-primary-border);
+  border-radius: 8px;
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.4);
+  max-width: 200px;
+  pointer-events: none;
+}
+
+.dragPreviewThumb {
+  width: 48px;
+  height: 36px;
+  border-radius: 4px;
+  flex-shrink: 0;
+  overflow: hidden;
+  background: #000;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  video,
+  img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+  }
+}
+
+.dragPreviewName {
+  font-size: 12px;
+  font-weight: 500;
+  color: var(--creo-text-primary);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+@media (max-width: 1000px) {
+  .controlsBar {
+    flex-wrap: wrap;
+  }
+  .controlsRight {
+    order: 2;
+  }
+}
+
+@media (max-width: 1200px) {
+  .page {
+    grid-template-columns: 48px minmax(0, 1fr) 260px;
+  }
+}
+
+@media (max-width: 900px) {
+  .page {
+    grid-template-columns: minmax(0, 1fr);
+    grid-template-rows: 1fr;
+  }
+}

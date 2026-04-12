@@ -1,7 +1,6 @@
 import { useCallback, useMemo } from 'react';
 import { useTranslation } from 'react-i18next';
 import { ArrowLeftOutlined, ReloadOutlined } from '@ant-design/icons';
-import { useLivePlayerContext } from '@twick/live-player';
 import { Button, Empty, Spin } from '@creo/ui';
 import type { MediaAsset } from '@creo/media-library-data-access';
 import {
@@ -23,8 +22,8 @@ export interface AnalysisDetailProps {
  *
  *   1. A full-width TimelineStrip that plots all shots as colored segments
  *      proportional to their duration, with a second lane below for face
- *      coverage. Hovering a shot highlights it; clicking it asks the live
- *      Twick player to seek to that timestamp.
+ *      coverage. Hovering a shot highlights it; clicking it seeks the
+ *      player to that timestamp.
  *   2. A shot grid with real thumbnail previews extracted by the ai-worker
  *      at ~25% into each shot. Clicking a thumbnail also seeks the player.
  *   3. A transcript list (empty when whisper is disabled).
@@ -33,39 +32,11 @@ export function AnalysisDetail({ asset, onBack, onReanalyze }: AnalysisDetailPro
   const { t } = useTranslation();
   const { data: analysis, isLoading } = useAssetAnalysis(asset.id);
 
-  // Twick exposes the LivePlayerProvider in the tree above us, so we can
-  // drive the current player time from this panel. When not available
-  // (e.g. unit tests), seek is a no-op.
-  let playerContext: ReturnType<typeof useLivePlayerContext> | null = null;
-  try {
-    playerContext = useLivePlayerContext();
-  } catch {
-    playerContext = null;
-  }
-
   const durationMs = asset.durationMs ?? 0;
 
-  const seek = useCallback(
-    (ms: number) => {
-      if (!playerContext) return;
-      const seconds = ms / 1000;
-      // Twick's live-player context keeps an editor/player handle; the
-      // exact field differs between versions so try the common ones.
-      const ctx = playerContext as unknown as {
-        setPlayerAction?: (type: string, payload: unknown) => void;
-        seekTo?: (time: number) => void;
-        player?: { currentTime?: number };
-      };
-      if (typeof ctx.setPlayerAction === 'function') {
-        ctx.setPlayerAction('SEEK_TO', { time: seconds });
-      } else if (typeof ctx.seekTo === 'function') {
-        ctx.seekTo(seconds);
-      } else if (ctx.player) {
-        ctx.player.currentTime = seconds;
-      }
-    },
-    [playerContext],
-  );
+  // Seek is a no-op for now — will be wired to Remotion PlayerRef when
+  // analysis is integrated into the /remotion editor.
+  const seek = useCallback((_ms: number) => {}, []);
 
   return (
     <div className={styles.detail}>

@@ -1,0 +1,69 @@
+.overlay {
+  position: absolute;
+  top: 0;
+  left: 0;
+  pointer-events: none;
+  z-index: 50;
+}
+
+.border {
+  position: absolute;
+  inset: 0;
+  border: 2px solid var(--creo-color-primary);
+  border-radius: 2px;
+  pointer-events: auto;
+  cursor: move;
+  touch-action: none;
+}
+
+.handle {
+  position: absolute;
+  width: 10px;
+  height: 10px;
+  background: #fff;
+  border: 2px solid var(--creo-color-primary);
+  border-radius: 2px;
+  pointer-events: auto;
+  touch-action: none;
+  z-index: 2;
+}
+
+.handle_tl { top: -5px; left: -5px; cursor: nwse-resize; }
+.handle_tr { top: -5px; right: -5px; cursor: nesw-resize; }
+.handle_bl { bottom: -5px; left: -5px; cursor: nesw-resize; }
+.handle_br { bottom: -5px; right: -5px; cursor: nwse-resize; }
+.handle_t { top: -5px; left: calc(50% - 5px); cursor: ns-resize; }
+.handle_b { bottom: -5px; left: calc(50% - 5px); cursor: ns-resize; }
+.handle_l { top: calc(50% - 5px); left: -5px; cursor: ew-resize; }
+.handle_r { top: calc(50% - 5px); right: -5px; cursor: ew-resize; }
+
+.rotateHandle {
+  position: absolute;
+  top: -30px;
+  left: calc(50% - 8px);
+  width: 16px;
+  height: 16px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  pointer-events: auto;
+  cursor: grab;
+  touch-action: none;
+
+  &::before {
+    content: '';
+    position: absolute;
+    top: 16px;
+    width: 1px;
+    height: 16px;
+    background: var(--creo-color-primary);
+  }
+}
+
+.rotateDot {
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  background: #fff;
+  border: 2px solid var(--creo-color-primary);
+}

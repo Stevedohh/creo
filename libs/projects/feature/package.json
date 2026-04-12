@@ -13,5 +13,11 @@
       "import": "./dist/index.js",
       "default": "./dist/index.js"
     }
+  },
+  "dependencies": {
+    "@creo/projects-data-access": "*",
+    "@creo/video-player-data-access": "*",
+    "@creo/video-player-feature": "*",
+    "@creo/video-render-feature": "*"
   }
 }

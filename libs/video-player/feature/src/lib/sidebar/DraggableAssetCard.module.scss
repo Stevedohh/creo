@@ -1,0 +1,87 @@
+.card {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  padding: 8px;
+  border-radius: 8px;
+  background: var(--creo-bg-hover);
+  border: 1px solid var(--creo-border-color-secondary);
+  cursor: grab;
+  user-select: none;
+  transition: background 0.12s, border-color 0.12s, transform 0.05s;
+  touch-action: none;
+  min-width: 0;
+  overflow: hidden;
+
+  &:hover {
+    background: var(--creo-bg-active);
+    border-color: var(--creo-border-color);
+  }
+
+  &:active {
+    cursor: grabbing;
+  }
+}
+
+.cardDragging {
+  opacity: 0.4;
+}
+
+.thumb {
+  position: relative;
+  width: 100%;
+  aspect-ratio: 16 / 9;
+  overflow: hidden;
+  border-radius: 6px;
+  background: #000;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.thumbVideo,
+.thumbImage {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  pointer-events: none;
+}
+
+.thumbPlaceholder {
+  color: var(--creo-text-disabled);
+  font-size: 28px;
+}
+
+.meta {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  font-size: 12px;
+  min-width: 0;
+}
+
+.kind {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  text-transform: uppercase;
+  font-size: 10px;
+  letter-spacing: 0.8px;
+  color: var(--creo-text-tertiary);
+}
+
+.name {
+  font-size: 12px;
+  font-weight: 500;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  color: var(--creo-text-primary);
+}
+
+.duration {
+  font-family: ui-monospace, SFMono-Regular, Menlo, monospace;
+  font-size: 11px;
+  color: var(--creo-text-tertiary);
+}

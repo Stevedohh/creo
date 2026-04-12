@@ -23,6 +23,7 @@ model User {
   projects      Project[]
   mediaAssets   MediaAsset[]
   ingestJobs    IngestJob[]
+  renderJobs    RenderJob[]
 
   @@map("users")
 }
@@ -38,11 +39,38 @@ model Project {
   createdAt    DateTime @default(now()) @map("created_at")
   updatedAt    DateTime @updatedAt @map("updated_at")
 
-  user   User           @relation(fields: [userId], references: [id], onDelete: Cascade)
-  assets ProjectAsset[]
+  user       User           @relation(fields: [userId], references: [id], onDelete: Cascade)
+  assets     ProjectAsset[]
+  renderJobs RenderJob[]
 
   @@index([userId])
   @@map("projects")
+}
+
+model RenderJob {
+  id               String    @id @default(uuid())
+  // Nullable for ad-hoc document renders (e.g. `/remotion` sandbox)
+  // that don't belong to a saved Project.
+  projectId        String?   @map("project_id")
+  userId           String    @map("user_id")
+  status           String    @default("queued") // queued | running | succeeded | failed | canceled
+  progress         Float     @default(0)
+  timelineSnapshot Json      @map("timeline_snapshot")
+  resultKey        String?   @map("result_key")
+  resultBytes      Int?      @map("result_bytes")
+  errorMessage     String?   @map("error_message")
+  bullJobId        String?   @map("bull_job_id")
+  startedAt        DateTime? @map("started_at")
+  finishedAt       DateTime? @map("finished_at")
+  createdAt        DateTime  @default(now()) @map("created_at")
+  updatedAt        DateTime  @updatedAt @map("updated_at")
+
+  project Project? @relation(fields: [projectId], references: [id], onDelete: Cascade)
+  user    User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@index([projectId])
+  @@index([userId, status])
+  @@map("render_jobs")
 }
 
 model MediaAsset {

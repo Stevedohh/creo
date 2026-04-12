@@ -1,0 +1,23 @@
+.row {
+  padding: 8px 12px;
+  border-top: 1px solid var(--creo-border-color-secondary);
+}
+
+.addBtn {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  padding: 4px 10px;
+  border: 1px dashed var(--creo-border-color);
+  border-radius: 6px;
+  background: transparent;
+  color: var(--creo-text-tertiary);
+  font-size: 12px;
+  cursor: pointer;
+  transition: border-color 0.1s, color 0.1s;
+
+  &:hover {
+    border-color: var(--creo-color-primary-border);
+    color: var(--creo-text-primary);
+  }
+}

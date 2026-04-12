@@ -9,68 +9,47 @@
 .header {
   display: flex;
   align-items: center;
-  gap: var(--creo-space-md);
-  padding-bottom: var(--creo-space-md);
+  gap: 12px;
+  padding-bottom: 12px;
+  flex-shrink: 0;
 }
 
 .titleArea {
   flex: 1;
   display: flex;
   align-items: center;
+  min-width: 0;
 }
 
 .title {
   margin: 0;
-  font-size: 18px;
+  font-size: 16px;
   font-weight: 600;
   cursor: pointer;
-  padding: var(--creo-space-xs) var(--creo-space-sm);
-  border-radius: 4px;
+  padding: 4px 8px;
+  border-radius: 6px;
+  color: var(--creo-text-primary);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  transition: background 0.15s;
 
   &:hover {
-    background: var(--creo-color-bg-hover, rgba(0, 0, 0, 0.04));
+    background: var(--creo-bg-hover);
   }
 }
 
 .titleInput {
-  max-width: 480px;
+  max-width: 400px;
+  font-size: 16px;
+  font-weight: 600;
 }
 
 .headerRight {
   display: flex;
   align-items: center;
-  gap: var(--creo-space-sm);
-  min-width: 120px;
-  justify-content: flex-end;
-}
-
-.saveStatus {
-  color: var(--creo-color-text-secondary, #888);
-  font-size: 12px;
-}
-
-.saveStatusDone {
-  color: var(--creo-color-primary);
-  font-size: 12px;
-  display: inline-flex;
-  align-items: center;
-  gap: 4px;
-}
-
-.saveStatusError {
-  color: var(--creo-color-error, #f22a36);
-  font-size: 12px;
-}
-
-.studio {
-  flex: 1;
-  min-height: 0;
-  min-width: 0;
-  border: 1px solid var(--creo-color-border, rgba(0, 0, 0, 0.08));
-  border-radius: 8px;
-  overflow: hidden;
-  display: flex;
-  flex-direction: column;
+  gap: 12px;
+  flex-shrink: 0;
 }
 
 .loading {

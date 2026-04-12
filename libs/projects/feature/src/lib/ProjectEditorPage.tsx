@@ -1,75 +1,87 @@
-import { useEffect, useRef, useState } from 'react';
+import { useCallback, useEffect, useState } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
-import { useTranslation } from 'react-i18next';
-import { ArrowLeftOutlined, CheckOutlined, DownloadOutlined } from '@ant-design/icons';
-import { Button, Input, Spin, useApp } from '@creo/ui';
+import { Button, Empty, Input, Spin } from '@creo/ui';
+import { Tag } from 'antd';
+import {
+  ArrowLeftOutlined,
+  CheckOutlined,
+  CloudSyncOutlined,
+} from '@ant-design/icons';
 import { useProject, useUpdateProject } from '@creo/projects-data-access';
 import {
-  TwickStudioHost,
-  type ExportHandle,
-  type SaveStatus,
-} from './TwickStudioHost';
+  useEditorStore,
+  timelineToEditorDocument,
+} from '@creo/video-player-data-access';
+import {
+  ExportButton,
+  type ExportButtonProps,
+} from '@creo/video-render-feature';
+import { EditorLayout } from '@creo/video-player-feature';
 import styles from './ProjectEditorPage.module.scss';
 
 export function ProjectEditorPage() {
   const { id } = useParams<{ id: string }>();
   const navigate = useNavigate();
-  const { t } = useTranslation();
-  const { data: project, isLoading } = useProject(id ?? '');
-  const { mutate: update } = useUpdateProject();
+  const { data: project, isLoading, isError } = useProject(id ?? '');
+  const { mutate: updateProject } = useUpdateProject();
+
+  const doc = useEditorStore((s) => s.doc);
+  const isSaving = useEditorStore((s) => s.isSaving);
+  const lastSavedAt = useEditorStore((s) => s.lastSavedAt);
+  const replaceDocument = useEditorStore((s) => s.replaceDocument);
+  const setProjectId = useEditorStore((s) => s.setProjectId);
+  const setLastSavedAt = useEditorStore((s) => s.setLastSavedAt);
 
   const [isEditingTitle, setIsEditingTitle] = useState(false);
   const [titleValue, setTitleValue] = useState('');
-  const [saveStatus, setSaveStatus] = useState<SaveStatus>('idle');
-  const [exportProgress, setExportProgress] = useState<number | null>(null);
-  const exportHandleRef = useRef<ExportHandle | null>(null);
-  const { message } = useApp();
 
   useEffect(() => {
-    if (project) setTitleValue(project.title);
-  }, [project]);
+    if (!project) return;
+    setProjectId(project.id);
+    const editorDoc = timelineToEditorDocument(project.timeline, project.title);
+    replaceDocument(editorDoc);
+    setLastSavedAt(new Date(project.updatedAt));
+    setTitleValue(project.title);
+    return () => {
+      setProjectId(null);
+      setLastSavedAt(null);
+    };
+  }, [project?.id]);
 
   const handleTitleBlur = () => {
     setIsEditingTitle(false);
-    if (id && titleValue && titleValue !== project?.title) {
-      update({ id, data: { title: titleValue } });
+    if (id && titleValue !== project?.title) {
+      updateProject({ id, data: { title: titleValue } });
     }
   };
 
-  const handleExport = async () => {
-    if (!exportHandleRef.current) {
-      message.error(t('editor.exportNotReady'));
-      return;
-    }
-    setExportProgress(0);
-    try {
-      const result = await exportHandleRef.current.export((pct) =>
-        setExportProgress(Math.round(pct)),
-      );
-      if (!result.ok || !result.blob) {
-        message.error(result.message ?? t('editor.exportFailed'));
-        return;
-      }
-      const url = URL.createObjectURL(result.blob);
-      const a = document.createElement('a');
-      a.href = url;
-      a.download = result.filename ?? 'export.webm';
-      document.body.appendChild(a);
-      a.click();
-      a.remove();
-      URL.revokeObjectURL(url);
-      message.success(t('editor.exportDone'));
-    } catch (err) {
-      message.error(err instanceof Error ? err.message : t('editor.exportFailed'));
-    } finally {
-      setExportProgress(null);
-    }
-  };
+  const hasAnyClip = doc.tracks.some((t) => t.clips.length > 0);
 
-  if (isLoading || !project || !id) {
+  const buildExportRequest = useCallback<ExportButtonProps['buildRequest']>(
+    (preset) => ({
+      document: doc as unknown as Record<string, unknown>,
+      exportSettings: preset.settings,
+      name: doc.name,
+    }),
+    [doc],
+  );
+
+  if (isLoading || !id) {
     return (
       <div className={styles.loading}>
         <Spin size="large" />
+      </div>
+    );
+  }
+
+  if (isError || !project) {
+    return (
+      <div className={styles.loading}>
+        <Empty description="Project not found">
+          <Button type="primary" onClick={() => navigate('/projects')}>
+            Back to projects
+          </Button>
+        </Empty>
       </div>
     );
   }
@@ -82,7 +94,7 @@ export function ProjectEditorPage() {
           icon={<ArrowLeftOutlined />}
           onClick={() => navigate('/projects')}
         >
-          {t('projects.backToList')}
+          Projects
         </Button>
 
         <div className={styles.titleArea}>
@@ -96,48 +108,26 @@ export function ProjectEditorPage() {
               className={styles.titleInput}
             />
           ) : (
-            <h2
+            <h3
               className={styles.title}
               onClick={() => setIsEditingTitle(true)}
             >
-              {titleValue}
-            </h2>
+              {titleValue || 'Untitled Project'}
+            </h3>
           )}
         </div>
 
         <div className={styles.headerRight}>
-          {saveStatus === 'saving' && (
-            <span className={styles.saveStatus}>{t('editor.saving')}</span>
-          )}
-          {saveStatus === 'saved' && (
-            <span className={styles.saveStatusDone}>
-              <CheckOutlined /> {t('editor.saved')}
-            </span>
-          )}
-          {saveStatus === 'error' && (
-            <span className={styles.saveStatusError}>{t('editor.saveError')}</span>
-          )}
-          <Button
-            type="primary"
-            icon={<DownloadOutlined />}
-            onClick={handleExport}
-            loading={exportProgress !== null}
-          >
-            {exportProgress !== null
-              ? `${t('editor.exporting')} ${exportProgress}%`
-              : t('editor.export')}
-          </Button>
+          {isSaving ? (
+            <Tag icon={<CloudSyncOutlined spin />} color="processing">Saving...</Tag>
+          ) : lastSavedAt ? (
+            <Tag icon={<CheckOutlined />} color="success">Saved</Tag>
+          ) : null}
+          <ExportButton buildRequest={buildExportRequest} disabled={!hasAnyClip} />
         </div>
       </div>
 
-      <div className={styles.studio}>
-        <TwickStudioHost
-          projectId={id}
-          initialTimeline={project.timeline}
-          onStatusChange={setSaveStatus}
-          exportHandleRef={exportHandleRef}
-        />
-      </div>
+      <EditorLayout />
     </div>
   );
 }

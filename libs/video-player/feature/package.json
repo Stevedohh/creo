@@ -1,0 +1,29 @@
+{
+  "name": "@creo/video-player-feature",
+  "version": "0.0.1",
+  "type": "module",
+  "main": "./dist/index.js",
+  "module": "./dist/index.js",
+  "types": "./dist/index.d.ts",
+  "exports": {
+    "./package.json": "./package.json",
+    ".": {
+      "@creo/source": "./src/index.ts",
+      "types": "./dist/index.d.ts",
+      "import": "./dist/index.js",
+      "default": "./dist/index.js"
+    }
+  },
+  "dependencies": {
+    "@creo/media-library-data-access": "*",
+    "@creo/projects-data-access": "*",
+    "@creo/video-ingest-data-access": "*",
+    "@creo/video-player-data-access": "*",
+    "@creo/video-render-feature": "*",
+    "@creo/voice-clone-data-access": "*",
+    "@dnd-kit/core": "*",
+    "@dnd-kit/sortable": "*",
+    "@remotion/player": "*",
+    "remotion": "*"
+  }
+}

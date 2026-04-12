@@ -101,6 +101,44 @@ services:
       minio:
         condition: service_healthy
 
+  render-worker:
+    image: node:20-bookworm-slim
+    container_name: creo-render-worker
+    working_dir: /app
+    restart: unless-stopped
+    environment:
+      NODE_ENV: development
+      DATABASE_URL: postgresql://creo:creo@postgres:5432/creo?schema=public
+      REDIS_URL: redis://redis:6379
+      S3_ENDPOINT: http://minio:9000
+      S3_PUBLIC_ENDPOINT: ${S3_PUBLIC_ENDPOINT:-http://localhost:9000}
+      S3_REGION: us-east-1
+      S3_BUCKET: ${S3_BUCKET:-creo-voiceovers}
+      S3_ACCESS_KEY_ID: ${S3_ACCESS_KEY_ID:-minioadmin}
+      S3_SECRET_ACCESS_KEY: ${S3_SECRET_ACCESS_KEY:-minioadmin}
+      S3_FORCE_PATH_STYLE: 'true'
+      S3_PRESIGNED_TTL: '604800'
+      REMOTION_CHROME_EXECUTABLE: /usr/bin/chromium
+      PUPPETEER_SKIP_DOWNLOAD: 'true'
+      NODE_OPTIONS: '--max-old-space-size=4096'
+    volumes:
+      - .:/app
+    command:
+      - sh
+      - -c
+      - |
+        apt-get update \
+          && apt-get install -y --no-install-recommends chromium ffmpeg fonts-liberation fonts-noto fonts-noto-color-emoji ca-certificates \
+          && rm -rf /var/lib/apt/lists/* \
+          && npx nx serve render-worker
+    depends_on:
+      postgres:
+        condition: service_healthy
+      redis:
+        condition: service_healthy
+      minio:
+        condition: service_healthy
+
   ai-worker:
     build:
       context: ./apps/ai-worker
