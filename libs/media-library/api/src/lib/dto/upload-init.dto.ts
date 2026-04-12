@@ -1,4 +1,4 @@
-import { IsInt, IsOptional, IsString, Max, MaxLength, Min } from 'class-validator';
+import { IsArray, IsInt, IsOptional, IsString, IsUUID, Max, MaxLength, Min } from 'class-validator';
 
 export class UploadInitDto {
   @IsString()
@@ -14,4 +14,18 @@ export class UploadInitDto {
   @Min(0)
   @Max(5 * 1024 * 1024 * 1024)
   size?: number;
+
+  @IsOptional()
+  @IsString()
+  @MaxLength(255)
+  displayName?: string;
+
+  @IsOptional()
+  @IsUUID()
+  folderId?: string;
+
+  @IsOptional()
+  @IsArray()
+  @IsUUID('4', { each: true })
+  tagIds?: string[];
 }

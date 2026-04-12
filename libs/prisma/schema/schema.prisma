@@ -22,6 +22,8 @@ model User {
   scripts       Script[]
   projects      Project[]
   mediaAssets   MediaAsset[]
+  mediaFolders  MediaFolder[]
+  mediaTags     MediaTag[]
   ingestJobs    IngestJob[]
   renderJobs    RenderJob[]
 
@@ -76,6 +78,7 @@ model RenderJob {
 model MediaAsset {
   id           String   @id @default(uuid())
   userId       String   @map("user_id")
+  folderId     String?  @map("folder_id")
   kind         String   // video | audio | image
   source       String   // upload | youtube
   sourceUrl    String?  @map("source_url")
@@ -96,13 +99,57 @@ model MediaAsset {
   analysisError  String? @map("analysis_error")
 
   user       User                @relation(fields: [userId], references: [id], onDelete: Cascade)
+  folder     MediaFolder?        @relation(fields: [folderId], references: [id], onDelete: SetNull)
   projects   ProjectAsset[]
+  tags       MediaAssetTag[]
   shots      Shot[]
   transcript TranscriptSegment[]
   faces      FaceDetection[]
 
   @@index([userId])
+  @@index([folderId])
   @@map("media_assets")
+}
+
+model MediaFolder {
+  id        String   @id @default(uuid())
+  userId    String   @map("user_id")
+  parentId  String?  @map("parent_id")
+  name      String
+  createdAt DateTime @default(now()) @map("created_at")
+  updatedAt DateTime @updatedAt @map("updated_at")
+
+  user     User          @relation(fields: [userId], references: [id], onDelete: Cascade)
+  parent   MediaFolder?  @relation("FolderTree", fields: [parentId], references: [id], onDelete: Cascade)
+  children MediaFolder[] @relation("FolderTree")
+  assets   MediaAsset[]
+
+  @@index([userId, parentId])
+  @@map("media_folders")
+}
+
+model MediaTag {
+  id        String   @id @default(uuid())
+  userId    String   @map("user_id")
+  name      String
+  createdAt DateTime @default(now()) @map("created_at")
+
+  user   User            @relation(fields: [userId], references: [id], onDelete: Cascade)
+  assets MediaAssetTag[]
+
+  @@unique([userId, name])
+  @@map("media_tags")
+}
+
+model MediaAssetTag {
+  assetId String @map("asset_id")
+  tagId   String @map("tag_id")
+
+  asset MediaAsset @relation(fields: [assetId], references: [id], onDelete: Cascade)
+  tag   MediaTag   @relation(fields: [tagId], references: [id], onDelete: Cascade)
+
+  @@id([assetId, tagId])
+  @@map("media_asset_tags")
 }
 
 model Shot {

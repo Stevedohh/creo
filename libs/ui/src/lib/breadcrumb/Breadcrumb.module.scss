@@ -1,0 +1,10 @@
+.breadcrumb {
+  :global {
+    .ant-breadcrumb-link {
+      a:hover,
+      span:hover {
+        background-color: transparent !important;
+      }
+    }
+  }
+}

@@ -15,3 +15,6 @@ export * from './lib/popconfirm';
 export * from './lib/popover';
 export * from './lib/message';
 export * from './lib/waveform-player';
+export * from './lib/drawer';
+export * from './lib/breadcrumb';
+export * from './lib/tag';

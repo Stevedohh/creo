@@ -113,6 +113,14 @@ export const creoDarkTheme: ThemeConfig = {
       defaultBorderColor: '#202a32',
       defaultColor: '#e9f0f5',
       borderRadius: 20,
+      borderColorDisabled: 'transparent',
+    },
+    Breadcrumb: {
+      itemColor: 'rgba(233, 240, 245, 0.65)',
+      lastItemColor: 'rgba(233, 240, 245, 0.88)',
+      linkColor: 'rgba(233, 240, 245, 0.65)',
+      linkHoverColor: '#2fbc5b',
+      separatorColor: 'rgba(233, 240, 245, 0.25)',
     },
     Input: {
       activeBorderColor: '#2fbc5b',
@@ -152,6 +160,7 @@ export const creoLightTheme: ThemeConfig = {
       defaultBorderColor: '#ddddd8',
       defaultColor: '#1A1A1A',
       borderRadius: 20,
+      borderColorDisabled: 'transparent',
     },
     Input: {
       activeBorderColor: '#2fbc5b',

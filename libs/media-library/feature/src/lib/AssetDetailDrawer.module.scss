@@ -1,0 +1,75 @@
+.content {
+  display: flex;
+  flex-direction: column;
+  gap: var(--creo-space-md);
+}
+
+.preview {
+  border-radius: 8px;
+  overflow: hidden;
+  background: #000;
+}
+
+.videoPlayer {
+  width: 100%;
+  display: block;
+}
+
+.audioPlayer {
+  width: 100%;
+  padding: var(--creo-space-md);
+}
+
+.imagePreview {
+  width: 100%;
+  display: block;
+  object-fit: contain;
+  max-height: 300px;
+}
+
+.noPreview {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 120px;
+  color: rgba(255, 255, 255, 0.35);
+  font-size: 14px;
+  font-weight: 600;
+  letter-spacing: 0.5px;
+}
+
+.field {
+  display: flex;
+  flex-direction: column;
+  gap: var(--creo-space-xs);
+}
+
+.label {
+  font-size: 12px;
+  font-weight: 600;
+  color: var(--creo-color-text-secondary, #9aa3ad);
+  text-transform: uppercase;
+  letter-spacing: 0.3px;
+}
+
+.metaSection {
+  display: flex;
+  flex-direction: column;
+  gap: var(--creo-space-sm);
+}
+
+.metaGrid {
+  display: grid;
+  grid-template-columns: auto 1fr;
+  gap: var(--creo-space-xs) var(--creo-space-md);
+  font-size: 13px;
+}
+
+.metaKey {
+  color: var(--creo-color-text-secondary, #9aa3ad);
+}
+
+.metaValue {
+  color: var(--creo-color-text, #e8ecef);
+  word-break: break-word;
+}

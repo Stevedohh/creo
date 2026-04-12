@@ -2,6 +2,19 @@ export type MediaKind = 'video' | 'audio' | 'image';
 export type MediaAssetStatus = 'uploading' | 'ready' | 'failed';
 export type MediaSource = 'upload' | 'youtube';
 
+export interface MediaTag {
+  id: string;
+  name: string;
+}
+
+export interface MediaFolder {
+  id: string;
+  name: string;
+  parentId: string | null;
+  createdAt: string;
+  updatedAt: string;
+}
+
 export interface MediaAsset {
   id: string;
   kind: MediaKind;
@@ -15,6 +28,8 @@ export interface MediaAsset {
   mimeType: string | null;
   status: MediaAssetStatus;
   errorMessage: string | null;
+  folderId: string | null;
+  tags: MediaTag[];
   url: string | null;
   analysisStatus?: 'none' | 'queued' | 'running' | 'done' | 'failed';
   analysisError?: string | null;
@@ -27,4 +42,9 @@ export interface UploadInitResponse {
   uploadUrl: string;
   storageKey: string;
   expiresInSeconds: number;
+}
+
+export interface BreadcrumbItem {
+  id: string;
+  name: string;
 }

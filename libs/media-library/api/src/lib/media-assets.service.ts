@@ -11,6 +11,7 @@ import { randomUUID } from 'node:crypto';
 import { extname } from 'node:path';
 import { FfprobeService } from './ffprobe.service';
 import { UploadInitDto } from './dto/upload-init.dto';
+import { UpdateAssetDto } from './dto/update-asset.dto';
 
 const ALLOWED_KINDS = ['video', 'audio', 'image'] as const;
 type MediaKind = (typeof ALLOWED_KINDS)[number];
@@ -42,11 +43,19 @@ export class MediaAssetsService {
         userId,
         kind,
         source: 'upload',
-        originalName: dto.filename,
+        originalName: dto.displayName || dto.filename,
         storageKey,
         mimeType: dto.contentType,
         storageBytes: dto.size ?? null,
         status: 'uploading',
+        folderId: dto.folderId ?? null,
+        ...(dto.tagIds?.length && {
+          tags: {
+            createMany: {
+              data: dto.tagIds.map((tagId) => ({ tagId })),
+            },
+          },
+        }),
       },
     });
 
@@ -113,10 +122,23 @@ export class MediaAssetsService {
     return this.toDto(updated);
   }
 
-  async findAll(userId: string) {
+  async findAll(userId: string, folderId?: string, search?: string) {
+    const where: Record<string, unknown> = { userId };
+
+    if (folderId) {
+      where['folderId'] = folderId;
+    } else {
+      where['folderId'] = null;
+    }
+
+    if (search) {
+      where['originalName'] = { contains: search, mode: 'insensitive' };
+    }
+
     const assets = await this.prisma.mediaAsset.findMany({
-      where: { userId },
+      where,
       orderBy: { createdAt: 'desc' },
+      include: { tags: { include: { tag: true } } },
     });
     return Promise.all(assets.map((asset) => this.toDto(asset)));
   }
@@ -134,6 +156,36 @@ export class MediaAssetsService {
     return this.toDto(asset);
   }
 
+  async update(userId: string, id: string, dto: UpdateAssetDto) {
+    const asset = await this.findOne(userId, id);
+
+    if (dto.name !== undefined) {
+      await this.prisma.mediaAsset.update({
+        where: { id: asset.id },
+        data: { originalName: dto.name },
+      });
+    }
+
+    if (dto.tagIds !== undefined) {
+      await this.prisma.$transaction([
+        this.prisma.mediaAssetTag.deleteMany({ where: { assetId: id } }),
+        ...(dto.tagIds.length
+          ? [
+              this.prisma.mediaAssetTag.createMany({
+                data: dto.tagIds.map((tagId) => ({ assetId: id, tagId })),
+              }),
+            ]
+          : []),
+      ]);
+    }
+
+    const updated = await this.prisma.mediaAsset.findFirstOrThrow({
+      where: { id, userId },
+      include: { tags: { include: { tag: true } } },
+    });
+    return this.toDto(updated);
+  }
+
   async delete(userId: string, id: string) {
     const asset = await this.findOne(userId, id);
     await this.storage.delete(asset.storageKey).catch((err) => {
@@ -146,6 +198,7 @@ export class MediaAssetsService {
   private async toDto(asset: {
     id: string;
     userId: string;
+    folderId?: string | null;
     kind: string;
     source: string;
     sourceUrl: string | null;
@@ -163,6 +216,7 @@ export class MediaAssetsService {
     analysisError: string | null;
     createdAt: Date;
     updatedAt: Date;
+    tags?: { tag: { id: string; name: string } }[];
   }) {
     const url =
       asset.status === 'ready'
@@ -184,6 +238,8 @@ export class MediaAssetsService {
       errorMessage: asset.errorMessage,
       analysisStatus: asset.analysisStatus,
       analysisError: asset.analysisError,
+      folderId: asset.folderId ?? null,
+      tags: (asset.tags ?? []).map((t) => ({ id: t.tag.id, name: t.tag.name })),
       url,
       createdAt: asset.createdAt.toISOString(),
       updatedAt: asset.updatedAt.toISOString(),

@@ -1,15 +1,20 @@
-import { Body, Controller, Delete, Get, Param, Post } from '@nestjs/common';
+import { Body, Controller, Delete, Get, Param, Patch, Post, Query } from '@nestjs/common';
 import { CurrentUser } from '@creo/auth-api';
 import { MediaAssetsService } from './media-assets.service';
 import { UploadInitDto } from './dto/upload-init.dto';
+import { UpdateAssetDto } from './dto/update-asset.dto';
 
 @Controller('media')
 export class MediaAssetsController {
   constructor(private readonly mediaService: MediaAssetsService) {}
 
   @Get()
-  async findAll(@CurrentUser('userId') userId: string) {
-    return this.mediaService.findAll(userId);
+  async findAll(
+    @CurrentUser('userId') userId: string,
+    @Query('folderId') folderId?: string,
+    @Query('search') search?: string,
+  ) {
+    return this.mediaService.findAll(userId, folderId || undefined, search || undefined);
   }
 
   @Post('upload-init')
@@ -34,6 +39,15 @@ export class MediaAssetsController {
     @Param('id') id: string,
   ) {
     return this.mediaService.findOneWithUrl(userId, id);
+  }
+
+  @Patch(':id')
+  async update(
+    @CurrentUser('userId') userId: string,
+    @Param('id') id: string,
+    @Body() dto: UpdateAssetDto,
+  ) {
+    return this.mediaService.update(userId, id, dto);
   }
 
   @Delete(':id')

@@ -1,45 +1,87 @@
-import { useEffect, useRef, useState } from 'react';
+import { useCallback, useEffect, useRef, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useQueryClient } from '@tanstack/react-query';
-import { DeleteOutlined, UploadOutlined, YoutubeOutlined } from '@ant-design/icons';
-import { Button, Empty, Input, Spin, useApp } from '@creo/ui';
 import {
+  DeleteOutlined,
+  FolderOutlined,
+  FolderAddOutlined,
+  SearchOutlined,
+  UploadOutlined,
+  YoutubeOutlined,
+} from '@ant-design/icons';
+import { Breadcrumb, Button, Empty, Input, Spin, Tag, useApp } from '@creo/ui';
+import {
+  useCreateMediaFolder,
   useDeleteMediaAsset,
+  useDeleteMediaFolder,
+  useFolderBreadcrumbs,
   useMediaAssets,
-  useUploadMediaAsset,
+  useMediaFolders,
+  useRenameMediaFolder,
   type MediaAsset,
+  type MediaFolder,
 } from '@creo/media-library-data-access';
-import { useIngestJobs, useIngestYoutube, type IngestJob } from '@creo/video-ingest-data-access';
+import { useIngestJobs, type IngestJob } from '@creo/video-ingest-data-access';
 import { formatBytes, formatDuration } from './formatters';
+import { UploadModal } from './UploadModal';
+import { YoutubeIngestModal } from './YoutubeIngestModal';
+import { AssetDetailDrawer } from './AssetDetailDrawer';
+import { FolderModal } from './FolderModal';
 import styles from './MediaLibraryPanel.module.scss';
 
 export interface MediaLibraryPanelProps {
   onAssetClick?: (asset: MediaAsset) => void;
   compact?: boolean;
+  folderId?: string;
+  onFolderNavigate?: (folderId: string | undefined) => void;
 }
 
-export function MediaLibraryPanel({ onAssetClick, compact }: MediaLibraryPanelProps) {
+export function MediaLibraryPanel({
+  onAssetClick,
+  compact,
+  folderId,
+  onFolderNavigate,
+}: MediaLibraryPanelProps) {
   const { t } = useTranslation();
-  const { data: assets, isLoading } = useMediaAssets();
-  const { mutate: upload, isPending: isUploading } = useUploadMediaAsset();
-  const { mutate: remove } = useDeleteMediaAsset();
-  const { mutate: ingestYoutube, isPending: isIngesting } = useIngestYoutube();
-  const { data: ingestJobs } = useIngestJobs();
   const { message, modal } = useApp();
-  const fileInputRef = useRef<HTMLInputElement>(null);
-  const [progressPct, setProgressPct] = useState<number | null>(null);
-  const [ytUrl, setYtUrl] = useState('');
   const queryClient = useQueryClient();
+
+  const [search, setSearch] = useState('');
+  const [debouncedSearch, setDebouncedSearch] = useState('');
+  const [uploadModalOpen, setUploadModalOpen] = useState(false);
+  const [youtubeModalOpen, setYoutubeModalOpen] = useState(false);
+  const [selectedAsset, setSelectedAsset] = useState<MediaAsset | null>(null);
+  const [drawerOpen, setDrawerOpen] = useState(false);
+  const [folderModalOpen, setFolderModalOpen] = useState(false);
+  const [renamingFolder, setRenamingFolder] = useState<MediaFolder | null>(null);
+
   const seenDoneJobIds = useRef<Set<string>>(new Set());
+
+  // Debounce search
+  useEffect(() => {
+    const timer = setTimeout(() => setDebouncedSearch(search), 300);
+    return () => clearTimeout(timer);
+  }, [search]);
+
+  const { data: assets, isLoading: assetsLoading } = useMediaAssets(
+    folderId,
+    debouncedSearch || undefined,
+  );
+  const { data: folders, isLoading: foldersLoading } =
+    useMediaFolders(folderId);
+  const { data: breadcrumbs } = useFolderBreadcrumbs(folderId);
+  const { data: ingestJobs } = useIngestJobs();
+
+  const { mutate: createFolder } = useCreateMediaFolder();
+  const { mutate: renameFolder } = useRenameMediaFolder();
+  const { mutate: deleteFolder } = useDeleteMediaFolder();
+  const { mutate: deleteAsset } = useDeleteMediaAsset();
 
   const activeIngestJobs = (ingestJobs ?? []).filter(
     (j) => j.status === 'queued' || j.status === 'running',
   );
 
-  // When an ingest job transitions to "done" the worker has already written
-  // a new MediaAsset row on the backend, but the media list query was cached
-  // before that. Watch for newly-done job ids and invalidate the media
-  // query once so the new card pops in without a full page reload.
+  // Invalidate media cache when ingest jobs complete
   useEffect(() => {
     if (!ingestJobs) return;
     const newlyDone = ingestJobs.filter(
@@ -50,61 +92,78 @@ export function MediaLibraryPanel({ onAssetClick, compact }: MediaLibraryPanelPr
     queryClient.invalidateQueries({ queryKey: ['media'] });
   }, [ingestJobs, queryClient]);
 
-  const handleUploadClick = () => fileInputRef.current?.click();
+  const handleNavigate = useCallback(
+    (id: string | undefined) => {
+      onFolderNavigate?.(id);
+    },
+    [onFolderNavigate],
+  );
 
-  const handleFileSelected = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const file = e.target.files?.[0];
-    if (!file) return;
-    e.target.value = '';
+  const handleNewFolder = () => setFolderModalOpen(true);
 
-    setProgressPct(0);
-    upload(
-      {
-        file,
-        onProgress: (pct) => setProgressPct(pct),
-      },
-      {
-        onSuccess: () => {
-          setProgressPct(null);
-          message.success(t('media.uploadSuccess'));
+  const handleRenameFolder = (folder: MediaFolder) => setRenamingFolder(folder);
+
+  const handleFolderSubmit = (name: string) => {
+    if (renamingFolder) {
+      renameFolder(
+        { id: renamingFolder.id, name },
+        {
+          onSuccess: () => {
+            setRenamingFolder(null);
+          },
+          onError: () => message.error(t('media.folderRenameError')),
         },
-        onError: (err) => {
-          setProgressPct(null);
-          message.error(
-            err instanceof Error ? err.message : t('media.uploadError'),
-          );
+      );
+    } else {
+      createFolder(
+        { name, parentId: folderId },
+        {
+          onSuccess: () => {
+            setFolderModalOpen(false);
+            message.success(t('media.folderCreated'));
+          },
+          onError: () => message.error(t('media.folderCreateError')),
         },
-      },
-    );
+      );
+    }
   };
 
-  const handleYoutubeSubmit = () => {
-    const trimmed = ytUrl.trim();
-    if (!trimmed) return;
-    ingestYoutube(trimmed, {
-      onSuccess: () => {
-        setYtUrl('');
-        message.success(t('media.ingestQueued'));
-      },
-      onError: (err: unknown) => {
-        const msg =
-          err && typeof err === 'object' && 'response' in err
-            ? ((err as { response?: { data?: { message?: string } } }).response?.data?.message ??
-              t('media.ingestError'))
-            : t('media.ingestError');
-        message.error(msg);
-      },
+  const handleDeleteFolder = (folder: MediaFolder) => {
+    modal.confirm({
+      title: t('media.deleteFolderConfirm'),
+      onOk: () =>
+        new Promise<void>((resolve, reject) => {
+          deleteFolder(folder.id, {
+            onSuccess: () => {
+              message.success(t('media.folderDeleted'));
+              resolve();
+            },
+            onError: (err: unknown) => {
+              const msg =
+                err && typeof err === 'object' && 'response' in err
+                  ? ((err as { response?: { data?: { message?: string } } })
+                      .response?.data?.message ?? t('media.folderDeleteError'))
+                  : t('media.folderDeleteError');
+              message.error(msg);
+              reject();
+            },
+          });
+        }),
     });
   };
 
-  const handleDelete = (asset: MediaAsset) => {
+  const handleDeleteAsset = (asset: MediaAsset) => {
     modal.confirm({
       title: t('media.deleteConfirm'),
       onOk: () =>
         new Promise<void>((resolve, reject) => {
-          remove(asset.id, {
+          deleteAsset(asset.id, {
             onSuccess: () => {
               message.success(t('media.deleteSuccess'));
+              if (selectedAsset?.id === asset.id) {
+                setSelectedAsset(null);
+                setDrawerOpen(false);
+              }
               resolve();
             },
             onError: () => reject(),
@@ -113,57 +172,72 @@ export function MediaLibraryPanel({ onAssetClick, compact }: MediaLibraryPanelPr
     });
   };
 
+  const handleAssetClick = (asset: MediaAsset) => {
+    setSelectedAsset(asset);
+    setDrawerOpen(true);
+    onAssetClick?.(asset);
+  };
+
+  const isLoading = assetsLoading || foldersLoading;
+
+  // Build breadcrumb items
+  const breadcrumbItems = [
+    {
+      title: (
+        <a onClick={() => handleNavigate(undefined)}>
+          {t('media.title')}
+        </a>
+      ),
+    },
+    ...(breadcrumbs ?? []).map((crumb) => ({
+      title: (
+        <a onClick={() => handleNavigate(crumb.id)}>
+          {crumb.name}
+        </a>
+      ),
+    })),
+  ];
+
   return (
     <div className={`${styles.panel} ${compact ? styles.compact : ''}`}>
-      <div className={styles.header}>
-        <h3 className={styles.title}>{t('media.title')}</h3>
-        <Button
-          type="primary"
-          icon={<UploadOutlined />}
-          onClick={handleUploadClick}
-          loading={isUploading}
-          size={compact ? 'small' : 'middle'}
-        >
-          {t('media.upload')}
-        </Button>
-        <input
-          ref={fileInputRef}
-          type="file"
-          accept="video/*,audio/*,image/*"
-          hidden
-          onChange={handleFileSelected}
-        />
+      <div className={styles.breadcrumbs}>
+        <Breadcrumb items={breadcrumbItems} />
       </div>
 
-      {progressPct !== null && (
-        <div className={styles.progressBar}>
-          <div
-            className={styles.progressFill}
-            style={{ width: `${progressPct}%` }}
-          />
-          <span className={styles.progressLabel}>{progressPct}%</span>
-        </div>
-      )}
-
-      <div className={styles.youtubeRow}>
+      <div className={styles.toolbar}>
         <Input
-          placeholder={t('media.youtubePlaceholder')}
-          value={ytUrl}
-          onChange={(e) => setYtUrl(e.target.value)}
-          onPressEnter={handleYoutubeSubmit}
-          prefix={<YoutubeOutlined />}
-          size="small"
+          placeholder={t('media.searchPlaceholder')}
+          value={search}
+          onChange={(e) => setSearch(e.target.value)}
+          prefix={<SearchOutlined />}
           allowClear
-          disabled={isIngesting}
+          size={compact ? 'small' : 'middle'}
+          className={styles.searchInput}
         />
-        <Button
-          onClick={handleYoutubeSubmit}
-          loading={isIngesting}
-          disabled={!ytUrl.trim()}
-          size="small"
-        >
-          {t('media.ingest')}
-        </Button>
+        <div className={styles.actions}>
+          <Button
+            icon={<FolderAddOutlined />}
+            onClick={handleNewFolder}
+            size={compact ? 'small' : 'middle'}
+          >
+            {!compact && t('media.newFolder')}
+          </Button>
+          <Button
+            type="primary"
+            icon={<UploadOutlined />}
+            onClick={() => setUploadModalOpen(true)}
+            size={compact ? 'small' : 'middle'}
+          >
+            {t('media.upload')}
+          </Button>
+          <Button
+            icon={<YoutubeOutlined />}
+            onClick={() => setYoutubeModalOpen(true)}
+            size={compact ? 'small' : 'middle'}
+          >
+            {!compact && 'YouTube'}
+          </Button>
+        </div>
       </div>
 
       {activeIngestJobs.length > 0 && (
@@ -178,55 +252,110 @@ export function MediaLibraryPanel({ onAssetClick, compact }: MediaLibraryPanelPr
         <div className={styles.loading}>
           <Spin />
         </div>
-      ) : assets && assets.length > 0 ? (
-        <div className={styles.grid}>
-          {assets.map((asset) => (
-            <AssetCard
-              key={asset.id}
-              asset={asset}
-              onClick={() => onAssetClick?.(asset)}
-              onDelete={() => handleDelete(asset)}
-              compact={compact}
-            />
-          ))}
-        </div>
       ) : (
-        <Empty description={t('media.empty')} />
+        <>
+          {(folders ?? []).length > 0 && !debouncedSearch && (
+            <div className={styles.foldersGrid}>
+              {(folders ?? []).map((folder) => (
+                <FolderCard
+                  key={folder.id}
+                  folder={folder}
+                  onClick={() => handleNavigate(folder.id)}
+                  onRename={() => handleRenameFolder(folder)}
+                  onDelete={() => handleDeleteFolder(folder)}
+                />
+              ))}
+            </div>
+          )}
+
+          {(assets ?? []).length > 0 ? (
+            <div className={styles.grid}>
+              {(assets ?? []).map((asset) => (
+                <AssetCard
+                  key={asset.id}
+                  asset={asset}
+                  onClick={() => handleAssetClick(asset)}
+                  onDelete={() => handleDeleteAsset(asset)}
+                  compact={compact}
+                />
+              ))}
+            </div>
+          ) : (
+            !(folders ?? []).length && <Empty description={t('media.empty')} />
+          )}
+        </>
       )}
+
+      <UploadModal
+        open={uploadModalOpen}
+        onClose={() => setUploadModalOpen(false)}
+        folderId={folderId}
+      />
+
+      <YoutubeIngestModal
+        open={youtubeModalOpen}
+        onClose={() => setYoutubeModalOpen(false)}
+      />
+
+      <AssetDetailDrawer
+        asset={selectedAsset}
+        open={drawerOpen}
+        onClose={() => {
+          setDrawerOpen(false);
+          setSelectedAsset(null);
+        }}
+      />
+
+      <FolderModal
+        open={folderModalOpen || !!renamingFolder}
+        onClose={() => {
+          setFolderModalOpen(false);
+          setRenamingFolder(null);
+        }}
+        onSubmit={handleFolderSubmit}
+        initialName={renamingFolder?.name}
+      />
     </div>
   );
 }
 
-interface IngestJobRowProps {
-  job: IngestJob;
+/* ─── Sub-components ─── */
+
+interface FolderCardProps {
+  folder: MediaFolder;
+  onClick: () => void;
+  onRename: () => void;
+  onDelete: () => void;
 }
 
-function IngestJobRow({ job }: IngestJobRowProps) {
-  const { t } = useTranslation();
-  const label =
-    job.title ??
-    job.sourceUrl.replace(/^https?:\/\/(www\.)?/, '').slice(0, 40);
-  const statusLabel =
-    job.status === 'queued'
-      ? t('media.ingestStatusQueued')
-      : job.status === 'running'
-        ? `${t('media.ingestStatusRunning')} ${job.progress}%`
-        : job.status === 'done'
-          ? t('media.ingestStatusDone')
-          : t('media.ingestStatusFailed');
+function FolderCard({ folder, onClick, onRename, onDelete }: FolderCardProps) {
   return (
-    <div className={styles.jobRow} data-status={job.status}>
-      <div className={styles.jobInfo}>
-        <div className={styles.jobLabel} title={job.sourceUrl}>
-          {label}
-        </div>
-        <div className={styles.jobStatus}>{statusLabel}</div>
-      </div>
-      <div className={styles.jobProgress}>
-        <div
-          className={styles.jobProgressFill}
-          style={{ width: `${Math.max(5, job.progress)}%` }}
-        />
+    <div className={styles.folderCard} onClick={onClick}>
+      <FolderOutlined className={styles.folderIcon} />
+      <span className={styles.folderName} title={folder.name}>
+        {folder.name}
+      </span>
+      <div className={styles.folderActions}>
+        <button
+          className={styles.folderActionBtn}
+          onClick={(e) => {
+            e.stopPropagation();
+            onRename();
+          }}
+          title="Rename"
+        >
+          ✎
+        </button>
+        <button
+          className={styles.folderActionBtn}
+          onClick={(e) => {
+            e.stopPropagation();
+            onDelete();
+          }}
+          title="Delete"
+        >
+          <DeleteOutlined />
+        </button>
       </div>
     </div>
   );
@@ -271,6 +400,15 @@ function AssetCard({ asset, onClick, onDelete, compact }: AssetCardProps) {
         <div className={styles.sub}>
           {formatDuration(asset.durationMs)} · {formatBytes(asset.storageBytes)}
         </div>
+        {(asset.tags ?? []).length > 0 && (
+          <div className={styles.tagList}>
+            {(asset.tags ?? []).map((tag) => (
+              <Tag key={tag.id} className={styles.assetTag}>
+                {tag.name}
+              </Tag>
+            ))}
+          </div>
+        )}
       </div>
       <button
         className={styles.deleteBtn}
@@ -282,6 +420,41 @@ function AssetCard({ asset, onClick, onDelete, compact }: AssetCardProps) {
       >
         <DeleteOutlined />
       </button>
+    </div>
+  );
+}
+
+interface IngestJobRowProps {
+  job: IngestJob;
+}
+
+function IngestJobRow({ job }: IngestJobRowProps) {
+  const { t } = useTranslation();
+  const label =
+    job.title ??
+    job.sourceUrl.replace(/^https?:\/\/(www\.)?/, '').slice(0, 40);
+  const statusLabel =
+    job.status === 'queued'
+      ? t('media.ingestStatusQueued')
+      : job.status === 'running'
+        ? `${t('media.ingestStatusRunning')} ${job.progress}%`
+        : job.status === 'done'
+          ? t('media.ingestStatusDone')
+          : t('media.ingestStatusFailed');
+  return (
+    <div className={styles.jobRow} data-status={job.status}>
+      <div className={styles.jobInfo}>
+        <div className={styles.jobLabel} title={job.sourceUrl}>
+          {label}
+        </div>
+        <div className={styles.jobStatus}>{statusLabel}</div>
+      </div>
+      <div className={styles.jobProgress}>
+        <div
+          className={styles.jobProgressFill}
+          style={{ width: `${Math.max(5, job.progress)}%` }}
+        />
+      </div>
     </div>
   );
 }
