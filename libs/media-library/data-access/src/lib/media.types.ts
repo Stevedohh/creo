@@ -1,6 +1,6 @@
 export type MediaKind = 'video' | 'audio' | 'image';
 export type MediaAssetStatus = 'uploading' | 'ready' | 'failed';
-export type MediaSource = 'upload' | 'youtube';
+export type MediaSource = 'upload' | 'youtube' | 'render';
 
 export interface MediaTag {
   id: string;

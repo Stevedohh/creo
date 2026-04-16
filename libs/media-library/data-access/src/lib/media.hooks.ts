@@ -1,6 +1,7 @@
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
 import {
   attachProjectAsset,
+  createAssetFromRender,
   createMediaFolder,
   createMediaTag,
   deleteMediaAsset,
@@ -57,6 +58,21 @@ export const useUploadMediaAsset = () => {
       folderId?: string;
       tagIds?: string[];
     }) => uploadMediaFile(file, { onProgress, displayName, folderId, tagIds }),
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: MEDIA_KEY });
+    },
+  });
+};
+
+export const useCreateAssetFromRender = () => {
+  const queryClient = useQueryClient();
+  return useMutation({
+    mutationFn: (body: {
+      renderJobId: string;
+      folderId?: string;
+      displayName?: string;
+      tagIds?: string[];
+    }) => createAssetFromRender(body),
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: MEDIA_KEY });
     },

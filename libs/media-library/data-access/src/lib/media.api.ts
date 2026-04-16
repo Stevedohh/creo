@@ -41,6 +41,17 @@ export function completeMediaUpload(assetId: string): Promise<MediaAsset> {
     .then((res) => res.data);
 }
 
+export function createAssetFromRender(body: {
+  renderJobId: string;
+  folderId?: string;
+  displayName?: string;
+  tagIds?: string[];
+}): Promise<MediaAsset> {
+  return apiClient
+    .post<MediaAsset>('/media/from-render', body)
+    .then((res) => res.data);
+}
+
 export function updateMediaAsset(
   id: string,
   data: { name?: string; tagIds?: string[] },

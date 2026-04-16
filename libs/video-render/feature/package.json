@@ -15,6 +15,7 @@
     }
   },
   "dependencies": {
-    "@creo/video-render-data-access": "*"
+    "@creo/video-render-data-access": "*",
+    "@creo/media-library-feature": "*"
   }
 }

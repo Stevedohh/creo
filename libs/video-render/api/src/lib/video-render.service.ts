@@ -146,6 +146,29 @@ export class VideoRenderService {
     return this.toDto(row);
   }
 
+  /**
+   * Returns the persisted result key/bytes for a succeeded render job, or
+   * throws. Consumed by MediaAssetsService when copying a rendered file
+   * into the user's media library — the public DTO from {@link findJob}
+   * only exposes a presigned URL, not the underlying storage key.
+   */
+  async findSucceededResult(
+    userId: string,
+    id: string,
+  ): Promise<{ id: string; resultKey: string; resultBytes: number | null }> {
+    const row = await this.prisma.renderJob.findFirst({
+      where: { id, userId },
+      select: { id: true, status: true, resultKey: true, resultBytes: true },
+    });
+    if (!row) throw new NotFoundException('Render job not found');
+    if (row.status !== 'succeeded' || !row.resultKey) {
+      throw new BadRequestException(
+        `Render job is not ready (status=${row.status})`,
+      );
+    }
+    return { id: row.id, resultKey: row.resultKey, resultBytes: row.resultBytes };
+  }
+
   async cancel(userId: string, id: string): Promise<RenderJobDto> {
     const row = await this.prisma.renderJob.findFirst({
       where: { id, userId },

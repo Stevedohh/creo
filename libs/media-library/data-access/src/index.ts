@@ -26,10 +26,12 @@ export {
   attachProjectAsset,
   detachProjectAsset,
   uploadMediaFile,
+  createAssetFromRender,
 } from './lib/media.api';
 export {
   useMediaAssets,
   useUploadMediaAsset,
+  useCreateAssetFromRender,
   useUpdateMediaAsset,
   useDeleteMediaAsset,
   useMediaFolders,

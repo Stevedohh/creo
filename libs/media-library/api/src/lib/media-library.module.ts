@@ -1,6 +1,7 @@
 import { Module } from '@nestjs/common';
 import { StorageModule } from '@creo/storage-api';
 import { VideoAnalysisModule } from '@creo/video-analysis-api';
+import { VideoRenderModule } from '@creo/video-render-api';
 import { MediaAssetsController } from './media-assets.controller';
 import { MediaAssetsService } from './media-assets.service';
 import { ProjectAssetsController } from './project-assets.controller';
@@ -12,7 +13,7 @@ import { MediaTagsService } from './media-tags.service';
 import { FfprobeService } from './ffprobe.service';
 
 @Module({
-  imports: [StorageModule, VideoAnalysisModule],
+  imports: [StorageModule, VideoAnalysisModule, VideoRenderModule.forHttp()],
   controllers: [
     MediaFoldersController,
     MediaTagsController,

@@ -2,6 +2,7 @@ import { Injectable, Logger, OnModuleInit } from '@nestjs/common';
 import { ConfigService } from '@nestjs/config';
 import {
   S3Client,
+  CopyObjectCommand,
   DeleteObjectCommand,
   GetObjectCommand,
   HeadObjectCommand,
@@ -158,6 +159,24 @@ export class StorageService implements OnModuleInit {
 
   getPresignedTtlSeconds(): number {
     return this.presignedTtl;
+  }
+
+  async copyObject(
+    sourceKey: string,
+    destinationKey: string,
+    contentType?: string,
+  ): Promise<void> {
+    await this.client.send(
+      new CopyObjectCommand({
+        Bucket: this.bucket,
+        Key: destinationKey,
+        CopySource: `${this.bucket}/${encodeURI(sourceKey)}`,
+        ...(contentType
+          ? { ContentType: contentType, MetadataDirective: 'REPLACE' }
+          : {}),
+      }),
+    );
+    this.logger.log(`Copied ${sourceKey} → ${destinationKey}`);
   }
 
   async delete(key: string): Promise<void> {

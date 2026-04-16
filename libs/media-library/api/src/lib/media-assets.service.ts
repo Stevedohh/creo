@@ -7,11 +7,13 @@ import {
 import { PrismaService } from '@creo/prisma';
 import { StorageService } from '@creo/storage-api';
 import { VideoAnalysisService } from '@creo/video-analysis-api';
+import { VideoRenderService } from '@creo/video-render-api';
 import { randomUUID } from 'node:crypto';
 import { extname } from 'node:path';
 import { FfprobeService } from './ffprobe.service';
 import { UploadInitDto } from './dto/upload-init.dto';
 import { UpdateAssetDto } from './dto/update-asset.dto';
+import { CreateFromRenderDto } from './dto/create-from-render.dto';
 
 const ALLOWED_KINDS = ['video', 'audio', 'image'] as const;
 type MediaKind = (typeof ALLOWED_KINDS)[number];
@@ -25,6 +27,7 @@ export class MediaAssetsService {
     private readonly storage: StorageService,
     private readonly ffprobe: FfprobeService,
     private readonly analysis: VideoAnalysisService,
+    private readonly videoRender: VideoRenderService,
   ) {}
 
   async initUpload(userId: string, dto: UploadInitDto) {
@@ -85,12 +88,82 @@ export class MediaAssetsService {
       throw new BadRequestException('Upload not found in storage');
     }
 
+    return this.finalizeAsset(id, asset.kind, asset.storageKey, {
+      bytes: head.bytes,
+      mimeType: head.contentType ?? asset.mimeType,
+    });
+  }
+
+  async createFromRender(userId: string, dto: CreateFromRenderDto) {
+    const render = await this.videoRender.findSucceededResult(
+      userId,
+      dto.renderJobId,
+    );
+
+    if (dto.folderId) {
+      const folder = await this.prisma.mediaFolder.findFirst({
+        where: { id: dto.folderId, userId },
+        select: { id: true },
+      });
+      if (!folder) throw new NotFoundException('Folder not found');
+    }
+
+    const sourceHead = await this.storage.headObject(render.resultKey);
+    if (!sourceHead) {
+      throw new BadRequestException('Rendered file is missing from storage');
+    }
+
+    const contentType = sourceHead.contentType || 'video/mp4';
+    const kind = this.kindFromContentType(contentType) ?? 'video';
+    const assetId = randomUUID();
+    const ext = this.safeExtension(render.resultKey, contentType);
+    const destinationKey = `media/${userId}/${assetId}${ext}`;
+
+    await this.storage.copyObject(render.resultKey, destinationKey, contentType);
+
+    const displayName =
+      dto.displayName?.trim() || `Export ${new Date().toISOString().slice(0, 10)}${ext}`;
+
+    await this.prisma.mediaAsset.create({
+      data: {
+        id: assetId,
+        userId,
+        kind,
+        source: 'render',
+        originalName: displayName,
+        storageKey: destinationKey,
+        mimeType: contentType,
+        storageBytes: sourceHead.bytes || render.resultBytes,
+        status: 'uploading',
+        folderId: dto.folderId ?? null,
+        ...(dto.tagIds?.length && {
+          tags: {
+            createMany: {
+              data: dto.tagIds.map((tagId) => ({ tagId })),
+            },
+          },
+        }),
+      },
+    });
+
+    return this.finalizeAsset(assetId, kind, destinationKey, {
+      bytes: sourceHead.bytes || render.resultBytes || 0,
+      mimeType: contentType,
+    });
+  }
+
+  private async finalizeAsset(
+    id: string,
+    kind: string,
+    storageKey: string,
+    head: { bytes: number | null; mimeType: string | null },
+  ) {
     let durationMs: number | null = null;
     let width: number | null = null;
     let height: number | null = null;
 
-    if (asset.kind !== 'image') {
-      const sourceUrl = await this.storage.getInternalPresignedUrl(asset.storageKey, 300);
+    if (kind !== 'image') {
+      const sourceUrl = await this.storage.getInternalPresignedUrl(storageKey, 300);
       const probe = await this.ffprobe.probe(sourceUrl);
       durationMs = probe.durationMs;
       width = probe.width;
@@ -102,7 +175,7 @@ export class MediaAssetsService {
       data: {
         status: 'ready',
         storageBytes: head.bytes,
-        mimeType: head.contentType ?? asset.mimeType,
+        mimeType: head.mimeType,
         durationMs,
         width,
         height,
@@ -111,12 +184,9 @@ export class MediaAssetsService {
     });
 
     this.logger.log(
-      `Asset ${id} ready: ${head.bytes} bytes, duration=${durationMs ?? '?'}ms`,
+      `Asset ${id} ready: ${head.bytes ?? '?'} bytes, duration=${durationMs ?? '?'}ms`,
     );
 
-    // Fire-and-forget: kick off scene/transcript/face analysis in the
-    // background. Failures don't block the upload flow — the asset is
-    // already usable, analysis is an enrichment.
     void this.analysis.enqueueSilently(id);
 
     return this.toDto(updated);

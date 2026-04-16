@@ -149,3 +149,6 @@ cd ~/.claude/skills/gstack && ./setup
 5. **`/qa`** — тестирование в реальном браузере, автофикс багов и генерация тестов
 
 > Для `/qa` и `/browse` приложение должно быть запущено локально (`npm start`).
+
+
+docker run --rm -v $(pwd)/.nx/workspace-data:/d alpine sh -c "apk add sqlite && for f in /d/*.db; do sqlite3 \"$f\" 'DELETE FROM running_tasks'; done && rm -f /d/*.lock"

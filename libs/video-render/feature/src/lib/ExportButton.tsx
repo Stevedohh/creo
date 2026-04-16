@@ -11,11 +11,13 @@ import {
 } from 'antd';
 import {
   CloudDownloadOutlined,
+  CloudUploadOutlined,
   CloseCircleOutlined,
   DownOutlined,
   ExportOutlined,
   LoadingOutlined,
 } from '@ant-design/icons';
+import { useTranslation } from 'react-i18next';
 import {
   QUALITY_PRESETS,
   useCancelRenderJob,
@@ -24,11 +26,13 @@ import {
   type QualityPreset,
   type StartDocumentRenderRequest,
 } from '@creo/video-render-data-access';
+import { SaveToMediaModal } from '@creo/media-library-feature';
 import styles from './ExportButton.module.scss';
 
 export interface ExportButtonProps {
   buildRequest: (preset: QualityPreset) => StartDocumentRenderRequest;
   disabled?: boolean;
+  defaultSaveName?: string;
 }
 
 const prettyBytes = (bytes: number | null): string => {
@@ -39,11 +43,17 @@ const prettyBytes = (bytes: number | null): string => {
   return `${(bytes / (1024 * 1024 * 1024)).toFixed(2)} GB`;
 };
 
-export const ExportButton = ({ buildRequest, disabled }: ExportButtonProps) => {
+export const ExportButton = ({
+  buildRequest,
+  disabled,
+  defaultSaveName,
+}: ExportButtonProps) => {
+  const { t } = useTranslation();
   const [activeJobId, setActiveJobId] = useState<string | null>(null);
   const [preset, setPreset] = useState<QualityPreset>(
     QUALITY_PRESETS.find((p) => p.id === 'standard') ?? QUALITY_PRESETS[0],
   );
+  const [saveModalOpen, setSaveModalOpen] = useState(false);
   const [messageApi, contextHolder] = message.useMessage();
 
   const startMutation = useStartDocumentRender();
@@ -159,10 +169,32 @@ export const ExportButton = ({ buildRequest, disabled }: ExportButtonProps) => {
             >
               Download
             </Button>
-            <Button onClick={() => setActiveJobId(null)}>New export</Button>
+            <Tooltip title={t('media.saveToLibrary')}>
+              <Button
+                icon={<CloudUploadOutlined />}
+                onClick={() => setSaveModalOpen(true)}
+              >
+                {t('media.saveToLibrary')}
+              </Button>
+            </Tooltip>
+            <Button
+              onClick={() => {
+                setSaveModalOpen(false);
+                setActiveJobId(null);
+              }}
+            >
+              New export
+            </Button>
           </>
         )}
       </Space.Compact>
+
+      <SaveToMediaModal
+        open={saveModalOpen}
+        onClose={() => setSaveModalOpen(false)}
+        renderJobId={activeJobId}
+        defaultName={defaultSaveName}
+      />
 
       {isRunning && (
         <div className={styles.progressBar}>

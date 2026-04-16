@@ -37,7 +37,13 @@
     "ingestStatusQueued": "У черзі",
     "ingestStatusRunning": "Завантаження",
     "ingestStatusDone": "Готово",
-    "ingestStatusFailed": "Помилка"
+    "ingestStatusFailed": "Помилка",
+    "folder": "Папка",
+    "folderPlaceholder": "Коренева (без папки)",
+    "saveToLibrary": "Додати в медіа",
+    "saveToLibraryTitle": "Зберегти в бібліотеку",
+    "saveToLibrarySuccess": "Збережено в бібліотеку",
+    "saveToLibraryError": "Не вдалося зберегти"
   },
   "analysis": {
     "title": "Аналіз",

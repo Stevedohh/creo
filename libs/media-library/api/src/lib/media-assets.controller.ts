@@ -3,6 +3,7 @@ import { CurrentUser } from '@creo/auth-api';
 import { MediaAssetsService } from './media-assets.service';
 import { UploadInitDto } from './dto/upload-init.dto';
 import { UpdateAssetDto } from './dto/update-asset.dto';
+import { CreateFromRenderDto } from './dto/create-from-render.dto';
 
 @Controller('media')
 export class MediaAssetsController {
@@ -31,6 +32,14 @@ export class MediaAssetsController {
     @Param('id') id: string,
   ) {
     return this.mediaService.completeUpload(userId, id);
+  }
+
+  @Post('from-render')
+  async createFromRender(
+    @CurrentUser('userId') userId: string,
+    @Body() dto: CreateFromRenderDto,
+  ) {
+    return this.mediaService.createFromRender(userId, dto);
   }
 
   @Get(':id')
